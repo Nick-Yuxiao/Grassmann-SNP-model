@@ -1,6 +1,6 @@
 # Grassmann v7 会话交接报告
 
-_截至 2026-08-28；供完全没有前序上下文的新会话接手；本报告只整合本地冻结文件与用户粘贴的服务器回显，不构成新的架构裁决_
+_创建于 2026-08-28，更新至 2026-08-30；供完全没有前序上下文的新会话接手；本报告只整合本地冻结文件与用户粘贴的服务器回显，不构成新的架构裁决_
 
 ---
 
@@ -9,8 +9,8 @@ _截至 2026-08-28；供完全没有前序上下文的新会话接手；本报�
 - **总目标：** v7 是模型、工程与 scaling 路线，要回答 Grassmann mixing 在长基因型序列上能否学习、能否扩展、是否值得继续到全基因组与 phenotype fine-tuning
 - **当前阶段：** 真实 1KGP chr22 输入、环境、材料化、profiler、预处理、LR pilot 和 30k continuation 已完成；正式 A1-R 尚未启动，架构比较仍被防火墙阻断
 - **当前证据：** v7.2.3 的 12/12 runs 到达 30k、0 failure、manifest 复核通过，但只有 4/6 selected-LR 模型×mask 单元满足 operational terminal Gate；这表示预算不足，不是 Grassmann GO/NO-GO
-- **当前卡点：** v7.2.4 已部署到服务器 release `r22` 并通过 validator、manifest、7 tests 和 shell syntax，但物理 GPU `1,3,4,5,6,7` 当前不能同时安全使用，因此没有启动
-- **下一步：** 等六张规定 GPU 同时空闲后，从不可变 30k checkpoints 对称续跑 6 个 `4e-4` 单元到 40k；严禁抢占任务、使用 GPU 0/2、只跑失败单元或自动超过 40k
+- **当前状态：** v7.2.4 已完整结束：6/6 runs、6/6 step-40k checkpoints、0 failure、manifest PASS；机器状态为 `FINAL_BUDGET_40K_NOT_ADEQUATE_STOP`
+- **下一步：** 不再续跑 GPU；先对 30k→40k 的 train/validation trajectory、resume continuity、gradient norm 与 tail slope 做只读审计，再签署新协议或把真实 A1-R 降级为 descriptive
 
 > ⚠️ **边界：** 目前不能说 Grassmann 赢、输、追平、值得扩到 6M，亦不能把 30k 的阴性或不稳定性解释为架构 NO-GO。
 
@@ -34,9 +34,9 @@ flowchart LR
 
     p0["T00-T04<br/>环境、数据、预算"] --> harness["T05-T06<br/>harness 与完整性"]
     harness --> horizon{"v7.2.4<br/>40k 充分性"}
-    gpu_busy["GPU 当前占用<br/>安全等待"] -.-> horizon
-    horizon -->|"6/6 且无 flag"| a1["T07-T10<br/>正式 A1 裁决"]
-    horizon -->|"仍不足"| replan["停止并重签<br/>不做架构判决"]
+    gpu_busy["GPU 等待解除<br/>6/6 完整运行"] -.-> horizon
+    horizon -->|"40k: 3/6 pass"| replan["硬停止并重签<br/>不做架构判决"]
+    replan -->|"新 Gate 通过"| a1["T07-T10<br/>正式 A1 裁决"]
     a1 -->|"A1 GO"| a2["T11-T12<br/>operator specificity"]
     a1 -->|"样本受限阴性"| synthetic["HAPNEST 或<br/>真实单倍型扩增"]
     a2 --> scaling["T13-T14<br/>长度 scaling"]
@@ -48,8 +48,8 @@ flowchart LR
     classDef future fill:#f3f4f6,stroke:#6b7280,stroke-width:2px,color:#1f2937
 
     class p0,harness complete
-    class horizon current
-    class gpu_busy,replan blocked
+    class horizon,gpu_busy complete
+    class replan current
     class a1,a2,synthetic,scaling,merge future
 ```
 
@@ -63,9 +63,9 @@ flowchart LR
 | **T01** | 数据分支与 panel manifest | `PASS_AMENDED` | 4,091-source panel；1KGP release 2,496；train 2,247；validation 249；HGDP 768 冻结但 A1-R 禁读 | 已解锁真实 1KGP A1-R |
 | **T02** | 指标、方向与阈值冻结 | `PASS_VERSIONED` | 经 v7.1.x–v7.2.4 逐版重签；禁止根据臂间结果偷偷改阈值 | 任何改动必须新版本、新 hash |
 | **T03** | 端到端 GPU profiler | `PASS` | `L=154850` 三模型均 PASS；约 12.2–12.7 GiB peak allocated | 已解锁预算实测 |
-| **T04** | Compute Contract | `IN_PROGRESS_REPLAN` | 初始合同已生成；真实训练表明原步数不足；v7.2.4 是最后一次有界 horizon diagnostic | 40k 决策后重签 formal schedule 与算力合同 |
+| **T04** | Compute Contract | `REPLAN_PROTOCOL_BUILT_CPU_AUDIT_PENDING` | v7.2.4 已到 40k；3/6 terminal cells pass；v7.3.0 estimand/family 补丁已本地验证但未部署 | 部署 r23 并运行 CPU-only audit；仍无 formal total steps |
 | **T05** | harness、mask、断点续跑 | `OPERATIONAL_SUBSET_PASS` | 三模型、两种确认性 mask、checkpoint、manifest、GPU worker 可运行；完整原始五-mask/双口径范围未宣称完成 | 只允许按当前修订协议运行 |
-| **T06** | 完整性与训练可比性 Gate | `BLOCKS_T07` | 数据、PC、mask、key reconciliation 与 validation firewall PASS；30k 训练充分性未达 6/6 | 完成 v7.2.4 并按机器分支处理 |
+| **T06** | 完整性与训练可比性 Gate | `BLOCKS_T07_CPU_AUDIT_PENDING` | 工程完整性 PASS；LD 获未来 30k confirmatory 资格；longrange 为 `INCONCLUSIVE_BUDGET_NOT_ESTIMABLE` | v7.3.0 CPU audit PASS 后只能起草新实验合同 |
 | **T07** | chr22 A1 headroom | `NOT_STARTED` | 目前所有 C0/LR/budget runs 都是训练预算诊断，不是正式 A1-R | formal schedule、variance pilot、compute contract 均冻结 |
 | **T08** | closed-form/ancestry reference | `NOT_STARTED` | 尚无正式 reference-line 交付 | T06 与对应输入完成 |
 | **T09** | cross-chrom headroom | `NOT_STARTED` | 仅 chr22；未构建 chr1+chr22 正式 panel | T07/T08 放行 |
@@ -107,6 +107,7 @@ flowchart LR
 | LR pilot | 24 runs × 4k | 24/24 complete，选择共同 LR `4e-4` | 只选择共同 LR，不证明长期收敛 |
 | Budget bridge 20k | 12 runs | selected LR 2/6 terminal pass | 机械授权全体续到 30k |
 | v7.2.3 30k | 12 runs | 12/12 complete，selected LR 4/6 pass | 仍不充分；必须 replan |
+| v7.2.4 40k | 6 runs | 6/6 complete，selected LR 3/6 pass | longrange 全部仍在下降；硬停止 |
 
 30k 的两个 `NOT_STABLE` 单元均为 `within_chrom_longrange_0p90`：
 
@@ -117,11 +118,11 @@ flowchart LR
 
 Local baseline 的下降速度远大于 Grassmann。若在此处读取绝对 NLL，可能因 local 欠训练而制造 Grassmann 假优势。因此 v7.2.3 的 `BUDGET_EXTENSION_30K_NOT_ADEQUATE_REPLAN` 是正确阻断，不是失败运行。
 
-## 🚧 当前卡点与服务器状态
+## 🚧 当前停止状态与服务器证据
 
-### 当前唯一外部阻塞
+### GPU 阻塞已解除且运行已结束
 
-规定的物理 GPU `1,3,4,5,6,7` 当前被其他任务占用或不能同时满足 idle policy。用户要求不得打断现有任务，因此 v7.2.4 必须等待。
+规定的物理 GPU `1,3,4,5,6,7` 曾被其他任务占用。项目没有打断现有任务；等待资源恢复后，v7.2.4 安全启动并完整结束。当前不再授权任何 GPU continuation。
 
 - 不得 `kill`、signal、抢占或降低其他任务优先级
 - 不得临时改用物理 GPU 0
@@ -129,7 +130,7 @@ Local baseline 的下降速度远大于 Grassmann。若在此处读取绝对 NLL
 - 不得只用部分 GPU 启动，因为 frozen schedule 是一张卡对应一个模型×mask 单元
 - 不得因等待而更改 LR、seed、mask、source checkpoint 或 target step
 
-### 已准备但尚未启动
+### v7.2.4 最终身份
 
 | 项目 | 位置或状态 |
 | --- | --- |
@@ -138,13 +139,21 @@ Local baseline 的下降速度远大于 Grassmann。若在此处读取绝对 NLL
 | Immutable 30k source | `/data1/home/tanyuxiao/Grassmann_model/v7/results/budget_extension/v7.2.3/20260828T023841Z_budget_extension_v7_2_3_3758608` |
 | Source manifest | user-reported `manifest_exit=0` |
 | v7.2.4 validator/tests/syntax | PASS / 7 of 7 / PASS |
-| v7.2.4 run directory | 尚未生成；不得假设已启动 |
+| v7.2.4 main runner PID | `3903744` |
+| 启动后观测时间 | server UTC `2026-08-28T10:21:22Z` |
+| GPU 映射 | physical `1,3,4,5,6,7`，运行时利用率 94–97% |
+| 禁用卡状态 | GPU 0 idle；GPU 2 外部占用未触碰 |
+| Completed runs | 6 / 6 |
+| Failed runs | 0 |
+| Step-40k checkpoints | 6 / 6 |
+| Result manifest | `manifest_exit=0` |
+| Machine decision | `FINAL_BUDGET_40K_NOT_ADEQUATE_STOP` |
 
-v7.2.4 将只运行 6 个 `4e-4` 单元，每个从 30k 到 40k，共新增 60,000 steps。它恢复 model、optimizer 与 RNG，使用 34–36k、36–38k、38–40k 三个 terminal windows，并在 40k 硬停止。
+v7.2.4 完成了 6 个 `4e-4` 单元，每个从 30k 到 40k，共新增 60,000 steps。三个 LD-block 单元全部稳定；三个 longrange 单元全部 `NOT_STABLE`。无 sequence failure、无 instability、无 shape flag，但 primary terminal cells 仅 3/6，因此在 40k 硬停止。
 
 ## 🔧 下一会话的精确操作顺序
 
-### 1. 等待并只读检查资源
+### 1. 不再启动 GPU，只读审计已有曲线
 
 ```bash
 GRASS_ROOT=/data1/home/tanyuxiao/Grassmann_model
@@ -158,9 +167,9 @@ nvidia-smi \
   --format=csv,noheader,nounits
 ```
 
-只有没有重复 v7.2.4 进程，且 GPU `1,3,4,5,6,7` 全部满足项目 idle policy 时才进入下一步。看到被占用时只等待，不做清理。
+v7.2.4 已结束。本段命令只用于确认没有残留进程；无论 GPU 是否空闲，都不得重复启动 r22 runner。
 
-### 2. 启动 v7.2.4
+### 2. 历史启动命令，仅作 provenance
 
 ```bash
 GRASS_ROOT=/data1/home/tanyuxiao/Grassmann_model
@@ -184,9 +193,9 @@ echo "final_budget_pid=$FINAL_PID"
 echo "final_budget_log=$FINAL_LOG"
 ```
 
-Runner 自身会再次核验输入 manifest、六张 GPU、每卡 advisory lock 与 source decision；若资源在启动瞬间变忙，它应拒绝启动而不是抢占。
+> ⚠️ **禁止重跑：** 上述命令只保留为 provenance。当前 decision 已存在，不能再次执行。
 
-### 3. 查询进度
+### 3. 查询已完成证据
 
 ```bash
 GRASS_ROOT=/data1/home/tanyuxiao/Grassmann_model
@@ -200,7 +209,7 @@ echo "run_dir=$RUN_DIR"
 "$V7_PY" -c 'import json,sys; from pathlib import Path; root=Path(sys.argv[1]); steps=[int(json.loads(rows[-1])["step"]) for p in root.glob("*/FINAL_BUDGET_CURVE.jsonl") if (rows:=[x for x in p.read_text().splitlines() if x])]; done=sum(max(0,s-30000) for s in steps); total=60000; print("started_runs:",len(steps),"/6"); print("extension_steps:",done,"/",total); print("aggregate_percent:",round(100*done/total,2)); print("completed_runs:",len(list(root.glob("*/RESULT.json"))),"/6"); print("failed_runs:",len(list(root.glob("*/FAILURE.json")))); print("checkpoints_40k:",len(list(root.glob("*/CHECKPOINT_STEP40000.pt"))),"/6"); print("absolute_step_range:",(min(steps),max(steps)) if steps else "not started"); decision=root/"FINAL_BUDGET_DECISION.v7.2.4.json"; print("decision:",json.load(open(decision)).get("status") if decision.exists() else "PENDING")' "$RUN_DIR"
 ```
 
-### 4. 完成后按机器状态分支
+### 4. 当前已进入的机器分支
 
 | 状态 | 含义 | 下一动作 |
 | --- | --- | --- |
@@ -210,6 +219,24 @@ echo "run_dir=$RUN_DIR"
 | `FINAL_BUDGET_REPLAN_INSTABILITY` | lineage、sequence、degradation 或运行异常 | 诊断错误；所有架构比较继续作废 |
 
 退出码 `0/4/6/7` 是协议分支。非零退出码不应仅凭 shell 的 `Exit 6` 或 `Exit 7` 被称为程序崩溃；必须同时查看 decision JSON、failure count 和结果 manifest。
+
+本次实际进入 `FINAL_BUDGET_40K_NOT_ADEQUATE_STOP`。因此 `proposed_formal_total_steps=None`、`architecture_decision_permitted=false`、`next_authorized_stage=NO_AUTOMATIC_EXTENSION_REPLAN_OR_DESCRIPTIVE_A1R`。
+
+后续只读审计显示：六个单元 30k→30.25k resume validation 变化绝对值不超过 `0.000960`；gradient norm 全部有限；三个 longrange 单元的 train-NLL tail 分别继续下降 `0.008194`、`0.005899`、`0.006577`，且 validation terminal rolling value 均为各自最佳值。该证据支持真实持续学习，未支持 resume discontinuity、发散或过拟合解释。
+
+推荐的新协议不是继续寻找一个同时回答所有问题的“收敛步数”，而是预先拆分：固定算力下的 `A1-EFFICIENCY` estimand，以及要求训练充分与等效性精度的 `A1-CAPACITY` estimand。前者必须同时报告预注册的 20k/30k/40k 多预算点；其阳性与阴性均不得转换为架构容量 GO/NO-GO。后者还须按 mask family 分开资格：`ld_block` 因在 30k 后又经历 10k 步样本外持续稳定，可进入未来采用 30k horizon 的确认性容量实验；`longrange` 当前保持 `INCONCLUSIVE_BUDGET_NOT_ESTIMABLE`。当前单 seed 诊断本身不是容量证据。
+
+上述分叉已经在本地实现为 v7.3.0 CPU-only 审计补丁，但尚未部署服务器。补丁只授权核验 20k→30k→40k selected-LR lineage、family 资格、假平台、resume 边界上界和历史方差规划代理；不授权任何 GPU 工作。
+
+GPC-longrange 在 30k 曾被 trailing-window 规则判为稳定、40k 又变为不稳定，已经实证证伪“单次末段低于阈值即可证明充分”。LD 3/3 的资格不能继续写成“同一阈值通过”，而应写成三段变化远低于阈值、无加速，且稳定状态经额外 10k 步保持的样本外持续性证据。
+
+v7.2.4 冻结协议没有预注册 H=5 tail-slope、`0.3 × delta_min` 或 uncertainty Gate；它明确要求若需要此类方法必须另签。因此现有 slope 试算属于事后分析，只能支持停止与规划，不能支持 GO。试算本身也未挽救 longrange：三对中两对 `INCONCLUSIVE`，第三对约 `0.0029`，仅贴近 `0.003` 门槛。
+
+恒定 LR 的充分性规则不得机械迁移到 WSD/cosine decay 段。衰减到 `4e-5` 会自动缩小末段变化，使 `≤0.002` 失去收敛识别力；decay 段需要独立预注册判据。
+
+现有曲线应立即用于 CPU-only 方差规划，但只能产生 planning proxy，不能冒充 n=5 data-seed pilot：40k 每个 model×mask 只有一个选定 seed，历史重复也不是五个独立 data seeds。另需注意，`sqrt(2) × within-arm SD` 只在两臂方差相等且协方差为零时成立，并非无条件上界；未知协方差时可用 `SD(A-B) ≤ SD(A)+SD(B)` 作保守界。正式 n=5 方差 pilot 仍需由新协议授权。
+
+30k→30.25k 最大变化 `0.000960` 不是纯 resume discontinuity，因为它混合了恢复后的 250 步训练与评估噪声；应记录为边界相关变化上界。对 LD 的小尾部进展，该上界不可忽略。正式 A1-R 优先禁止中途 resume；若不可避免，必须在恢复后、optimizer 更新前用相同 validation masks 重评同一 checkpoint，并把边界差纳入方差预算。
 
 ## ⚠️ 可以避免的坑
 
@@ -251,12 +278,15 @@ echo "run_dir=$RUN_DIR"
 22. **Profiler PASS 不等于模型学会。** T03 只证明显存、吞吐和 backward 可运行
 23. **末段 NLL 仍下降时不得比较架构。** 30k 时 local longrange 下降最快，提前比较会偏向 Grassmann
 24. **不要只续跑失败单元。** 训练 horizon 若依赖已观察结果会破坏模型间公平性；v7.2.4 因此续跑完整 3×2 factorial
-25. **`0.002` 是 operational adequacy threshold，不是全局收敛证明。** 它必须与 degradation、shape、固定 horizon 和后续 variance evidence 一起解释
+25. **`0.002` 是 operational adequacy threshold，不是全局收敛证明。** GPC-longrange 的 30k 假平台已实证说明单次通过会失效；LD 的资格来自额外 10k 样本外持续性。该阈值也不得复用于 WSD/cosine decay 段
 26. **4k LR pilot 不能直接决定 40k 行为。** 早期 LR 优势已通过 20k/30k bridge 重新核验；加速比从约 1.24 降至 1.15
 27. **预期 nonzero exit 不是训练失败。** `exit 6` 可以是正确的 replan decision；先读 decision JSON
 28. **真实 1KGP 阴性不自动等于 NO-GO。** 只有训练充分且等效性 CI 足够精确才能 NO-GO；样本受限阴性应触发 HAPNEST/真实单倍型扩增评估
 29. **不要用 PLINK 简单模拟或协方差 Cholesky 冒充 HAPNEST。** 它们不能保留同等级的单倍型、重组和群体历史结构，只能作为受限诊断，不能支撑相同生物学 claim
 30. **HAPNEST 基础设施暂缓是顺序决策。** Docker Hub/registry 网络与 WSL Apptainer 安装耗时曾形成支线；只有 A1-R 结果显示样本受限或后续 scaling 需要时才恢复
+31. **fixed-compute 结果必须双向限权。** A1-EFFICIENCY 的阴性不得称容量 NO-GO，阳性也不得称容量 GO；20k/30k/40k 必须全部报告
+32. **现有重复不能替代 n=5 data-seed pilot。** 既有曲线可提供 CPU-only planning proxy，但 seed 结构与目标重复层级不一致；未知协方差时 `sqrt(2)` 不是 paired-delta SD 的严格上界
+33. **resume 边界必须可分辨。** 正式 run 优先单次完成；必须 resume 时，在任何更新前对同一 checkpoint、同一 validation masks 重评，不能用恢复后 250 步的变化冒充纯 discontinuity
 
 ## 🔒 不可突破的科学与操作边界
 
@@ -281,6 +311,8 @@ echo "run_dir=$RUN_DIR"
 | `E07` | [v7.2.4 schedule](./deliverables/20260828_grassmann_v7_2_4_final_budget_diagnostic/FINAL_BUDGET_SCHEDULE.v7.2.4.tsv) | 六 GPU、六模型×mask 单元映射 | 本地 manifest PASS |
 | `E08` | [v7.2.4 server steps](./deliverables/20260828_grassmann_v7_2_4_final_budget_diagnostic/server_ops/SERVER_STEPS.v7.2.4.md) | 启动与预期退出状态 | 本地 manifest PASS |
 | `E09` | [v7.2.4 patch](./deliverables/v7_2_4_final_budget_diagnostic_patch_20260828.tar.gz) | 服务器 r22 overlay | SHA-256 `50677b4c675b9415bf3d82611736006210949c21e9f759ebf4ca0375e333b543` |
+| `E10` | [v7.3.0 protocol](./deliverables/20260830_grassmann_v7_3_0_estimand_family_audit/PROTOCOL_ADDENDUM.v7.3.0.md) | Estimand × mask-family 分叉与 CPU-only 审计边界 | 本地 validator、7/7 tests、Bash syntax、manifest PASS |
+| `E11` | [v7.3.0 patch](./deliverables/v7_3_0_estimand_family_audit_patch_20260830.tar.gz) | 待上传的服务器 r23 overlay | SHA-256 `ea6d9cfbc4a38b603b6c26762f449615fdf4d694b2771b7d5173e14f29f1bb74` |
 
 服务器 v7.2.3 decision JSON 和完整 30k artifacts 尚未复制回本地；本报告中的 30k 数字来自用户在本会话粘贴的服务器输出，并已记入 `E03/E04`。下一会话若要做正式分析，应直接在服务器核验 source/result manifests，而不是只依赖本摘要。
 
@@ -288,8 +320,8 @@ echo "run_dir=$RUN_DIR"
 
 将下面一段作为新会话的第一条消息：
 
-> 你现在接手 Grassmann v7 模型/工程/scaling 路线。请先完整阅读工作区根目录 `V7_SESSION_HANDOFF_20260828.md`、`20260828_v7.md`、原始 `deliverables/20260825_grassmann_v7_frozen_protocol/V7_任务追踪表_v7.0.2.tsv`，以及 v7.2.4 的 protocol、schedule 和 server steps。当前不是正式 A1-R，更没有 Grassmann GO/NO-GO；我们位于 T04/T06 到 T07 之间的训练预算充分性 Gate。真实 1KGP 输入为 donor train 2247、validation 249、chr22 L=154850，HGDP 禁读。v7.2.3 已完成 12/12 runs 到 30k、0 failure、manifest PASS，但 selected LR 4e-4 只有 4/6 terminal cells PASS，机器状态为 `BUDGET_EXTENSION_30K_NOT_ADEQUATE_REPLAN`。v7.2.4 已部署并验证在服务器 r22，但尚未启动，因为物理 GPU 1/3/4/5/6/7 当前被占用；GPU0 永久禁用，GPU2 不得触碰，禁止 kill 或抢占任何任务。下一步只能等待六张规定卡全部空闲，再从不可变 30k checkpoints 对称续跑完整 3 models×2 masks 六单元到 40k，不能只跑失败单元，也不能自动超过 40k。启动前复核无重复任务、GPU idle、source manifest；完成后依据机器 decision 的 0/4/6/7 分支处理。只有 6/6 pass 且无 shape flag，才能另签 formal 50k schedule、variance pilot 和完整 A1-R compute contract。请先报告你理解的当前 Gate、允许/禁止动作和拟执行的只读 GPU 检查，不要连接、停止或修改任何现有任务。
+> 你现在接手 Grassmann v7 模型/工程/scaling 路线。请先完整阅读工作区根目录 `V7_SESSION_HANDOFF_20260828.md`、`20260830_v7.md`、原始 `deliverables/20260825_grassmann_v7_frozen_protocol/V7_任务追踪表_v7.0.2.tsv`、v7.2.4 的冻结材料，以及本地 `deliverables/20260830_grassmann_v7_3_0_estimand_family_audit/`。当前不是正式 A1-R，更没有 Grassmann GO/NO-GO；我们位于 T04/T06 到 T07 之间。真实 1KGP 输入为 donor train 2247、validation 249、chr22 L=154850，HGDP 禁读。v7.2.4 已完整完成 6/6 runs 到 40k、0 failure、manifest PASS，机器状态为 `FINAL_BUDGET_40K_NOT_ADEQUATE_STOP`。三个 LD 单元通过额外 10k 的样本外持续稳定而获得未来 30k confirmatory 资格；三个 longrange 单元均仍在学习，容量状态为 `INCONCLUSIVE_BUDGET_NOT_ESTIMABLE`。v7.3.0 CPU-only 补丁已在本地通过 validator、7/7 tests、Bash syntax 和 manifest，bundle SHA-256 为 `ea6d9cfbc4a38b603b6c26762f449615fdf4d694b2771b7d5173e14f29f1bb74`，但尚未上传或部署。下一步只允许上传补丁、从 r22 创建 r23、运行 CPU audit；禁止 GPU、formal A1-R、n=5 pilot、HAPNEST、holdout/HGDP 和架构判决。
 
 ## 📌 最终准确表述
 
-> v7 尚未完成。基础数据与工程可行性已经建立，真实 1KGP 上的优化预算诊断已经推进到 30k，但正式架构比较仍被正确阻断。当前阻塞是外部 GPU 占用，不是代码错误，也不是科学 NO-GO。已验证的 v7.2.4 release r22 是下一项唯一获准 GPU 工作：在六张规定空闲 GPU 上对称地将六个 selected-LR 单元从 30k 续到 40k，并在 40k 硬停止。其结果只决定正式训练 schedule 是否可冻结，不直接决定 Grassmann 架构优劣。
+> v7 尚未完成。v7.2.4 已以 6/6 results、0 failure、manifest PASS 完成 30k→40k 诊断，但 longrange 0/3 稳定并正确进入 `FINAL_BUDGET_40K_NOT_ADEQUATE_STOP`。v7.3.0 已在本地冻结 estimand × mask-family 分叉并通过全部本地验证，尚待服务器 r23 部署和 CPU-only audit。LD 仅获得未来 30k confirmatory 资格；longrange 为 `INCONCLUSIVE_BUDGET_NOT_ESTIMABLE`。这不是架构 GO/NO-GO，正式 A1-R 与全部 GPU 工作继续阻断。

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.1",
+  "protocol_version": "v7.1.0",
+  "frozen_at": "2026-08-25",
+  "branch": "B",
+  "primary_metric": "masked_nll_nats_per_masked_token",
+  "delta_definition": "nll_comparator_minus_nll_candidate",
+  "models": {
+    "fairness_arms": [
+      "local_attn_8m_w256",
+      "local_attn_gpc_8m_w256",
+      "grassmann_full_8m_w256"
+    ],
+    "external_calibration_arm": "snpbag_chr22_reproduction_38m",
+    "attention_contract": {
+      "max_keys_per_query": 256,
+      "p0_profiler_implementation": "block_centered_local_attention_w256_q128",
+      "exact_snpbag_equivalence_claimed": false
+    }
+  },
+  "repeats": {
+    "data_seeds": [1, 2, 3, 4, 5],
+    "init_seeds": [1, 2],
+    "inference_unit": "data_seed",
+    "init_aggregation": "mean_within_data_seed"
+  },
+  "A1_chr22": {
+    "sequence_length_source": "PANEL_MANIFEST.v7.1.0.json:chr22.variant_count",
+    "diagnostic": [
+      {"mask": "random", "rates": [0.50, 0.90, 0.99], "fairness": ["matched_parameter"]},
+      {"mask": "contiguous", "rates": [0.90], "fairness": ["matched_parameter"]}
+    ],
+    "confirmatory_primary": [
+      {"mask": "ld_block", "rates": [0.90], "fairness": ["matched_parameter", "matched_compute"]},
+      {"mask": "within_chrom_longrange", "rates": [0.90], "fairness": ["matched_parameter", "matched_compute"]}
+    ],
+    "confirmatory_stress_sensitivity": [
+      {"mask": "ld_block", "rates": [0.99], "fairness": ["matched_parameter", "matched_compute"]},
+      {"mask": "within_chrom_longrange", "rates": [0.99], "fairness": ["matched_parameter", "matched_compute"]}
+    ],
+    "primary_gate": {
+      "multiplicity": "bonferroni_two_mask_families_fwer_0.05",
+      "seed_ci": "paired_t_simultaneous_97.5pct_two_sided",
+      "population_ci": "population_block_bootstrap_percentile_simultaneous_97.5pct_two_sided",
+      "bootstrap_replicates": 10000,
+      "bootstrap_seed": 71001,
+      "go": "both_CI_LCB_gt_delta_min_in_both_fairness_regimes",
+      "no_go": "any_required_fairness_UCB_le_delta_min",
+      "otherwise": "INCONCLUSIVE",
+      "stress_cells_can_rescue_primary": false
+    }
+  },
+  "T04_planning": {
+    "diagnostic_cells_per_model": 4,
+    "primary_confirmatory_cells_per_model": 4,
+    "stress_sensitivity_cells_per_model": 4,
+    "runs_per_cell": 10,
+    "engineering_margin_multiplier": 2.0,
+    "capacity_usage_limit": 0.80,
+    "A2_funding": "UNFUNDED",
+    "A3_funding": "UNFUNDED"
+  },
+  "sequential_gatekeeping": ["A1", "A2", "A3"],
+  "claim_ceiling": "chr22 masked-genotype architecture comparison under frozen public-panel and generator distributions"
+}

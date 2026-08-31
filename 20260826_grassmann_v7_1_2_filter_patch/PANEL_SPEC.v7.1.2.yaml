@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.2",
+  "protocol_version": "v7.1.2",
+  "reference_build": "GRCh38",
+  "chromosome": "22",
+  "source_release": "gnomAD_HGDP_1KGP_phased_haplotypes_v2",
+  "source_bcf_sha256": "09e50c698522d19bbc2c43a2ea2d29b290d63cf8c1d6983c5198dcb4289ff3fa",
+  "site_selection": {
+    "source_record_filter_semantics": "SOURCE_PREFILTERED_FILTER_UNSET",
+    "accepted_vcf_filter_value": ".",
+    "literal_PASS_available": false,
+    "variant_type": "biallelic_SNP",
+    "maf_population": "frozen_1KGP_donor_train_plus_validation_release_pool",
+    "maf_source": "recomputed_FORMAT_GT",
+    "maf_operator": ">",
+    "maf_threshold": 0.01,
+    "must_be_evaluable_in": "frozen_HGDP_primary_panel",
+    "hgdp_evaluability_threshold": "PENDING_STAGE2_FREEZE",
+    "allele_harmonization": "exact_REF_ALT_after_normalization",
+    "duplicate_position_rule": "reject_all_records_at_duplicate_positions",
+    "order": "coordinate_ascending",
+    "force_sequence_length": false,
+    "snpbag_compatibility_expected_L": 81920
+  },
+  "sample_release_rule": {
+    "bcf_membership_required": true,
+    "metadata_field": "release",
+    "metadata_value": true,
+    "expected_1KGP_count": 2496,
+    "expected_HGDP_count": 768
+  },
+  "partitions": {
+    "donor_train": {"cohort": "1KGP", "individual_count": 2247},
+    "donor_validation": {"cohort": "1KGP", "individual_count": 249},
+    "hgdp_primary_holdout": {"cohort": "HGDP", "individual_count": 768, "population_count": 47},
+    "hgdp_snpbag_calibration": {
+      "current_status": "NOT_COMPARABLE_SOURCE_MISMATCH",
+      "current_individual_count": 0,
+      "surrogate_allowed": false
+    }
+  },
+  "split": {
+    "validation_fraction": 0.10,
+    "seed": 71001,
+    "split_before_synthesis": true
+  },
+  "generator": {
+    "primary": "HAPNEST",
+    "sensitivity": "msprime_population_history",
+    "hgdp_may_be_used_as_donor": false
+  }
+}

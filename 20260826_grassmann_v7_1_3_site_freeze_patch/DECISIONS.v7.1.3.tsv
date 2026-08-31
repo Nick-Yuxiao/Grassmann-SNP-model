@@ -1,0 +1,7 @@
+decision_id	name	value	unit	scope	rationale	status
+D33	hgdp_evaluability_rule	exact_key_AND_AN_1536_AND_F_MISSING_0	predicate	final chr22 panel	All 768 frozen HGDP individuals must have called diploid GT	FROZEN
+D34	final_chr22_L	154850	variants	A1/T03	Data-derived after donor MAF, duplicate rejection and HGDP callability	FROZEN
+D35	hgdp_AC_selection	FORBIDDEN	predicate	final chr22 panel	Prevents external-holdout frequency leakage	FROZEN
+D36	hgdp_monomorphic_sites_retained	104	variants	primary evaluation	Retained in primary; reported as a prespecified allele-state sensitivity	FROZEN
+D37	hgdp_polymorphic_sites	154746	variants	sensitivity reporting	Outcome-independent genotype-state stratum, not a replacement panel	FROZEN
+D38	snpbag_L_compatibility	DATA_DERIVED_L_DIFFERS	decision	external calibration	154850 differs from 81920 and is not forced	FROZEN

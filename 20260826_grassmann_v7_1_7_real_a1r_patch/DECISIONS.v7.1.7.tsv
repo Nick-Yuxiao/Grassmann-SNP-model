@@ -1,0 +1,18 @@
+decision_id	name	value	unit	scope	rationale	status
+R01	protocol_version	v7.1.7	version	A1-R	Freeze real-panel preliminary gate before outcomes	FROZEN
+R02	training_source	1KGP_DONOR_TRAIN_2247	panel	A1-R	Use the already materialized real donor partition	FROZEN
+R03	validation_source	1KGP_DONOR_VALIDATION_249	panel	A1-R	No donor overlap and no HGDP access	FROZEN
+R04	hgdp_access	FORBIDDEN	authorization	A1-R	Preserve external holdout	FROZEN
+R05	repeat_name	mask_seed	semantic	A1-R	One real panel; do not claim five biological data replicates	FROZEN
+R06	primary_runs	120	runs	100pct	2 masks x 2 fairness x 3 models x 5 mask seeds x 2 init seeds	FROZEN
+R07	diagnostic_runs	24	runs	25pct/50pct	12 added runs per fraction; 100pct anchors are primary cells	FROZEN
+R08	nested_counts	562,1124,2247	individuals	donor-size	Population-stratified nested subsets	FROZEN
+R09	delta_min	0.010	nats/masked-token	GO/NO-GO	Inherited minimum meaningful advantage	FROZEN
+R10	size_trend_total_delta	0.002	nats/masked-token	HAPNEST trigger	Conservative descriptive branch trigger	FROZEN
+R11	go_label	A1R_PRELIMINARY_GO	decision	A1-R	All simultaneous lower bounds exceed delta_min	FROZEN
+R12	no_go_label	NO_GO_EQUIVALENT_OR_WORSE	decision	A1-R	Requires convergence and all simultaneous upper bounds at most delta_min	FROZEN
+R13	default_non_go	INCONCLUSIVE_SAMPLE_LIMITED_HAPNEST	decision	A1-R	Wide CI, nonconvergence, incompleteness or size trend cannot terminate project	FROZEN
+R14	allowed_gpu_pool	1,2,3,4,5,6	physical_gpu	A1-R	Only user-authorized nonzero GPUs	FROZEN
+R15	gpu0_policy	FORBIDDEN	authorization	A1-R	Physical GPU 0 may not be used	FROZEN
+R16	per_run_early_stopping	FORBIDDEN	policy	A1-R	One common fixed K preserves comparisons	FROZEN
+

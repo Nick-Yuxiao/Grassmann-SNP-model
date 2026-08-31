@@ -1,0 +1,34 @@
+{
+  "blockers": [
+    "T00",
+    "T01",
+    "T03",
+    "T04"
+  ],
+  "checks": {
+    "T00": {
+      "note": "Environment smoke, server resource record, non-interference audit and lockfile are required. A busy audit is valid evidence but no new GPU job may start until a fresh idle audit passes.",
+      "pass": false
+    },
+    "T01": {
+      "note": "A signed branch decision and hashed panel inputs are required.",
+      "pass": false
+    },
+    "T02": {
+      "note": "Every independently named frozen constant must appear in both the decision ledger and metric dictionary.",
+      "pass": true
+    },
+    "T03": {
+      "note": "A 100-step CUDA profile at all exact P0/A1 planning lengths is required; CPU dry-runs are never accepted.",
+      "pass": false
+    },
+    "T04": {
+      "note": "The signed capacity must cover the measured A1 plan at <=80%, including the 2x engineering margin.",
+      "pass": false
+    }
+  },
+  "created_at_utc": "2026-08-26T03:45:22.356474+00:00",
+  "schema_version": "1.0",
+  "scope": "P0 readiness only; not an A1 scientific GO/NO-GO",
+  "status": "NOT_READY"
+}

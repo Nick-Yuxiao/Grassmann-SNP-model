@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.1",
+  "protocol_version": "v7.1.1",
+  "reference_build": "GRCh38",
+  "chromosome": "22",
+  "source_release": "gnomAD_HGDP_1KGP_phased_haplotypes_v2",
+  "site_selection": {
+    "variant_type": "biallelic_SNP",
+    "filter": "PASS",
+    "maf_population": "frozen_1KGP_donor_train_plus_validation_release_pool",
+    "maf_operator": ">",
+    "maf_threshold": 0.01,
+    "must_be_evaluable_in": "frozen_HGDP_primary_panel",
+    "allele_harmonization": "exact_REF_ALT_after_normalization",
+    "reject_ambiguous_or_duplicate": true,
+    "order": "coordinate_ascending",
+    "force_sequence_length": false,
+    "snpbag_compatibility_expected_L": 81920
+  },
+  "sample_release_rule": {
+    "bcf_membership_required": true,
+    "metadata_field": "release",
+    "metadata_value": true,
+    "all_samples_related_is_additional_exclusion": false,
+    "release_related_must_be_false": true,
+    "expected_1KGP_count": 2496,
+    "expected_HGDP_count": 768
+  },
+  "partitions": {
+    "donor_train": {
+      "cohort": "1KGP",
+      "generator_role": "HAPNEST_donor_for_synthetic_train"
+    },
+    "donor_validation": {
+      "cohort": "1KGP",
+      "generator_role": "HAPNEST_donor_for_synthetic_validation"
+    },
+    "hgdp_primary_holdout": {
+      "cohort": "HGDP",
+      "individual_count": 768,
+      "role": "primary_scientific_external_evaluation",
+      "population_weighting": "equal"
+    },
+    "hgdp_snpbag_calibration": {
+      "cohort": "HGDP",
+      "published_expected_individual_count": 216,
+      "published_expected_population_count": 54,
+      "published_expected_individuals_per_population": 4,
+      "current_status": "NOT_COMPARABLE_SOURCE_MISMATCH",
+      "current_individual_count": 0,
+      "surrogate_allowed": false,
+      "role": "external_integrity_calibration_only"
+    }
+  },
+  "required_disjointness": [
+    ["donor_train", "donor_validation"],
+    ["donor_train", "hgdp_primary_holdout"],
+    ["donor_validation", "hgdp_primary_holdout"]
+  ],
+  "split": {
+    "unit": "individual_after_source_relatedness_pruning",
+    "stratify_by": ["1KGP_population", "1KGP_superpopulation"],
+    "validation_fraction": 0.10,
+    "ranking": "sha256(seed_TAB_population_TAB_sample_id)",
+    "rounding": "floor(n_times_fraction_plus_0.5)_bounded_1_to_n_minus_1",
+    "seed": 71001,
+    "split_before_synthesis": true
+  },
+  "generator": {
+    "primary": "HAPNEST",
+    "sensitivity": "msprime_population_history",
+    "interchangeable": false,
+    "hgdp_may_be_used_as_donor": false
+  },
+  "ancestry_neighbor_sensitivity": {
+    "fit_data": "donor_train_only",
+    "markers": "LD_pruned_non_A1_fit_markers",
+    "pc_count": 20,
+    "continuous_measure": "nearest_1KGP_population_centroid_standardized_PC_distance",
+    "near_rule": "population_median_distance_le_1KGP_leave_one_out_own_population_distance_p95",
+    "freeze_before_model_outcomes": true
+  }
+}

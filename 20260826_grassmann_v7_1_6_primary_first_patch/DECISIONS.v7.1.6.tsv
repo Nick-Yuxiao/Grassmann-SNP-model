@@ -1,0 +1,14 @@
+name	value	reason
+protocol_version	v7.1.6	Freeze primary-first execution before pilot comparison outcomes
+convergence_pilot_runs	12	3 models x 2 masks x 2 pilot data seeds x 1 init seed
+convergence_max_steps	10000	Upper bound for selecting one common fixed budget
+primary_runs	120	Only cells entering the frozen primary gate
+primary_models	3	Retain local, local+PC and Grassmann controls
+primary_masks	2	Retain both frozen structured mask families
+primary_fairness_regimes	2	Retain matched-parameter and matched-compute evidence
+primary_data_seeds	5	Retain frozen independent inference units
+primary_init_seeds	2	Retain frozen within-data-seed initialization averaging
+allowed_gpu_pool	1,2,3,4,5,6	User-selected nonzero physical GPU pool
+gpu0_policy	FORBIDDEN	Physical GPU 0 may not be used
+nonprimary_timing	DEFER_UNTIL_AFTER_PRIMARY_DECISION	Diagnostic and stress cells cannot rescue the primary gate
+per_run_early_stopping	FORBIDDEN	Preserve matched-compute and avoid outcome-dependent budgets

@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "v7.0.1",
+  "frozen_at": "2026-08-25",
+  "metric": {
+    "primary": "masked_nll_nats_per_masked_token",
+    "delta_definition": "nll_comparator_minus_nll_candidate",
+    "secondary": ["dosage_r2", "r2_by_maf_bin", "tokens_per_s", "peak_vram_gb", "wallclock_h"]
+  },
+  "thresholds": {
+    "delta_min": 0.010,
+    "delta_NI": 0.010,
+    "delta_LD": 0.010,
+    "overfit_thr": 0.010,
+    "pc_control_thr": 0.005,
+    "leak_accuracy_tol": 0.010,
+    "resume_param_tol": 0.000001
+  },
+  "repeats": {
+    "data_seeds": [1, 2, 3, 4, 5],
+    "init_seeds": [1, 2],
+    "inference_unit": "data_seed",
+    "init_aggregation": "mean_within_data_seed"
+  },
+  "stages": {
+    "A0": {
+      "blocking": true,
+      "sequence_length": 8192,
+      "model_budget": "8M",
+      "models": ["local_attn", "local_attn_gpc", "grassmann_full"],
+      "checks": [
+        "tiny_set_overfit",
+        "mask_leakage",
+        "allele_harmonization",
+        "deterministic_resume",
+        "global_pc_provenance",
+        "finite_gradients",
+        "parameter_count_parity",
+        "flop_count_parity",
+        "profiler_oom_boundary"
+      ]
+    },
+    "A1": {
+      "models": ["local_attn", "local_attn_gpc", "grassmann_full"],
+      "chr22": {
+        "panel": "P1",
+        "sequence_length": 131072,
+        "diagnostic_masks": ["random", "contiguous"],
+        "confirmatory_masks": ["ld_block", "within_chrom_longrange"],
+        "diagnostic_fairness": ["matched_parameter"],
+        "confirmatory_fairness": ["matched_parameter", "matched_compute"]
+      },
+      "cross_chrom": {
+        "panel": "P2",
+        "scope": "chr1_density_matched_plus_chr22",
+        "sequence_length": 262144,
+        "confirmatory_masks": ["cross_chrom"],
+        "fairness": ["matched_parameter", "matched_compute"],
+        "negative_control": "local_attn_gpc_shuffled_pc"
+      },
+      "references": {
+        "closed_form_ld_imputer": ["random", "contiguous", "ld_block", "within_chrom_longrange"],
+        "ancestry_only_reference": ["cross_chrom"]
+      },
+      "verdict": {
+        "states": ["GO", "NO_GO", "INCONCLUSIVE"],
+        "mask_go": "LCB > delta_min in every required fairness regime",
+        "mask_no_go": "UCB <= delta_min in any required fairness regime",
+        "scope_go": "at least one confirmatory mask is GO",
+        "scope_no_go": "all confirmatory masks are NO_GO",
+        "max_additional_seed_tranches": 1
+      }
+    },
+    "A2": {
+      "expand_over": "A1_VERDICT.go_mask_families",
+      "operators": [
+        "op_wedge_norm",
+        "op_wedge_raw",
+        "op_bilinear_learned",
+        "op_bilinear_sym",
+        "op_bilinear_fixed",
+        "op_hadamard"
+      ],
+      "fairness": ["matched_parameter", "matched_compute"],
+      "primary_comparison": ["op_wedge_norm", "op_bilinear_learned"],
+      "weak_control": "op_bilinear_fixed",
+      "resolved_dependency": "all rows actually expanded from GO mask families"
+    },
+    "A3": {
+      "expand_over": "A2_VERDICT.surviving_operators",
+      "comparator": "local_attn_gpc",
+      "sequence_lengths": [32768, 131072, 262144, 524288],
+      "held_out_length": 524288,
+      "fairness": ["matched_parameter", "matched_compute"],
+      "scale_up_requires_all": [
+        "favourable_interaction_ci_excludes_zero",
+        "advantage_replicates_at_held_out_length",
+        "L_star_within_signed_data_and_compute",
+        "both_fairness_regimes_agree_and_noninferior"
+      ]
+    }
+  },
+  "resolver_contract": {
+    "source_is_immutable": true,
+    "resolved_table_is_new_file": true,
+    "reject_unresolved_placeholders": true,
+    "reject_duplicate_run_ids": true,
+    "reject_missing_dependencies": true,
+    "record_source_hash": true,
+    "record_verdict_hash": true,
+    "record_expanded_and_deleted_rows": true,
+    "record_resolved_hash": true
+  }
+}

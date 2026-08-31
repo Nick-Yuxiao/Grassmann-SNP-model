@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "v7.1.7",
+  "sequence_length": 154850,
+  "batch_size": 1,
+  "models": [
+    "local_attn_8m_w256",
+    "local_attn_gpc_8m_w256",
+    "grassmann_full_8m_w256"
+  ],
+  "decision_comparator": "local_attn_gpc_8m_w256",
+  "candidate": "grassmann_full_8m_w256",
+  "allowed_physical_gpus": [1, 2, 3, 4, 5, 6],
+  "forbidden_physical_gpus": [0],
+  "schedule_seed": 71107,
+  "subset_seed": 71107,
+  "data_contract": {
+    "train": "DONOR_TRAIN_2247.bcf",
+    "validation": "DONOR_VALIDATION_249.bcf",
+    "hgdp_access": "FORBIDDEN",
+    "source_bcf_sha256": "09e50c698522d19bbc2c43a2ea2d29b290d63cf8c1d6983c5198dcb4289ff3fa",
+    "variant_ids_sha256": "69fb8133b63e995c64b79f33d339214732dd6bf9d4cdf0515c97efbe5640d0bd"
+  },
+  "convergence_pilot": {
+    "masks": ["ld_block_0p90", "within_chrom_longrange_0p90"],
+    "mask_seeds": [91001, 91002],
+    "init_seeds": [91011],
+    "maximum_steps": 10000,
+    "evaluation_interval_steps": 250,
+    "candidate_common_steps": [4000, 6000, 8000, 10000],
+    "comparison_interval_steps": 2000,
+    "tail_evaluations_per_checkpoint": 5,
+    "maximum_nll_improvement_for_convergence": 0.002,
+    "budget_selection_blinding": "WITHIN_CURVE_ONLY_NO_BETWEEN_MODEL_DELTAS",
+    "evaluation_source": "DONOR_VALIDATION_249_REAL_ONLY",
+    "hgdp_access": "FORBIDDEN",
+    "runs": 12
+  },
+  "primary_A1R_100pct": {
+    "sample_fraction": 1.0,
+    "sample_count": 2247,
+    "masks": ["ld_block_0p90", "within_chrom_longrange_0p90"],
+    "fairness": ["matched_parameter", "matched_compute"],
+    "mask_seeds": [1, 2, 3, 4, 5],
+    "init_seeds": [1, 2],
+    "steps": "C0_SELECTED_COMMON_K",
+    "runs": 120
+  },
+  "sample_size_diagnostic": {
+    "sample_fractions": [0.25, 0.5],
+    "sample_counts": [562, 1124],
+    "anchor_fraction": 1.0,
+    "fairness": ["matched_compute"],
+    "masks": ["ld_block_0p90", "within_chrom_longrange_0p90"],
+    "mask_seeds": [1, 2],
+    "init_seeds": [1],
+    "steps": "C0_SELECTED_COMMON_K",
+    "added_runs": 24,
+    "positive_trend_total_delta": 0.002,
+    "role": "BRANCH_TRIGGER_NOT_CONFIRMATORY"
+  },
+  "inference": {
+    "delta_min": 0.010,
+    "delta_definition": "nll_local_gpc_minus_nll_grassmann",
+    "mask_seed_interval": "paired_t_97.5pct_two_sided_after_init_mean",
+    "population_interval": "1KGP_population_block_bootstrap_97.5pct_10000_replicates_seed_71001",
+    "mask_seeds_are_independent_biological_datasets": false,
+    "no_go_requires_all_primary_converged": true,
+    "non_go_default": "INCONCLUSIVE_SAMPLE_LIMITED_HAPNEST"
+  },
+  "launch_policy": "IDLE_CHECK_AND_PROJECT_FLOCK_NO_PREEMPTION",
+  "per_run_early_stopping": "FORBIDDEN",
+  "engineering_margin_multiplier": 2.0
+}

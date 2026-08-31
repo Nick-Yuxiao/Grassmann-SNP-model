@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "task_id": "T00",
+  "started_at": "2026-08-25",
+  "status": "IN_PROGRESS_REMOTE_ACCESS_PENDING",
+  "server_authorization": "CONFIRMED_BY_USER",
+  "remote_connection": "NOT_APPROVED_IN_CURRENT_EXECUTION_CONTEXT",
+  "completed_local_deliverables": [
+    "create_env_5090.sh",
+    "smoke_cuda.py",
+    "probe_server.py",
+    "run_t00.sh"
+  ],
+  "pending_remote_deliverables": [
+    "requirements-cu128.lock",
+    "ENV_SMOKE.json",
+    "SERVER_RESOURCE.json",
+    "T00_MANIFEST.sha256"
+  ],
+  "acceptance_status": "NOT_YET_EVALUATED"
+}

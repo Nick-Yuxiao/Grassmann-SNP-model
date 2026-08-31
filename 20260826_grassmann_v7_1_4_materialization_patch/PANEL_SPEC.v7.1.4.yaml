@@ -1,0 +1,29 @@
+{
+  "protocol_version": "v7.1.4",
+  "inherits": ["v7.1.1", "v7.1.2", "v7.1.3"],
+  "source_bcf_sha256": "09e50c698522d19bbc2c43a2ea2d29b290d63cf8c1d6983c5198dcb4289ff3fa",
+  "variant_match": "CHROM_POS_REF_ALT_EXACT",
+  "expected_L": 154850,
+  "format_policy": {
+    "retain": ["GT"],
+    "remove": ["PP"],
+    "rewrite_genotypes": false
+  },
+  "info_policy": {
+    "retain": [],
+    "reason": "prevent source-wide annotation leakage into donor subsets"
+  },
+  "artifacts": {
+    "all_source": 4091,
+    "joint_release": 3264,
+    "donor_train": 2247,
+    "donor_validation": 249,
+    "hgdp_primary": 768
+  },
+  "joint_release_qc": {
+    "missing_gt_sites": 0,
+    "unphased_gt_sites": 0
+  },
+  "gpu_required": false,
+  "overwrite_allowed": false
+}

@@ -1,0 +1,19 @@
+decision_id	name	value	unit	scope	rationale	status
+D01	delta_min	0.010	nats/masked-token	A1/A2/A3 superiority	Minimum practically important advantage; unchanged from v7.0.1	FROZEN
+D02	delta_NI	0.010	nats/masked-token	A3 non-inferiority	Maximum acceptable current loss; unchanged from v7.0.1	FROZEN
+D03	delta_LD	0.010	nats/masked-token	A1 classical LD reference	Independent symbol despite equal numeric value	FROZEN
+D04	overfit_thr	0.010	nats/masked-token	A0 tiny-set overfit	Engineering integrity threshold only	FROZEN
+D05	pc_control_thr	0.005	nats/masked-token	A1 shuffled-PC control	True PCs must contain measurable ancestry information	FROZEN
+D06	confirmatory_repeats	5x2	data_seed x init_seed	A1/A2/A3	Average init seeds within each independent data seed	FROZEN
+D07	primary_delta_sign	comparator-candidate	nats/masked-token	all superiority gates	Positive values mean candidate is better	FROZEN
+D08	server_gpu_policy	exclude_physical_GPU_0;T03_default_GPU_1	authorization	T03/T04 profiling	GPU 0 is forbidden by user policy; every start requires two idle audits and a per-GPU lock	FROZEN
+D09	local_attention_window	256	keys/query/layer	8M fairness arms	Matches the declared local-context scale; exact implementation recorded	FROZEN
+D10	random_mask_rates	0.50,0.90,0.99	fraction	A1 diagnostic	Low, high and extreme sparsity diagnostics; not confirmatory gates	FROZEN
+D11	primary_structured_mask_rate	0.90	fraction	A1 confirmatory	Primary long-context headroom regime	FROZEN
+D12	stress_structured_mask_rate	0.99	fraction	A1 sensitivity	Stress sensitivity cannot rescue primary failure	FROZEN
+D13	population_bootstrap_replicates	10000	replicates	HGDP uncertainty	Population is the resampling block	FROZEN
+D14	population_bootstrap_seed	71001	integer	HGDP uncertainty	Reproducible population bootstrap	FROZEN
+D15	primary_population_weighting	equal_population	weighting	HGDP primary estimator	Prevents large populations dominating the external result	FROZEN
+D16	confirmatory_multiplicity	Bonferroni_2_families_FWER_0.05	procedure	A1 primary masks	Controls two opportunities for a confirmatory GO	FROZEN
+D17	chr22_L	data_derived	variants	A1/T03	Freeze filters; do not force 81920	FROZEN
+D18	T01_branch	B_CONDITIONAL_GO	decision	P0	Activation requires hashed disjoint panel manifest	FROZEN_PENDING_PANEL_MANIFEST

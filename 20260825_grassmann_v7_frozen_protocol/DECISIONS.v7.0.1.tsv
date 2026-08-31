@@ -1,0 +1,9 @@
+decision_id	name	value	unit	scope	rationale	status
+D01	delta_min	0.010	nats/masked-token	A1/A2/A3 superiority	约对应 1% 几何平均预测概率改善；作为最小实际优势	FROZEN
+D02	delta_NI	0.010	nats/masked-token	A3 non-inferiority	不允许以超过最小实际优势的当前损失换取未实测的未来交叉	FROZEN
+D03	delta_LD	0.010	nats/masked-token	A1 classical LD reference	独立命名；与 delta_min 同值但禁止变量复用	FROZEN
+D04	overfit_thr	0.010	nats/masked-token	A0 tiny-set overfit	工程完整性阈值，不是科学效应阈值	FROZEN
+D05	pc_control_thr	0.005	nats/masked-token	A1 shuffled-PC control	true-PC 必须显示可测祖源信息	FROZEN
+D06	confirmatory_repeats	5x2	data_seed x init_seed	A1/A2/A3	init 先在 data seed 内平均；有效独立 n=5	FROZEN
+D07	primary_delta_sign	comparator-candidate	nats/masked-token	all superiority gates	正数统一表示 candidate 更好	FROZEN
+D08	server_resource	RTX 5090 server	authorization	T00 onward	用户确认可使用；容量仍须 T03/T04 实测签署	AUTHORIZED_PENDING_PROFILE

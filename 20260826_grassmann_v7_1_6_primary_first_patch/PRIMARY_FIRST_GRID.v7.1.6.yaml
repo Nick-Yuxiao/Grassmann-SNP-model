@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "v7.1.6",
+  "sequence_length": 154850,
+  "batch_size": 1,
+  "models": [
+    "local_attn_8m_w256",
+    "local_attn_gpc_8m_w256",
+    "grassmann_full_8m_w256"
+  ],
+  "allowed_physical_gpus": [1, 2, 3, 4, 5, 6],
+  "forbidden_physical_gpus": [0],
+  "schedule_seed": 71106,
+  "launch_policy": "IDLE_CHECK_AND_PROJECT_FLOCK_NO_PREEMPTION",
+  "convergence_pilot": {
+    "masks": ["ld_block_0p90", "within_chrom_longrange_0p90"],
+    "data_seeds": [91001, 91002],
+    "init_seeds": [91011],
+    "maximum_steps": 10000,
+    "evaluation_interval_steps": 250,
+    "candidate_common_steps": [4000, 6000, 8000, 10000],
+    "comparison_interval_steps": 2000,
+    "tail_evaluations_per_checkpoint": 5,
+    "maximum_nll_improvement_for_convergence": 0.002,
+    "budget_selection_blinding": "WITHIN_CURVE_ONLY_NO_BETWEEN_MODEL_DELTAS",
+    "evaluation_source": "DONOR_VALIDATION_SYNTHETIC_ONLY",
+    "hgdp_access": "FORBIDDEN",
+    "failure_action": "BLOCK_PRIMARY_REPLAN"
+  },
+  "primary_A1": {
+    "masks": ["ld_block_0p90", "within_chrom_longrange_0p90"],
+    "fairness": ["matched_parameter", "matched_compute"],
+    "data_seeds": [1, 2, 3, 4, 5],
+    "init_seeds": [1, 2],
+    "steps": "C0_SELECTED_COMMON_K",
+    "runs": 120,
+    "gate": "INHERIT_V7_1_0_PRIMARY_GATE"
+  },
+  "deferred_nonprimary": {
+    "diagnostic_runs": 120,
+    "stress_sensitivity_runs": 120,
+    "can_rescue_primary": false
+  },
+  "engineering_margin_multiplier": 2.0,
+  "capacity_usage_limit": 0.80,
+  "primary_capacity_envelope": {
+    "gpu_hours": 150.0,
+    "storage_gib": 160.0,
+    "gpu_count": 6,
+    "concurrency_limit": 6,
+    "available_window_hours": 24.0,
+    "synthetic_corpus_storage_cap_gib": 100.0,
+    "logs_and_metadata_storage_cap_gib": 5.0,
+    "status": "CONDITIONAL_ON_ALL_SIX_GPUS_IDLE"
+  }
+}

@@ -1,0 +1,7 @@
+decision_id	name	value	unit	scope	rationale	status
+D28	source_bcf_sha256	09e50c698522d19bbc2c43a2ea2d29b290d63cf8c1d6983c5198dcb4289ff3fa	hash	chr22 site selection	Pins amended rule to the audited official object	FROZEN
+D29	record_filter_rule	SOURCE_PREFILTERED_FILTER_UNSET	predicate	chr22 site selection	All 1093149 source records have FILTER dot and literal PASS is empty	FROZEN
+D30	accepted_filter_value	dot_unset	VCF FILTER	chr22 site selection	Truthfully distinguishes unset from PASS	FROZEN
+D31	donor_maf_rule	GT_recomputed_MAF_strictly_gt_0.01	fraction	chr22 site selection	Preserves preregistered threshold without using source INFO frequencies	FROZEN
+D32	duplicate_position_rule	reject_all_records_at_duplicate_positions	predicate	final chr22 panel	Avoids arbitrary allele choice	FROZEN
+D33	hgdp_evaluability_rule	measure_then_freeze_before_final_L	procedure	final chr22 panel	Avoids an uninformed missingness cutoff and forbids outcome-driven L targeting	FROZEN_PENDING_STAGE2

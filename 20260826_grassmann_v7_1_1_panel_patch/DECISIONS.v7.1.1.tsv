@@ -1,0 +1,10 @@
+decision_id	name	value	unit	scope	rationale	status
+D19	sample_release_rule	metadata_release_true_and_BCF_member	predicate	T01 source panel	Uses source high-quality relatedness-pruned release decision	FROZEN
+D20	expected_1KGP_release_count	2496	individuals	T01 donor pool	Audited phased v2 chr22 source intersection	FROZEN
+D21	expected_HGDP_release_count	768	individuals	T01 external panel	Audited phased v2 chr22 source intersection	FROZEN
+D22	donor_validation_fraction	0.10	fraction	T01 donor split	Independent donor support with most diversity retained for training	FROZEN
+D23	donor_split_seed	71001	integer	T01 donor split	Matches frozen panel split seed	FROZEN
+D24	donor_split_ranking	sha256_seed_population_sample	algorithm	T01 donor split	Deterministic population-stratified allocation	FROZEN
+D25	snpbag_calibration_status	NOT_COMPARABLE_SOURCE_MISMATCH	decision	38M external calibration	Current 925-person/52-population source cannot instantiate published 929-person/54-population sampling frame	FROZEN
+D26	snpbag_calibration_surrogate	FORBIDDEN	decision	38M external calibration	A 180- or 176-person substitute is not an exact reproduction	FROZEN
+D27	hgdp_primary_when_calibration_unavailable	all_768_release_individuals	individuals	A1/A2/A3 external holdout	Preserves all eligible external information	FROZEN

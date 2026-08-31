@@ -1,0 +1,11 @@
+name	value	reason
+protocol_version	v7.1.4	Additive materialization contract
+variant_match	CHROM_POS_REF_ALT_EXACT	Prevents allele mismatches at shared positions
+final_L	154850	Inherited from audited v7.1.3 data-derived freeze
+format_retained	GT	Only phased genotype is required downstream
+format_removed	PP	Source PP header is malformed and PP is unused
+info_retained	NONE	Prevent source-wide AF/AC metadata leakage into donor artifacts
+joint_release_samples	3264	2496 frozen 1KGP plus 768 frozen HGDP
+source_index_policy	READ_ONLY	An mtime warning is not evidence of index corruption
+gpu_policy	CPU_ONLY_GPU_UNTOUCHED	T02 materialization does not require an accelerator
+transaction_policy	LOCK_TEMP_AUDIT_ATOMIC_RENAME	Avoids duplicate and partial final outputs

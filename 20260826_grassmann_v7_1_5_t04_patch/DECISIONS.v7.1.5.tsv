@@ -1,0 +1,11 @@
+name	value	reason
+protocol_version	v7.1.5	Freeze two-tier T04 before pilot outcomes
+T02_status	GO	Exact materialization and leakage audit passed
+T03_status	GO	Six representative 100-step GPU1 cells passed
+pilot_scope	EXPLORATORY_SCREEN	Two data seeds cannot support confirmatory inference
+pilot_hgdp_access	FORBIDDEN	Preserve external holdout and prevent adaptive peeking
+pilot_steps	2000	Rapid fixed-budget screen at final sequence length
+pilot_runs	24	3 models x 4 masks x 2 data seeds x 1 init seed
+pilot_gpu	PHYSICAL_GPU_1_IDLE_ONLY	GPU0 forbidden and no task may be preempted
+full_A1_steps_scenario	10000	Capacity scenario, not a convergence claim
+full_A1_status	UNFUNDED_UNRESERVED	Idle snapshots are not reserved capacity

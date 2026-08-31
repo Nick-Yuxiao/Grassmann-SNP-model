@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "v7.1.5",
+  "sequence_length": 154850,
+  "batch_size": 1,
+  "train_steps_per_run": 2000,
+  "models": [
+    "local_attn_8m_w256",
+    "local_attn_gpc_8m_w256",
+    "grassmann_full_8m_w256"
+  ],
+  "mask_cells": [
+    {"name": "random_0p50", "family": "random", "rate": 0.50, "role": "negative_control"},
+    {"name": "random_0p90", "family": "random", "rate": 0.90, "role": "diagnostic"},
+    {"name": "ld_block_0p90", "family": "ld_block", "rate": 0.90, "role": "structured_screen"},
+    {"name": "within_chrom_longrange_0p90", "family": "within_chrom_longrange", "rate": 0.90, "role": "structured_screen"}
+  ],
+  "pilot_data_seeds": [91001, 91002],
+  "pilot_init_seeds": [91011],
+  "paired_block": ["pilot_data_seed", "mask_cell"],
+  "run_order": "sha256_seeded_rotation_within_block",
+  "evaluation_source": "DONOR_VALIDATION_SYNTHETIC_ONLY",
+  "hgdp_access": "FORBIDDEN",
+  "engineering_margin_multiplier": 2.0,
+  "pilot_capacity_envelope": {
+    "gpu_hours": 8.0,
+    "storage_gib": 20.0,
+    "gpu_count": 1,
+    "concurrency_limit": 1,
+    "available_window_hours": 24.0,
+    "capacity_usage_limit": 0.80,
+    "physical_gpu": 1,
+    "launch_policy": "IDLE_ONLY_NO_PREEMPTION"
+  },
+  "preliminary_signal_rule": {
+    "delta": "nll_best_comparator_minus_nll_grassmann",
+    "structured_mean_required": ">0_for_each_structured_cell",
+    "worst_seed_floor": -0.010,
+    "positive_status": "PILOT_SIGNAL_CONTINUE",
+    "futility_status": "PILOT_FUTILITY",
+    "otherwise": "PILOT_INCONCLUSIVE",
+    "confirmatory_claim_allowed": false
+  },
+  "full_a1_scenario": {
+    "train_steps_per_run": 10000,
+    "cells_per_model": 12,
+    "runs_per_cell": 10,
+    "models": 3,
+    "status": "UNFUNDED_UNRESERVED"
+  }
+}

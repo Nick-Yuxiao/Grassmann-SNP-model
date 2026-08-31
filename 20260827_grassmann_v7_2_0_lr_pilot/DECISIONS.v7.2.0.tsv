@@ -1,0 +1,10 @@
+decision_id	status	decision
+V7_2_0_D01	FROZEN	Formal A1-R remains blocked; this is an optimization-only pilot.
+V7_2_0_D02	FROZEN	Use the historical C0 validation union for tuning and reserve its untouched complement as decision holdout.
+V7_2_0_D03	FROZEN	Scan shared peak LR values 1e-4,2e-4,4e-4,8e-4 with 500-step warmup and 4000 total steps.
+V7_2_0_D04	FROZEN	Start all 24 runs from step zero with paired data, mask and initialization streams.
+V7_2_0_D05	FROZEN	Select the lowest eligible LR within 0.0005 nats of the best six-cell mean gain; reject candidates with any cell degradation beyond 0.002.
+V7_2_0_D06	FROZEN	Record train NLL, validation NLL, LR, gradient norm, throughput and memory.
+V7_2_0_D07	FROZEN	GPU0 is forbidden; occupied GPU2 is excluded; never signal or interrupt another process.
+V7_2_0_D08	FROZEN	A selected LR authorizes only all-12-run C0 schedule confirmation, not formal A1-R.
+

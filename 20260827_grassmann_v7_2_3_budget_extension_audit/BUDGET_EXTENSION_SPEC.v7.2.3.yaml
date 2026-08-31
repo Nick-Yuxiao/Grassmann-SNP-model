@@ -1,0 +1,38 @@
+schema_version: "1.0"
+protocol_version: "v7.2.3"
+role: "OPTIMIZATION_BUDGET_EXTENSION_ONLY"
+source_protocol_version: "v7.2.1"
+required_source_status: "BUDGET_BRIDGE_EXTEND_ALL_TO_30K"
+sequence_length: 154850
+models: [local_attn_8m_w256, local_attn_gpc_8m_w256, grassmann_full_8m_w256]
+masks: [ld_block_0p90, within_chrom_longrange_0p90]
+learning_rates: [0.0001, 0.0004]
+mask_seed: 92001
+init_seed: 82001
+source_step: 20000
+target_step: 30000
+additional_steps_per_run: 10000
+run_count: 12
+additional_run_steps: 120000
+post_resume_schedule: "CONSTANT"
+evaluation_interval_steps: 250
+terminal_intervals: [[24000,26000], [26000,28000], [28000,30000]]
+terminal_tail_evaluations: 5
+maximum_absolute_terminal_change_nats: 0.002
+maximum_best_to_terminal_degradation_nats: 0.002
+shape_classification_role: "NON_PRIMARY_PROSPECTIVE_SAFETY_FLAG"
+stable_but_accelerating_last_to_first_ratio_gt: 1.5
+stable_but_accelerating_requires_all_positive_drops: true
+shape_flag_action: "BLOCK_AUTOMATIC_FREEZE_AND_REPLAN"
+control_lr_terminal_summary: "DESCRIPTIVE_NOT_REQUIRED_TO_FAIL"
+acceleration_targets: "FIVE_INTERIOR_TARGETS_ON_OBSERVED_COMMON_REACHABLE_NLL_RANGE"
+acceleration_censoring: "NONE_BY_CONSTRUCTION_COMMON_SUPPORT_ONLY"
+acceleration_global_multiplier_claim: "FORBIDDEN"
+bridge_endpoint_equals_formal_wsd_endpoint: false
+allowed_physical_gpus: [1, 3, 4, 5, 6, 7]
+forbidden_physical_gpus: [0, 2]
+selective_extension: "FORBIDDEN"
+optimizer_reset: "FORBIDDEN"
+decision_holdout_access: "FORBIDDEN"
+hgdp_access: "FORBIDDEN"
+architecture_decision_permitted: false

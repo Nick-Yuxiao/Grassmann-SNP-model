@@ -1,0 +1,9 @@
+{
+  "package": "20260828_grassmann_v6_1_design_feasibility_rc1",
+  "implementation_reference": "20260828_grassmann_v6_1_rank_gate_r1_5_rc1",
+  "implementation_reference_manifest_sha256": "0ebd541d5146105df7def415cfffc1aca6e29d8e1c3368bdf5a373d4c5187eea",
+  "reference_use_only": "reuse frozen estimator and rank-gap definition",
+  "formal_parentage": false,
+  "formal_server_result_used": false,
+  "evidence_classification": "EXPLORATORY_NON_EVIDENCE"
+}

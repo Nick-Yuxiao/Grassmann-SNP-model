@@ -1,0 +1,7 @@
+decision_id	status	decision	primary_changing	evidence_role
+D29	FROZEN	Apply fixed minimum relative fitted rank gap 0.10 to observed and every bootstrap statistic	TEST_PROCEDURE_ONLY	rank_identifiability
+D30	FROZEN	Set ineligible candidate direction statistic to zero and candidate p to one	NO	conservative_no_call
+D31	FROZEN	Retain ineligible candidates in the preregistered family and multiplicity dimension	NO	family_integrity
+D32	FROZEN	Do not retune the 0.10 threshold using later p-values	NO	anti_overfitting
+D33	FROZEN	R1.5 oracle PASS authorizes only bounded-smoke redesign with a new seed block	NO	scope_control
+

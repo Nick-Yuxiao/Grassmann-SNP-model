@@ -1,0 +1,17 @@
+{
+  "package": "20260828_grassmann_v6_1_bounded_smoke_design_rc2",
+  "code_parent": "20260828_grassmann_v6_1_rank_gate_r1_5_rc1",
+  "code_parent_manifest_sha256": "0ebd541d5146105df7def415cfffc1aca6e29d8e1c3368bdf5a373d4c5187eea",
+  "r1_5_run": "/data1/home/tanyuxiao/Grassmann_model/v6/runs/r1_5_rank_gate_20260828_rc1",
+  "r1_5_result_manifest_sha256": "6081484beb28de8641b606ff89aef4edf12c635e8762e1e94b9fb3f9d160de2b",
+  "required_gate": "R1_5_RANK_GATE_PASS",
+  "authorized_scope": "bounded-smoke rc2 design only",
+  "does_not_authorize": [
+    "bounded_smoke_rc2_run",
+    "gc_screen_rc2_run",
+    "gc_final",
+    "formal_power",
+    "real_phenotype",
+    "gpu_or_v7_work"
+  ]
+}

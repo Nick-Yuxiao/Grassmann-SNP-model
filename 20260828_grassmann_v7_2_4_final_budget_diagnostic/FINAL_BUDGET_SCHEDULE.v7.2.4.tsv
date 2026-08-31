@@ -1,0 +1,8 @@
+final_run_id	source_run_id	order_on_gpu	preferred_physical_gpu	model	mask	mask_seed	init_seed	learning_rate	source_step	target_step
+FB_G1_local_ld_lr4e4	BE_G1_local_ld_lr4e4	1	1	local_attn_8m_w256	ld_block_0p90	92001	82001	0.0004	30000	40000
+FB_G3_gpc_ld_lr4e4	BE_G3_gpc_ld_lr4e4	1	3	local_attn_gpc_8m_w256	ld_block_0p90	92001	82001	0.0004	30000	40000
+FB_G4_grass_ld_lr4e4	BE_G4_grass_ld_lr4e4	1	4	grassmann_full_8m_w256	ld_block_0p90	92001	82001	0.0004	30000	40000
+FB_G5_local_long_lr4e4	BE_G5_local_long_lr4e4	1	5	local_attn_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	30000	40000
+FB_G6_gpc_long_lr4e4	BE_G6_gpc_long_lr4e4	1	6	local_attn_gpc_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	30000	40000
+FB_G7_grass_long_lr4e4	BE_G7_grass_long_lr4e4	1	7	grassmann_full_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	30000	40000
+

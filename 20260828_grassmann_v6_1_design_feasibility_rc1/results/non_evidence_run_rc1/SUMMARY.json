@@ -1,0 +1,22 @@
+{
+  "classification": "EXPLORATORY_NON_EVIDENCE",
+  "does_not_authorize": [
+    "bounded_smoke_run",
+    "gc_screen_or_gc_final",
+    "formal_power_or_method_ranking",
+    "candidate_or_seed_selection",
+    "real_phenotype",
+    "gpu_or_v7_work"
+  ],
+  "elapsed_seconds": 41.22176039998885,
+  "formal_evidence_eligible": false,
+  "grid_cells": 240,
+  "grid_weight_interpretation": "equal design coverage only; not candidate prevalence",
+  "independent_families": 2880,
+  "note_on_family_count": "angle levels reuse paired family seeds; each angle-specific generated family is one analysis replicate",
+  "planning_cells": 96,
+  "planning_label": "STOP_REVIEW",
+  "unique_family_seeds": 576,
+  "workable_planning_cell_fraction": 0.010416666666666666,
+  "workable_planning_cells": 1
+}

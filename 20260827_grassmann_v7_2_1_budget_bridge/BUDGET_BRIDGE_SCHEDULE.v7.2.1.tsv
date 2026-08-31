@@ -1,0 +1,13 @@
+run_id	order_on_gpu	preferred_physical_gpu	model	mask	mask_seed	init_seed	learning_rate	steps	warmup_steps
+BB_G1_local_ld_lr1e4	1	1	local_attn_8m_w256	ld_block_0p90	92001	82001	0.0001	20000	500
+BB_G1_local_ld_lr4e4	2	1	local_attn_8m_w256	ld_block_0p90	92001	82001	0.0004	20000	500
+BB_G3_gpc_ld_lr4e4	1	3	local_attn_gpc_8m_w256	ld_block_0p90	92001	82001	0.0004	20000	500
+BB_G3_gpc_ld_lr1e4	2	3	local_attn_gpc_8m_w256	ld_block_0p90	92001	82001	0.0001	20000	500
+BB_G4_grass_ld_lr1e4	1	4	grassmann_full_8m_w256	ld_block_0p90	92001	82001	0.0001	20000	500
+BB_G4_grass_ld_lr4e4	2	4	grassmann_full_8m_w256	ld_block_0p90	92001	82001	0.0004	20000	500
+BB_G5_local_long_lr4e4	1	5	local_attn_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	20000	500
+BB_G5_local_long_lr1e4	2	5	local_attn_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0001	20000	500
+BB_G6_gpc_long_lr1e4	1	6	local_attn_gpc_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0001	20000	500
+BB_G6_gpc_long_lr4e4	2	6	local_attn_gpc_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	20000	500
+BB_G7_grass_long_lr4e4	1	7	grassmann_full_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0004	20000	500
+BB_G7_grass_long_lr1e4	2	7	grassmann_full_8m_w256	within_chrom_longrange_0p90	92001	82001	0.0001	20000	500

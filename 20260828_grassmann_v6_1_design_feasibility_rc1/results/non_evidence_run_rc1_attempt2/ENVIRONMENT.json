@@ -1,0 +1,9 @@
+{
+  "accelerator_used": false,
+  "classification": "EXPLORATORY_NON_EVIDENCE",
+  "config_sha256": "e1be19bca0f308cd369c4ed94f388df889153965d7b2d07fc8ccceb06b8f2e70",
+  "numpy": "2.3.5",
+  "package_manifest_sha256": "27868d184d66d5107b90836ec620e08a497fd8bd23a2c05e3219ccd3df3052ce",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]"
+}

@@ -1,0 +1,46 @@
+from __future__ import annotations
+
+import argparse
+import csv
+import subprocess
+import sys
+from pathlib import Path
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--schedule", type=Path, required=True)
+    parser.add_argument("--gpu", type=int, required=True)
+    parser.add_argument("--data-dir", type=Path, required=True)
+    parser.add_argument("--firewall-dir", type=Path, required=True)
+    parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--trainer", type=Path, required=True)
+    args = parser.parse_args()
+    with args.schedule.open(encoding="utf-8-sig", newline="") as handle:
+        rows = [
+            row for row in csv.DictReader(handle, delimiter="\t")
+            if int(row["preferred_physical_gpu"]) == args.gpu
+        ]
+    rows.sort(key=lambda row: int(row["order_on_gpu"]))
+    if len(rows) != 4 or {int(row["order_on_gpu"]) for row in rows} != {1, 2, 3, 4}:
+        raise SystemExit(f"GPU {args.gpu} expected four ordered rows, found {len(rows)}")
+    for row in rows:
+        output = args.output_root / row["run_id"]
+        log = args.output_root / f"{row['run_id']}.log"
+        command = [
+            sys.executable, str(args.trainer),
+            "--model", row["model"], "--mask", row["mask"],
+            "--mask-seed", row["mask_seed"], "--init-seed", row["init_seed"],
+            "--peak-lr", row["peak_lr"], "--steps", row["steps"],
+            "--warmup-steps", row["warmup_steps"],
+            "--data-dir", str(args.data_dir), "--firewall-dir", str(args.firewall_dir),
+            "--output-dir", str(output),
+        ]
+        with log.open("wb") as handle:
+            code = subprocess.run(command, stdout=handle, stderr=subprocess.STDOUT).returncode
+        if code != 0:
+            raise SystemExit(f"run failed: {row['run_id']} exit={code}")
+
+
+if __name__ == "__main__":
+    main()

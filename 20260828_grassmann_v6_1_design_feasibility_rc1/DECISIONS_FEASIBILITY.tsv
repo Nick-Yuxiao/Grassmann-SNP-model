@@ -1,0 +1,9 @@
+decision_id	status	decision	primary_changing	evidence_role
+D34	FROZEN	Classify the entire package and all outputs as EXPLORATORY_NON_EVIDENCE with promotion forbidden	NO	evidence_firewall
+D35	FROZEN	Use independently generated subject families as replicates and never count genotype groups traits candidates or Monte Carlo draws as replicates	NO	anti_pseudoreplication
+D36	FROZEN	Cross sample size MAF population gap and true maximum principal angle on a grid frozen before results	NO	design_feasibility
+D37	FROZEN	Use only the frozen rank-2 ridge estimator without baseline comparison or method ranking	NO	anti_ranking
+D38	FROZEN	Call the null-referenced exceedance rate a detectability proxy rather than a p-value or formal power	NO	statistical_scope
+D39	FROZEN	Do not interpret equal-weight grid-cell fractions as the prevalence of real candidates	NO	population_scope
+D40	FROZEN	Permit results to stop or broadly redesign the study but not to tune alpha gap rank seeds candidates or formal effect cells	NO	anti_overfitting
+D41	FROZEN	Use a seed namespace disjoint from smoke calibration power real phenotype GPU and v7 work	NO	scope_control

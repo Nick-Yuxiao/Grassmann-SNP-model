@@ -1,0 +1,30 @@
+schema_version: "1.0"
+protocol_version: "v7.2.1"
+role: "OPTIMIZATION_BUDGET_BRIDGE_ONLY"
+sequence_length: 154850
+models: [local_attn_8m_w256, local_attn_gpc_8m_w256, grassmann_full_8m_w256]
+masks: [ld_block_0p90, within_chrom_longrange_0p90]
+learning_rates: [0.0001, 0.0004]
+mask_seed: 92001
+init_seed: 82001
+first_stage_steps: 20000
+warmup_steps: 500
+warmup_initial_fraction: 0.10
+post_warmup_schedule: "CONSTANT"
+evaluation_interval_steps: 250
+run_count: 12
+run_steps: 240000
+pilot_reproduction_step: 4000
+pilot_tail_evaluations: 5
+pilot_reproduction_tolerance_nats: 0.001
+terminal_intervals: [[14000,16000], [16000,18000], [18000,20000]]
+terminal_tail_evaluations: 5
+maximum_absolute_terminal_change_nats: 0.002
+maximum_best_to_terminal_degradation_nats: 0.002
+acceleration_targets_per_cell: 5
+allowed_physical_gpus: [1, 3, 4, 5, 6, 7]
+forbidden_physical_gpus: [0, 2]
+decision_holdout_access: "FORBIDDEN"
+hgdp_access: "FORBIDDEN"
+architecture_decision_permitted: false
+

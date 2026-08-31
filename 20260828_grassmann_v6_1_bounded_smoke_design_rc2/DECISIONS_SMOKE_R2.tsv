@@ -1,0 +1,13 @@
+decision_id	status	decision	primary_changing	evidence_role
+D22	FROZEN	Use seven fixed logic cells with three independent family replicates each	NO	bounded_design
+D23	FROZEN	Cross conditional LD and heteroskedasticity in four null cells using paired seed indices	NO	factor_isolation
+D24	FROZEN	Count shared families rather than candidate tests or resamples as independent replicates	NO	anti_pseudoreplication
+D25	FROZEN	Retain pure amplification as direction-negative and obvious rotation as positive control	NO	oracle_controls
+D26	FROZEN	Treat three-replicate summaries as smoke diagnostics rather than FWER or power estimates	NO	evidence_boundary
+D27	FROZEN	Require subject-disjoint selection and inference samples and apply the selected target	NO	selection_contract
+D28	FROZEN	Bounded-smoke PASS authorizes only a prospective GC-screen rc2 protocol draft	NO	scope_control
+D29	FROZEN	Apply minimum fitted relative rank gap 0.10 to observed and every bootstrap statistic	TEST_PROCEDURE_ONLY	rank_identifiability
+D30	FROZEN	Set an observed ineligible candidate statistic to zero and candidate p-value to one	NO	conservative_no_call
+D31	FROZEN	Retain ineligible candidates in the four-candidate family and multiplicity dimension	NO	family_integrity
+D32	FROZEN	Do not retune the 0.10 threshold using smoke or later p-values	NO	anti_overfitting
+D33	FROZEN	R1.5 PASS and this design package do not authorize running bounded smoke without new approval	NO	scope_control

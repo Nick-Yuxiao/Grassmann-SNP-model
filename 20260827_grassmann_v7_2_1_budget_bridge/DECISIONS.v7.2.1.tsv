@@ -1,0 +1,10 @@
+decision_id	status	decision
+V7_2_1_D01	FROZEN	Do not compare old C0 and LR-pilot absolute NLL because their evaluators differ.
+V7_2_1_D02	FROZEN	Run a paired 1e-4 versus 4e-4 bridge across all six model/mask cells from step zero.
+V7_2_1_D03	FROZEN	Use only the historically viewed tuning firewall; decision holdout and HGDP are forbidden.
+V7_2_1_D04	FROZEN	Run 20000 steps with 500-step warmup followed by constant LR and save resumable checkpoints.
+V7_2_1_D05	FROZEN	Estimate acceleration only within cells at five common-range NLL targets.
+V7_2_1_D06	FROZEN	Require 4k tail-five reproduction within 0.001 nats of the matching v7.2.0 pilot run.
+V7_2_1_D07	FROZEN	At 20k choose only ADEQUATE, EXTEND_ALL_TO_30K, or REPLAN_INSTABILITY using frozen thresholds.
+V7_2_1_D08	FROZEN	Never selectively extend curves and never launch formal A1-R from this bridge.
+

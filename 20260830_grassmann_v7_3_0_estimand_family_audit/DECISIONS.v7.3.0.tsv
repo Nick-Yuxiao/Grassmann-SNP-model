@@ -1,0 +1,13 @@
+decision_id	status	decision
+V7_3_0_D01	FROZEN	Split A1-EFFICIENCY from A1-CAPACITY before any further computation.
+V7_3_0_D02	FROZEN	A1-EFFICIENCY must report all registered 20k 30k and 40k budget points; neither positive nor negative results may become capacity GO or NO-GO.
+V7_3_0_D03	FROZEN	LD-block is eligible only for a future confirmatory capacity experiment using a 30k horizon supported by 30k-to-40k out-of-sample persistence.
+V7_3_0_D04	FROZEN	Longrange capacity is INCONCLUSIVE_BUDGET_NOT_ESTIMABLE and longrange efficiency is descriptive only.
+V7_3_0_D05	FROZEN	The independent replication unit is data_seed; checkpoints mask seeds and init seeds are not data-seed replicates.
+V7_3_0_D06	FROZEN	Historical dispersion is planning proxy only and cannot replace an n=5 data-seed pilot.
+V7_3_0_D07	FROZEN	With unknown covariance use SD(A-B) no larger than SD(A)+SD(B) as the conservative planning bound; sqrt(2) is not an unconditional bound.
+V7_3_0_D08	FROZEN	H=5 tail-slope and 0.3 times delta_min were not registered in v7.2.4 and may support stopping or planning only.
+V7_3_0_D09	FROZEN	Constant-LR adequacy rules cannot be reused in a WSD or cosine-decay segment.
+V7_3_0_D10	FROZEN	The 30k-to-30.25k change is a boundary-associated upper bound not a pure resume discontinuity estimate.
+V7_3_0_D11	FROZEN	Future confirmatory runs should avoid resume; unavoidable resume requires same-checkpoint same-mask evaluation before optimizer update.
+V7_3_0_D12	FROZEN	This release is CPU-only and authorizes no GPU work formal A1-R n=5 pilot HAPNEST holdout or HGDP access.

@@ -1,0 +1,39 @@
+schema_version: "1.0"
+protocol_version: "v7.2.4"
+role: "FINAL_OPTIMIZATION_HORIZON_DIAGNOSTIC_ONLY"
+source_protocol_version: "v7.2.3"
+required_source_status: "BUDGET_EXTENSION_30K_NOT_ADEQUATE_REPLAN"
+sequence_length: 154850
+models: [local_attn_8m_w256, local_attn_gpc_8m_w256, grassmann_full_8m_w256]
+masks: [ld_block_0p90, within_chrom_longrange_0p90]
+learning_rates: [0.0004]
+excluded_control_learning_rate: 0.0001
+excluded_control_reason: "DESCRIPTIVE_ROLE_COMPLETE_NOT_SELECTED_FORMAL_LR"
+mask_seed: 92001
+init_seed: 82001
+source_step: 30000
+target_step: 40000
+additional_steps_per_run: 10000
+run_count: 6
+additional_run_steps: 60000
+post_resume_schedule: "CONSTANT"
+evaluation_interval_steps: 250
+terminal_intervals: [[34000,36000], [36000,38000], [38000,40000]]
+terminal_tail_evaluations: 5
+maximum_absolute_terminal_change_nats: 0.002
+maximum_best_to_terminal_degradation_nats: 0.002
+shape_classification_role: "NON_PRIMARY_PROSPECTIVE_SAFETY_FLAG"
+stable_but_accelerating_last_to_first_ratio_gt: 1.5
+stable_but_accelerating_requires_all_positive_drops: true
+shape_flag_action: "BLOCK_AUTOMATIC_FREEZE_AND_REPLAN"
+adequate_formal_schedule: "WARMUP500_CONSTANT_4E4_TO40K_COSINE_TO4E5_AT50K"
+allowed_physical_gpus: [1, 3, 4, 5, 6, 7]
+forbidden_physical_gpus: [0, 2]
+complete_selected_lr_factorial_required: true
+select_only_failed_cells: "FORBIDDEN"
+optimizer_reset: "FORBIDDEN"
+automatic_extension_beyond_40000: "FORBIDDEN"
+decision_holdout_access: "FORBIDDEN"
+hgdp_access: "FORBIDDEN"
+architecture_decision_permitted: false
+

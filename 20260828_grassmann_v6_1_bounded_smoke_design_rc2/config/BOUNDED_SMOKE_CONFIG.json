@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0",
+  "design_status": "FROZEN_PENDING_RUN_APPROVAL",
+  "data_seed_base": 628000000,
+  "selection_seed_base": 628100000,
+  "inference_seed_base": 628200000,
+  "bootstrap_seed_base": 628300000,
+  "replicates_per_cell": 3,
+  "resamples": 39,
+  "n": 360,
+  "family_size": 4,
+  "rank": 2,
+  "ridge_lambda": 0.01,
+  "rotation_strength": 3.0,
+  "amplification": 0.5,
+  "signal_scale": 2.0,
+  "minimum_fitted_rank_gap": 0.1,
+  "resource_ceiling": {
+    "processes": 1,
+    "blas_threads": 1,
+    "expected_cpu_minutes_low": 2,
+    "expected_cpu_minutes_high": 10,
+    "cpu_minutes": 30,
+    "peak_rss_mib": 1024,
+    "output_mib": 100,
+    "accelerator": "forbidden"
+  },
+  "planned_counts": {
+    "cells": 7,
+    "independent_families": 21,
+    "family_level_resamples": 819,
+    "candidate_observed_evaluations": 84,
+    "candidate_bootstrap_evaluations": 3276
+  },
+  "cells": [
+    {"name": "null_no_cld_homoskedastic", "conditional_ld": false, "heteroskedastic": false, "kind": "null"},
+    {"name": "null_cld_homoskedastic", "conditional_ld": true, "heteroskedastic": false, "kind": "null"},
+    {"name": "null_no_cld_heteroskedastic", "conditional_ld": false, "heteroskedastic": true, "kind": "null"},
+    {"name": "null_cld_heteroskedastic", "conditional_ld": true, "heteroskedastic": true, "kind": "null"},
+    {"name": "selected_null_cld_heteroskedastic", "conditional_ld": true, "heteroskedastic": true, "kind": "selected_null"},
+    {"name": "pure_amplification_cld_heteroskedastic", "conditional_ld": true, "heteroskedastic": true, "kind": "pure_amplification"},
+    {"name": "high_snr_rotation_cld_heteroskedastic", "conditional_ld": true, "heteroskedastic": true, "kind": "high_snr_rotation"}
+  ],
+  "does_not_authorize": [
+    "bounded_smoke_rc2_run_without_new_approval",
+    "gc_screen_rc2_run",
+    "gc_final",
+    "t14_or_t16_power",
+    "real_phenotype_discovery",
+    "gpu_or_v7_work"
+  ]
+}

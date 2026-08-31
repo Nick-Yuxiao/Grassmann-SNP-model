@@ -1,0 +1,9 @@
+{
+  "code_parent": "20260827_grassmann_v6_1_shared_family_r1_rc1",
+  "code_parent_manifest_canonical_sha256": "3646c6e15ff9b67a5d8c330673d04d4b1b95c2304adc06ef6caaeeb6e1a1aa92",
+  "r1_run": "/data1/home/tanyuxiao/Grassmann_model/v6/runs/r1_shared_family_20260827_rc1",
+  "r1_result_manifest_sha256": "597de2a9b4f39c0efb3fc6dcf4f602992f6810fa01b681db9412863fc0b23ef7",
+  "required_gate": "R1_ORACLE_PASS",
+  "authorized_scope": "D29 rank-gate oracle only"
+}
+

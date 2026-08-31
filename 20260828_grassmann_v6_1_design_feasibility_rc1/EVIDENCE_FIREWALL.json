@@ -1,0 +1,32 @@
+{
+  "classification": "EXPLORATORY_NON_EVIDENCE",
+  "formal_evidence_eligible": false,
+  "promotion_permitted": false,
+  "formal_p_values_generated": false,
+  "family_fwer_claim_permitted": false,
+  "power_ranking_permitted": false,
+  "candidate_prevalence_claim_permitted": false,
+  "permitted_uses": [
+    "stop_review",
+    "reconsider_estimand",
+    "reconsider_study_scale",
+    "document_design_limitations"
+  ],
+  "forbidden_uses": [
+    "gc_screen_or_gc_final_evidence",
+    "t14_or_t16_power_ranking",
+    "formal_candidate_selection",
+    "seed_selection",
+    "alpha_tuning",
+    "gap_threshold_tuning",
+    "rank_tuning",
+    "formal_effect_grid_selection",
+    "real_phenotype_claim",
+    "gpu_or_v7_work"
+  ],
+  "future_formal_use_requires": [
+    "new_prospective_protocol",
+    "independent_seed_block",
+    "formal_gate_authorization"
+  ]
+}

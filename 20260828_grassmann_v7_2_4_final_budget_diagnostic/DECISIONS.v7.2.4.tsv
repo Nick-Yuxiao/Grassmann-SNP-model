@@ -1,0 +1,14 @@
+decision_id	status	decision
+V7_2_4_D01	FROZEN	Resume all six selected-LR 4e-4 model-by-mask cells from immutable v7.2.3 step-30k checkpoints.
+V7_2_4_D02	FROZEN	Retain the complete 3-model by 2-mask selected-LR factorial; selecting only the two failed cells is forbidden.
+V7_2_4_D03	FROZEN	Exclude 1e-4 because its descriptive calibration role is complete; this exclusion is prospective and not outcome-selective within the selected LR.
+V7_2_4_D04	FROZEN	Preserve optimizer and RNG state, deterministic sample and mask streams, LR, seeds, model and mask.
+V7_2_4_D05	FROZEN	Continue constant 4e-4 from step 30001 through 40000 with evaluation every 250 steps.
+V7_2_4_D06	FROZEN	Use physical GPUs 1,3,4,5,6,7 only after a fresh non-interference audit; GPUs 0 and 2 are forbidden.
+V7_2_4_D07	FROZEN	Decision holdout, HGDP, between-model ranking and architecture GO/NO-GO remain forbidden.
+V7_2_4_D08	FROZEN	Audit tail-five changes over 34-36k, 36-38k and 38-40k using the 0.002 absolute-change and degradation limits.
+V7_2_4_D09	FROZEN	A STABLE_BUT_ACCELERATING flag blocks automatic schedule freeze but remains non-primary.
+V7_2_4_D10	FROZEN	If all six cells pass, authorize only a later formal warmup500 stable-to40k cosine-to50k schedule contract.
+V7_2_4_D11	FROZEN	No automatic constant-LR extension beyond 40k is authorized under any branch.
+V7_2_4_D12	FROZEN	A sample-limited or training-limited negative result cannot automatically become architecture NO-GO.
+

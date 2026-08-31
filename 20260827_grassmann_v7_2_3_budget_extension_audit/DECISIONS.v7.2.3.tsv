@@ -1,0 +1,12 @@
+decision_id	status	decision
+V7_2_3_D01	FROZEN	Resume all 12 immutable v7.2.1 bridge checkpoints; selective continuation is forbidden.
+V7_2_3_D02	FROZEN	Preserve optimizer state, deterministic sample and mask streams, LR, seeds, model and mask.
+V7_2_3_D03	FROZEN	Continue constant LR from step 20001 through step 30000 with evaluation every 250 steps.
+V7_2_3_D04	FROZEN	Use physical GPUs 1,3,4,5,6,7 only after a fresh non-interference audit; GPUs 0 and 2 are forbidden.
+V7_2_3_D05	FROZEN	Decision holdout, HGDP, between-model ranking and architecture GO/NO-GO remain forbidden.
+V7_2_3_D06	FROZEN	Keep the absolute-change Gate primary and add a prospective non-primary STABLE_BUT_ACCELERATING shape flag at ratio greater than 1.5.
+V7_2_3_D07	FROZEN	A selected-LR shape flag blocks automatic schedule freeze but does not retroactively change the v7.2.1 primary pass count.
+V7_2_3_D08	FROZEN	Summarize 1e-4 terminal dynamics descriptively; it is not required to fail and is not a negative control for adequacy.
+V7_2_3_D09	FROZEN	Report acceleration only on observed common support; ratio R implies selected-step reduction 1-1/R.
+V7_2_3_D10	FROZEN	Do not compare constant-LR bridge endpoint NLL with formal WSD endpoint NLL as equivalent schedules.
+V7_2_3_D11	FROZEN	If 30k is not adequate or is shape-flagged, stop for replan; no extension beyond 30k is automatically authorized.

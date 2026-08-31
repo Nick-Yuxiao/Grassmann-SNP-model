@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "minimum_relative_rank_gap": 0.10,
+  "rank": 2,
+  "ridge_lambda": 0.01,
+  "resamples": 39,
+  "n": 360,
+  "family_size": 4,
+  "strong_seed": 101000,
+  "weak_seed": 101002,
+  "bootstrap_seed": 108000,
+  "does_not_authorize": ["bounded_smoke_run", "gc_screen_rc2", "gc_final", "power_ranking", "real_phenotype_discovery", "gpu_or_v7_work"]
+}
+

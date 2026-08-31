@@ -1,0 +1,24 @@
+{
+  "angle_specific_fits": 2880,
+  "classification": "EXPLORATORY_NON_EVIDENCE",
+  "does_not_authorize": [
+    "bounded_smoke_run",
+    "gc_screen_or_gc_final",
+    "formal_power_or_method_ranking",
+    "candidate_or_seed_selection",
+    "real_phenotype",
+    "gpu_or_v7_work"
+  ],
+  "elapsed_seconds": 100.26990200008731,
+  "formal_evidence_eligible": false,
+  "grid_cells": 240,
+  "grid_weight_interpretation": "equal design coverage only; not candidate prevalence",
+  "note_on_replication": "Each cell has 12 independent family replicates; angle cells are paired through 576 shared base seeds and are not 2,880 globally independent families.",
+  "paired_angle_seed_reuse": true,
+  "planning_cells": 96,
+  "planning_label": "STOP_REVIEW",
+  "replicates_per_cell": 12,
+  "unique_paired_base_families": 576,
+  "workable_planning_cell_fraction": 0.010416666666666666,
+  "workable_planning_cells": 1
+}

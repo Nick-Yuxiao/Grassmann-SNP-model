@@ -1,0 +1,64 @@
+schema_version: "1.0"
+protocol_version: "v7.7.3"
+role: "LONG_RANGE_ARCHITECTURE_PILOT_CONTRACT_NO_GPU"
+gpu_required: false
+gpu_authorized: false
+grassmann_training_authorized: false
+cpu_blinded_variance_pilot_authorized: false
+architecture_decision_permitted: false
+source_protocol: "v7.7.2"
+source_status_required: "LONG_RANGE_TASK_VALIDITY_PASS"
+source_next_stage: "DRAFT_V7_7_3_LONG_RANGE_ARCHITECTURE_PILOT_NO_GPU"
+source_artifacts_immutable: true
+task_validity: "CONFIRMED_PASS_SYNTHETIC_ONLY"
+registered_a1r_decision_preserved: "A1R_LD_REGIME_DEPENDENT"
+factorial:
+  grassmann_factor_levels: ["ABSENT", "PRESENT"]
+  global_router_factor_levels: ["ABSENT", "PRESENT"]
+  decision_eligible_cells: 4
+  control_rows: 2
+shared_global_router:
+  identical_across_router_present_arms: true
+  receptive_field_tokens: 8192
+  inputs: "FULL_TOKEN_SEQUENCE_NOT_SOURCE_POSITIONS"
+  grassmann_component: false
+  role: "PRIMARY_NON_GRASSMANN_COMPARATOR"
+  identical_fields: ["IMPLEMENTATION", "RECEPTIVE_FIELD", "INPUTS", "OPTIMIZATION_SCHEDULE", "TRAINING_DATA"]
+grassmann_component:
+  crossed_levels: ["ABSENT", "PRESENT"]
+  absent_requires_parameter_and_compute_compensation: true
+primary_contrast: "NLL_LR_A01_MINUS_NLL_LR_A11"
+primary_contrast_meaning: "NLL_NO_GRASSMANN_PLUS_ROUTER_MINUS_NLL_GRASSMANN_PLUS_SAME_ROUTER"
+practical_margin_nats_per_target: 0.010
+go_rule: "PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.010_AND_VALIDITY_AND_SHUFFLED_AND_FAIRNESS_PASS"
+secondary_estimands: ["GRASSMANN_MAIN_EFFECT_OVER_ROUTER_LEVELS", "GRASSMANN_BY_ROUTER_INTERACTION"]
+secondary_cannot_override_primary: true
+replication:
+  repeat_unit: "SYNTHETIC_TRUTH_SEED"
+  init_seeds_nested_and_averaged: true
+  formal_truth_seed_count: null
+  formal_truth_seed_count_status: "PENDING_BLINDED_VARIANCE_PILOT"
+blinded_variance_pilot:
+  purpose: "ESTIMATE_PRIMARY_CONTRAST_DISPERSION_AND_FREEZE_FORMAL_N"
+  device: "cpu"
+  scale: "REDUCED_CPU_PROXY"
+  blinding: "ARM_MEANS_WITHHELD"
+  arm_means_released: false
+  releasable_outputs: ["PRIMARY_CONTRAST_DISPERSION", "FROZEN_FORMAL_TRUTH_SEED_COUNT"]
+  pilot_data_barred_from_formal_analysis: true
+fairness_audit:
+  nonidentity_audit_required: true
+  realized_compute_audit_required: true
+  matched_parameter_label_permitted: false
+  matched_compute_label_permitted: false
+stop_rules:
+  inadequate_precision: "STOP_NO_GPU_NO_ARCHITECTURE_VERDICT"
+  matching_audit_failure: "STOP_NO_GPU_MATCHED_LABELS_FORBIDDEN"
+  precise_and_no_benefit: "CLOSE_V7_GRASSMANN_PRIMARY_ROUTE"
+boundaries:
+  a3_scaling_authorized: false
+  hapnest_authorized: false
+  hgdp_access: "FORBIDDEN"
+  phenotype_claim_permitted: false
+  biological_long_range_claim_permitted: false
+next_authorized_stage: "IMPLEMENT_V7_7_4_CPU_BLINDED_VARIANCE_PILOT_NO_GPU"

@@ -1,0 +1,17 @@
+decision_id	decision	status
+V773-D01	Preserve v7.6.4 audit v7.7.0 contract v7.7.1 harness and v7.7.2 execution as immutable sources	FROZEN
+V773-D02	Require v7.7.2 status LONG_RANGE_TASK_VALIDITY_PASS with gpu_used false and grassmann_fitted false as the only valid source	FROZEN
+V773-D03	Treat task validity as a synthetic mechanism property and not a Grassmann or biological success	FROZEN
+V773-D04	Fix the complete 2x2 factorial crossing Grassmann presence with shared global router presence	FROZEN
+V773-D05	Define the shared global router as a full-sequence conventional model not handed the source positions	FROZEN
+V773-D06	Require the router implementation receptive field inputs schedule and data identical across router-present arms	FROZEN
+V773-D07	Use NLL(LR_A01) minus NLL(LR_A11) as the primary router-conditional incremental Grassmann contrast	FROZEN
+V773-D08	Require paired one-sided 95 percent LCB strictly above 0.010 nats per target plus validity shuffled and fairness for future GO	FROZEN
+V773-D09	Treat Grassmann main effect and Grassmann-by-router interaction as secondary estimands that cannot override the primary	FROZEN
+V773-D10	Forbid matched-parameter and matched-compute labels until a non-identity and a realized-compute audit pass	FROZEN
+V773-D11	Use synthetic truth seed as the repeat unit and average nested initialization seeds within it	FROZEN
+V773-D12	Freeze the formal truth-seed count only from a blinded CPU planning-only variance pilot that withholds arm means	FROZEN
+V773-D13	Bar all pilot data from the formal analysis and forbid result-dependent design selection	FROZEN
+V773-D14	Close the v7 Grassmann-primary route if a precise preregistered comparison shows no practical benefit	FROZEN
+V773-D15	Forbid GPU Grassmann training A3 HAPNEST HGDP phenotype and biological long-range claims in this release	FROZEN
+V773-D16	Authorize only implementing the v7.7.4 CPU blinded variance pilot without GPU	FROZEN

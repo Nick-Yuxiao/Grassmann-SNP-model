@@ -1,0 +1,73 @@
+schema_version: "1.0"
+protocol_version: "v7.8.0"
+stage: "LONG_RANGE_GRASSMANN_SEPARATION_PREREGISTRATION"
+track: "AFFIRMATIVE_A1_SEPARATION_PARALLEL_TO_V7_7_8_DIFFICULTY"
+source_protocol: "v7.7.7"
+source_required_status: "LONG_RANGE_DIFFICULTY_REPLAN_CONTRACT_SIGNED_NO_LAUNCH"
+source_results_immutable: true
+gpu_authorized: false
+gpu_gated: true
+grassmann_fitted: false
+pilot_execution_authorized: false
+architecture_decision_permitted: false
+a3_scaling_authorized: false
+hapnest_authorized: false
+hgdp_access: "FORBIDDEN"
+phenotype_claim_permitted: false
+biological_long_range_claim_permitted: false
+registered_a1r_decision_preserved: "A1R_LD_REGIME_DEPENDENT"
+estimand:
+  name: "SEPARATION"
+  definition: "NLL_conv_best_minus_NLL_grassmann"
+  positive_favors: "GRASSMANN"
+  distinct_from_v7_7_0_incremental_contrast: true
+  lr1_required: false
+conventional_suite:
+  families: ["attention", "state_space", "dilated_conv", "mlp_mixer"]
+  each_trained_to_convergence: true
+  budget_relative_to_grassmann: "GREATER_OR_EQUAL_PARAM_AND_REALIZED_COMPUTE"
+  not_a_strawman: true
+task_family:
+  motivated_a_priori_by: "GENOTYPE_LD_LOW_RANK_HAPLOTYPE_SUBSPACE_GEOMETRY"
+  reverse_engineered_from_grassmann: false
+  frozen_before_any_grassmann_run: true
+validity:
+  lr0_margin_nats: 0.010
+  lr0_rule: "PAIRED_TWO_SIDED_90_CI_WHOLLY_INSIDE_PLUS_MINUS_0.010"
+  oracle_min_improvement_nats: 0.050
+  oracle_rule: "PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.050"
+  target_shuffled_margin_nats: 0.010
+  target_shuffled_rule: "PAIRED_TWO_SIDED_90_CI_WHOLLY_INSIDE_PLUS_MINUS_0.010"
+  lr1_required: false
+primary_separation_go:
+  conventional_fails_rule: "NLL_conv_best_MINUS_NLL_local_PAIRED_TWO_SIDED_90_CI_WHOLLY_INSIDE_PLUS_MINUS_0.010"
+  grassmann_solves_rule: "NLL_local_MINUS_NLL_grassmann_PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.050"
+  grassmann_reaches_oracle_rule: "PER_SEED_NLL_grassmann_MINUS_NLL_oracle_LE_0.050"
+  seed_stable_required: true
+secondary_separation_signal:
+  rule: "S_PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.050"
+  can_override_primary: false
+fairness_audit:
+  matched_parameter_audit_required: true
+  matched_compute_audit_required: true
+  realized_compute_audit_required: true
+  conventional_convergence_compute_sufficiency_audit_required: true
+  nonidentity_audit_required: true
+  matched_parameter_label_permitted: false
+  matched_compute_label_permitted: false
+replication:
+  repeat_unit: "SYNTHETIC_TRUTH_SEED"
+  truth_seeds: [78001, 78002, 78003, 78004, 78005, 78006]
+  init_seeds_nested_and_averaged: true
+  effective_n: 6
+blinding:
+  grassmann_arm_means_withheld_until_validity_and_fairness_locked: true
+  pilot_data_barred_from_formal_analysis: true
+  result_dependent_selection_permitted: false
+gpu_gate:
+  authorize_gpu_only_if: "CPU_FIRST_PRIMARY_SEPARATION_GO_WITH_ALL_FAIRNESS_AND_CONTROLS_PASS"
+  gpu_authorized_here: false
+route_closure_branch:
+  trigger: "NO_SEPARATION_UNDER_FAIR_CONVERGED_CONVENTIONAL_SUITE_AT_CPU_PROXY"
+  action: "CLOSE_V7_GRASSMANN_PRIMARY_ROUTE_NO_TASK_EXPANSION_NO_GPU"
+next_authorized_stage: "IMPLEMENT_V7_8_1_CPU_GRASSMANN_SEPARATION_HARNESS_NO_LAUNCH"

@@ -1,0 +1,15 @@
+decision_id	state	decision	constraint	status
+V780-001	FROZEN	open an affirmative separation track distinct from the v7.7.0 incremental contrast	separation estimand does not require LR1	PASS
+V780-002	FROZEN	require an immutable v7.7.7 re-plan contract as the source	gpu false grassmann false	PASS
+V780-003	FROZEN	define separation as NLL_conv_best minus NLL_grassmann	positive favors Grassmann	PASS
+V780-004	FROZEN	conventional comparator is a fair converged suite of four families	param and realized compute >= Grassmann; not a strawman	PASS
+V780-005	FROZEN	require a convergence and compute-sufficiency audit on every conventional arm	failure must be intrinsic not under-training	PASS
+V780-006	FROZEN	task family motivated a priori by LD low-rank haplotype subspace geometry	frozen before any Grassmann run; not reverse-engineered from Grassmann	PASS
+V780-007	FROZEN	primary GO requires conventional equivalent to local and Grassmann reaching oracle	seed-stable with paired confidence intervals	PASS
+V780-008	FROZEN	keep oracle local-insufficiency and target-shuffled controls	LR1 deliberately not required	PASS
+V780-009	FROZEN	blind Grassmann arm means until validity and fairness are locked	bar pilot data and forbid result-dependent selection	PASS
+V780-010	FROZEN	forbid matched-parameter and matched-compute labels until audits pass	non-identity and realized-compute audits required	PASS
+V780-011	FROZEN	authorize GPU only if the CPU-first primary separation GO passes	no GPU in this release	PASS
+V780-012	FROZEN	if no separation under a fair converged conventional suite close the v7 route	no task expansion no GPU	PASS
+V780-013	FROZEN	forbid A3 HAPNEST HGDP phenotype and biological claims	CPU-first pre-registration only	PASS
+V780-014	FROZEN	authorize only implementing the v7.8.1 CPU separation harness without launch	requires a CPU-runnable Grassmann module	PASS

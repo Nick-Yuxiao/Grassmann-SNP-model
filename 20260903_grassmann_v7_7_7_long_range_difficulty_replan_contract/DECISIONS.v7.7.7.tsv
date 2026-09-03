@@ -1,0 +1,13 @@
+decision_id	state	decision	constraint	status
+V777-001	FROZEN	require v7.7.6 UNRESOLVED with selected_k null as the only valid source	gpu_used false and grassmann_fitted false	PASS
+V777-002	FROZEN	conventional baseline must not be handed the source positions	must retrieve over the full reduced-proxy sequence	PASS
+V777-003	FROZEN	carry the informative bit in the marker token	so the retrieval baseline can in principle read it	PASS
+V777-004	FROZEN	baseline must be fairly and adequately trained	under-trained-baseline headroom is illegitimate and forbidden	PASS
+V777-005	FROZEN	corridor requires LR0 LR1 headroom and shuffled to pass on the same seeds	per-seed headroom min >= 0.020 and seed-stable	PASS
+V777-006	FROZEN	select difficulty only from a pre-declared grid using baseline and oracle only	Grassmann never implemented fitted or consulted in selection	PASS
+V777-007	FROZEN	matched-parameter and matched-compute labels forbidden until audits pass	non-identity and realized-compute audits required	PASS
+V777-008	FROZEN	bar all re-plan and pilot data from later formal analysis	no result-dependent design selection	PASS
+V777-009	FROZEN	record that a fair conventional baseline is bimodal on these distal tasks	solves it or fails to beat local with only an unstable sliver between	PASS
+V777-010	FROZEN	if no fair seed-stable corridor config exists close the v7 Grassmann-primary route	do not expand the task search after seeing controls	PASS
+V777-011	FROZEN	forbid GPU Grassmann training A3 HAPNEST HGDP phenotype and biological claims	CPU planning-only	PASS
+V777-012	FROZEN	authorize only implementing the v7.7.8 re-plan harness without launch	no pilot no GPU	PASS

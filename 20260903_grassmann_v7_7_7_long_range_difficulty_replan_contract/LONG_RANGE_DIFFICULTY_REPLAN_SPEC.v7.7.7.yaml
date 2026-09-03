@@ -1,0 +1,54 @@
+schema_version: "1.0"
+protocol_version: "v7.7.7"
+stage: "LONG_RANGE_TASK_DIFFICULTY_REPLAN_CONTRACT"
+source_protocol: "v7.7.6"
+source_required_status: "LONG_RANGE_TASK_DIFFICULTY_UNRESOLVED"
+source_required_selected_k: null
+source_results_immutable: true
+gpu_authorized: false
+grassmann_fitted: false
+pilot_execution_authorized: false
+architecture_decision_permitted: false
+a3_scaling_authorized: false
+biological_long_range_claim_permitted: false
+registered_a1r_decision_preserved: "A1R_LD_REGIME_DEPENDENT"
+replan_requirements:
+  baseline_handed_source_positions: false
+  bit_carried_in_marker_token: true
+  baseline_fairly_and_adequately_trained: true
+  undertrained_baseline_headroom_forbidden: true
+corridor:
+  lr0_local_equivalence_margin_nats: 0.010
+  lr0_rule: "PAIRED_TWO_SIDED_90_CI_WHOLLY_INSIDE_PLUS_MINUS_0.010"
+  lr1_global_min_improvement_nats: 0.010
+  lr1_rule: "PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.010"
+  headroom_per_truth_seed_min_nats: 0.020
+  headroom_rule: "PER_SEED_MIN_GE_0.020_AND_PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.010"
+  target_shuffled_margin_nats: 0.010
+  target_shuffled_rule: "PAIRED_TWO_SIDED_90_CI_WHOLLY_INSIDE_PLUS_MINUS_0.010"
+  seed_stable_required: true
+predeclared_search_grid:
+  label_function_family: ["parity", "majority_threshold", "weighted_threshold", "noisy_threshold"]
+  retrieval_geometry: ["random_positions_in_token_marker"]
+  distractor_levels: ["none", "moderate", "high"]
+  baseline_budget_levels: ["fixed_fair_low", "fixed_fair_high"]
+  selection_rule: "SMALLEST_DIFFICULTY_SEED_STABLE_CORRIDOR_ELIGIBLE_CONFIG"
+  selection_inputs: ["conventional_baseline", "oracle"]
+  grassmann_consulted_in_selection: false
+fairness_audit:
+  nonidentity_audit_required: true
+  realized_compute_audit_required: true
+  matched_parameter_label_permitted: false
+  matched_compute_label_permitted: false
+blinding:
+  replan_data_barred_from_formal_analysis: true
+feasibility_findings_summary:
+  positions_handed_parity: "BASELINE_SOLVES_HEADROOM_ZERO"
+  random_positions_majority: "BASELINE_SOLVES_HEADROOM_ZERO"
+  random_positions_parity_small_k: "PARTIAL_BUT_SEED_BIMODAL_SHUFFLED_FAILS"
+  random_positions_parity_large_k: "BASELINE_CANNOT_BEAT_LOCAL_LR1_FAILS"
+  structural_conclusion: "FAIR_BASELINE_IS_BIMODAL_CORRIDOR_NARROW"
+route_closure_branch:
+  trigger: "NO_FAIR_SEED_STABLE_CORRIDOR_CONFIG_IN_PREDECLARED_GRID"
+  action: "CLOSE_V7_GRASSMANN_PRIMARY_ROUTE_NO_TASK_EXPANSION"
+next_authorized_stage: "IMPLEMENT_V7_7_8_LONG_RANGE_DIFFICULTY_REPLAN_HARNESS_NO_LAUNCH"

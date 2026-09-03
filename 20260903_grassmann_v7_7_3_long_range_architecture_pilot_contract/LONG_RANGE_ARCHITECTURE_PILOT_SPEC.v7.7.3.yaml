@@ -1,0 +1,36 @@
+schema_version: "1.0"
+protocol_version: "v7.7.3"
+stage: "LONG_RANGE_ARCHITECTURE_PILOT_CONTRACT"
+source_protocol: "v7.7.2"
+source_required_status: "LONG_RANGE_TASK_VALIDITY_PASS"
+source_results_immutable: true
+gpu_authorized: false
+pilot_execution_authorized: false
+architecture_decision_permitted: false
+a3_scaling_authorized: false
+biological_long_range_claim_permitted: false
+task_family: "BALANCED_DISTAL_XOR"
+repeat_unit: "SYNTHETIC_TRUTH_SEED"
+pilot_truth_seeds: [77301, 77302, 77303, 77304, 77305, 77306]
+init_seeds_nested_within_truth_seed: [87401, 87402]
+effective_n: 6
+pilot_execution_cells: 48
+factorial:
+  factors:
+    global_router: [absent, present]
+    grassmann_component: [absent, present]
+  cells:
+    R0_LOCAL: {global_router: absent, grassmann_component: absent, role: "diagnostic"}
+    R1_ROUTER: {global_router: present, grassmann_component: absent, role: "primary_comparator"}
+    R2_GRASSMANN_ONLY: {global_router: absent, grassmann_component: present, role: "diagnostic"}
+    R3_ROUTER_GRASSMANN: {global_router: present, grassmann_component: present, role: "primary_target"}
+primary_future_contrast: "NLL(R1_ROUTER)-NLL(R3_ROUTER_GRASSMANN)"
+practical_margin_nats_per_target: 0.010
+future_go_rule: "PAIRED_ONE_SIDED_95_LCB_STRICTLY_GT_0.010_WITH_VALIDITY_FAIRNESS_AND_SHUFFLED_CONTROLS_PASS"
+blinding:
+  release_pilot_arm_means: false
+  release_pilot_rankings: false
+  release_pilot_p_values: false
+  release_pilot_go_no_go: false
+  permitted_pilot_outputs: ["paired_dispersion", "parameter_counts", "compute_profiles", "control_integrity"]
+next_authorized_stage: "IMPLEMENT_V7_7_4_LONG_RANGE_PILOT_HARNESS_NO_LAUNCH"

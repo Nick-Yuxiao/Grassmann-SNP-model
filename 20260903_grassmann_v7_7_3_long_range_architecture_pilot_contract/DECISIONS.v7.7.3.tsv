@@ -1,0 +1,6 @@
+decision_id	state	decision	constraint	status
+V773-001	FROZEN	primary contrast is router-only minus router-plus-Grassmann	positive favors added Grassmann conditional on same global router	PASS
+V773-002	FROZEN	independent unit is synthetic truth seed	init seeds are nested and averaged; effective n=6 for pilot	PASS
+V773-003	FROZEN	v7.7.2 seeds are excluded from pilot/formal analysis	no reuse of truth seeds 77201-77205	PASS
+V773-004	FROZEN	pilot releases no arm means/rankings/decision	pilot supports planning, fairness and dispersion only	PASS
+V773-005	FROZEN	GPU and pilot execution remain unauthorized	implementation-only next stage	PASS

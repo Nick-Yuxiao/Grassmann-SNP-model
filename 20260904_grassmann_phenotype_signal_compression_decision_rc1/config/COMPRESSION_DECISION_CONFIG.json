@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "package": "20260904_grassmann_phenotype_signal_compression_decision_rc1",
+  "classification": "DESIGN_ONLY_RUN_NOT_AUTHORIZED",
+  "compression_objective": "unsupervised_reconstruction",
+  "correct_linear_null": "block_pca",
+  "correct_linear_null_rationale": "Under a reconstruction (variance-maximizing) objective the top-k subspace of a linear encoder is the block PCA subspace; a near-linear nonlinear encoder therefore degenerates to block PCA, so block PCA is the exact linear ceiling the test arm must beat. A supervised (phenotype-aware) null such as block-PLS is NOT used here and would be the wrong null for this objective.",
+
+  "seed_base": 904000000,
+  "seed_namespace_note": "disjoint from v6.1 (629e6) and from any v7 GPU/A1-R seed block",
+
+  "representation_dim_grid_k": [1, 2, 4, 8, 16, 32, 64],
+  "k_capped_by_block_snp_count": true,
+
+  "arms": {
+    "A_test_primary": {
+      "name": "nonlinear_reconstruction_topk",
+      "method": "kernel_pca_rbf_topk",
+      "why_primary": "fully closed-form given a frozen bandwidth; no SGD nondeterminism; needs no Transformer and no GPU; isolates whether nonlinear spectral compression has headroom over the linear reconstruction optimum",
+      "bandwidth_selection": "median_heuristic_on_training_folds_only"
+    },
+    "A_test_secondary": {
+      "name": "shallow_block_autoencoder_topk",
+      "method": "single_hidden_layer_autoencoder_bottleneck_k",
+      "role": "robustness_only_not_primary_decision",
+      "note": "trained per block on training folds only; CPU; still not a Transformer"
+    },
+    "B_pca": {
+      "name": "block_pca_topk",
+      "role": "PRIMARY_LINEAR_NULL"
+    },
+    "B_rand_proj": {
+      "name": "gaussian_random_projection_dim_k",
+      "role": "trivial_lower_reference"
+    },
+    "B_rand_bilinear": {
+      "name": "random_bilinear_quadratic_features_dim_k",
+      "role": "REINSTATED_ABLATION_geometry_vs_generic_nonlinearity",
+      "note": "isolates whether the Grassmann geometry did anything beyond adding a same-dim quadratic feature"
+    },
+    "B_ldprune": {
+      "name": "ld_pruned_snp_subset_count_matched_to_k",
+      "role": "naive_snp_selection_reference"
+    },
+    "B_blockmean": {
+      "name": "block_mean_and_simple_haplotype_dosage",
+      "role": "floor_reference"
+    }
+  },
+
+  "downstream": {
+    "continuous_trait_model": "ridge_regression",
+    "binary_trait_model": "logistic_regression",
+    "penalty_selection": "inner_cv_on_training_folds_only",
+    "outer_cv_folds": 5,
+    "inner_cv_folds": 5,
+    "cv_is_nested": true,
+    "metrics": ["r2", "auc"],
+    "report": "metric_vs_k_curve_per_trait_and_aggregated"
+  },
+
+  "phenotype_simulator": {
+    "why_simulated": "the frozen panel is 1KGP genotypes with no rich real phenotypes; all phenotype-signal readouts are therefore on simulated traits with a KNOWN genetic architecture",
+    "ld_source": "empirical_LD_from_the_frozen_v7_chr22_panel",
+    "polygenic_background": true,
+    "known_causal_positions": true,
+    "heritability_grid_h2": [0.05, 0.1, 0.2, 0.4],
+    "causal_regime": ["within_block", "between_block"],
+    "traits_per_regime": 20,
+    "unifies": "the metric-vs-k curve and the causal-retention curve are two readouts of the SAME simulated runs"
+  },
+
+  "causal_retention": {
+    "definition": "fraction of injected causal variance recoverable by the frozen downstream linear model from the k-dim representation, relative to the full-genotype ceiling",
+    "report_separately": ["within_block", "between_block"],
+    "between_block_is_the_only_direct_evidence_of": "LD-preserving / long-range compression"
+  },
+
+  "kill_criteria": {
+    "primary_stage_1_2_kill": "if A_test_primary does not beat B_pca at matched k across the trait panel in BOTH within-block and between-block regimes, by a margin whose CV-based uncertainty interval excludes zero, then Stage 1 (spectral compression) + Stage 2 (Grassmann mixing) have no reason to exist",
+    "geometry_specificity_kill": "if A_test_primary beats B_pca but does not beat B_rand_bilinear by the same standard, the win is a generic quadratic feature and the Grassmann-specific claim fails even if nonlinearity helps",
+    "margin_and_uncertainty": "pre-registered; margin threshold and CV-fold uncertainty rule frozen before any run"
+  },
+
+  "pre_run_gates": [
+    "fix_and_verify_the_previously_flagged_centering_defect_before_any_run",
+    "bind_data_contract_to_the_frozen_v7_chr22_panel_manifest_hash",
+    "freeze_margin_and_uncertainty_rule",
+    "obtain_project-lead_run_authorization"
+  ],
+
+  "does_not_authorize": [
+    "any_run_execution_this_package_is_design_only",
+    "training_any_transformer",
+    "phenotype_gating",
+    "gpu_or_v7_a1r_work",
+    "real_phenotype_prediction_claim",
+    "architecture_go_no_go_beyond_the_stated_kill_logic",
+    "reading_hgdp_holdout"
+  ]
+}

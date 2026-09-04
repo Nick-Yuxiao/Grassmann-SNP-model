@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Reinstated shared data contract (a previously frozen conclusion that was silently dropped). Every arm MUST see identical inputs, blocks, splits, folds, and traits; otherwise the compression comparison is not attributable.",
+  "shared_snp_set": {
+    "source": "frozen v7 chr22 donor-only panel",
+    "length_sites": 154850,
+    "maf_filter": "donor-only MAF>0.01",
+    "coordinate_rule": "exact CHROM:POS:REF:ALT; duplicate-position groups removed; 22<->chr22 alias only",
+    "must_not": "adjust MAF or truncate to hit a power of two or the SNPBag 81920"
+  },
+  "block_version": {
+    "definition": "LD blocks over the frozen chr22 panel",
+    "must_be": "identical block boundaries and identical block version id across all arms",
+    "binding": "block version id and its hash to be fixed at run-authorization time"
+  },
+  "split": {
+    "donor_train": 2247,
+    "donor_validation": 249,
+    "cv": "outer 5-fold nested CV drawn once and shared byte-identically across all arms and all k",
+    "hgdp": "forbidden for this experiment (decision holdout untouched)"
+  },
+  "trait_panel": {
+    "kind": "simulated (no real phenotypes exist for this panel)",
+    "shared": "identical simulated trait matrix across all arms; arms differ only in the representation, never in the labels or folds",
+    "regimes": ["within_block", "between_block"],
+    "h2_grid": [0.05, 0.1, 0.2, 0.4]
+  },
+  "binding_status": {
+    "frozen_v7_panel_manifest_sha256": "TO_BE_BOUND_AT_RUN_AUTHORIZATION",
+    "block_version_sha256": "TO_BE_BOUND_AT_RUN_AUTHORIZATION",
+    "note": "these hashes are intentionally unbound in this design-only package; binding them is a pre-run gate"
+  },
+  "real_data_extension": {
+    "status": "out_of_scope_here",
+    "requires": "a new prospective data contract for an external panel with real phenotypes (e.g. a biobank); not authorized by this package"
+  }
+}

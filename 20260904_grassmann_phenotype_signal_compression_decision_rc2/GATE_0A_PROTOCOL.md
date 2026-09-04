@@ -37,18 +37,24 @@ The objective under test is unsupervised reconstruction. PCA is the linear **rec
 
 Per-block `k` yields total dimension `D_total(k) = Σ_b min(k, m_b)`, not `k`. The decision axis is **total representation budget** and compression ratio; per-block `k` is reported alongside. Primary budget points are per-block `k ∈ {8, 16}` (fixed in advance to avoid `argmax_k` selection bias); the grid `{1,2,4,8,16,32,64}` is exploratory.
 
-## 🧬 DGP regimes (decided separately)
+## 🧬 DGP regimes (seven, in three tiers, decided separately)
 
-Six pre-registered regimes (`config/DGP_REGIMES.json`), quantitative traits only, `h² ∈ {0.05,0.1,0.2,0.4}`, each with a polygenic background:
+Pre-registered (`config/DGP_REGIMES.json`), quantitative traits only, `h² ∈ {0.05,0.1,0.2,0.4}`, each with a polygenic background:
 
-1. `major_LD_aligned` — additive, causal on leading-PC/strong-LD SNPs (PCA-favorable).
-2. `spectral_tail` — additive, causal in the low-variance tail (**adversarial; the primary decision regime**).
-3. `low_MAF` — additive, causal on low-MAF variants.
-4. `within_block_interaction` — `γ·G_i·G_j` inside a block; matched interaction head.
+**Tier A — primary mechanistic stress**
+1. `spectral_tail_adversarial` — additive, causal in the low-variance tail (top genotype variance carries little/no causal signal). **This regime gates the verdict.**
+
+**Tier B — additive controls**
+2. `major_LD_aligned` — causal on leading-PC/strong-LD SNPs (PCA-favorable).
+3. `low_MAF_additive` — causal on low-MAF variants.
+4. `within_block_additive` — additive effects inside a block.
 5. `between_block_additive` — `β_A G_A + β_B G_B` across distant blocks; **distributed polygenic, NOT long-range interaction**.
-6. `between_block_interaction` — `γ·G_A·G_B` across distant blocks; **the true long-range test**; matched interaction head.
 
-For interaction regimes the downstream is ridge on the degree-2 polynomial expansion of the representation, applied **identically to every arm** — a linear ridge cannot read an interaction out of any representation, so an interaction-capable head is mandatory, and being identical across arms it cannot advantage one. A representation that discarded the interacting factors fails here, which is the intended signal.
+**Tier C — interaction stress**
+6. `within_block_interaction` — `γ·G_i·G_j` inside a block; matched bilinear head.
+7. `between_block_interaction` — `γ·G_A·G_B` across distant blocks; **the true long-range test**; matched bilinear head.
+
+**Matched interaction head (primary = explicit bilinear).** For interaction regimes the downstream is ridge on the Kronecker cross-product `z_A ⊗ z_B` (cross-block products only), applied **identically to every arm**. This is still a convex linear ridge since `z_Aᵀ W z_B = vec(W)ᵀ (z_B ⊗ z_A)`, and it adds *only* the between-block product terms — it excludes `z_A²`, `z_B²`, and within-block quadratics, so a positive result is attributable to between-block interaction rather than an incidental within-block quadratic (e.g. `k_A=k_B=16` → 256 cross-features). A representation that discarded the interacting factors fails here, which is the intended signal. The full degree-2 polynomial ridge is retained as **robustness only**.
 
 ## 📊 Metrics
 
@@ -60,13 +66,21 @@ For interaction regimes the downstream is ridge on the degree-2 polynomial expan
 
 The inferential unit is the **simulation replicate (seed)**, not the CV fold. Per replicate `r`, `Δ_r = R²_genetic(A_test, r) − R²_genetic(B_pca_z, r)`; the 95% CI is a percentile bootstrap over replicates (10,000 resamples). CV folds are used only for penalty selection and fitting.
 
-## 🔪 Kill criterion (Gate 0A only)
+## 🔪 Decision (per-regime criterion + three-way verdict)
 
-Within **each** pre-registered DGP regime **separately**, at the primary budget points, if `A_test`'s paired-mean `Δ R²_genetic` vs `B_pca_z` has a replicate-bootstrap 95% CI that does **not** exclude zero, then unsupervised nonlinear compression has no headroom **in that regime**.
+**Margins are fixed a priori.** Primary practical margin `Δ R²_genetic = 0.005`; sensitivity margins `{0.002, 0.010}`. The detectability gate does **not** choose the margin from results — it only fixes the replicate count `R` needed to reach ≥0.90 power at the fixed 0.005 (if underpowered, raise `R`, never lower the margin).
+
+**Per-regime criterion.** Within **each** regime **separately**, at the primary budget points, `A_test` passes iff its paired-mean `Δ R²_genetic` vs `B_pca_z` has a replicate-bootstrap 95% CI whose lower bound exceeds 0 at the 0.005 margin.
 
 > The paired-mean criterion is evaluated separately within each pre-registered DGP regime; no pooled cross-regime average is used for the primary decision.
 
-Program implication: if `A_test` fails even the `spectral_tail` and `between_block_interaction` regimes, the unsupervised spectral-compression premise is wrong and the unsupervised path to Stage 1/2 stops; regimes where it passes define the headroom carried to Gate 0B. There is **no** Grassmann kill and **no** blanket "Stage 1+2 don't exist" kill in this gate.
+**Three-way verdict, gated by `spectral_tail_adversarial`:**
+
+- **FAIL** — under `spectral_tail` the nonlinear representation does not improve over PCA and cannot better preserve `g`.
+- **REGIME_DEPENDENT** — `A_test` passes only easy regimes (major-LD / additive controls) but **fails** `spectral_tail`.
+- **HEADROOM_SUPPORTED** — **only** if `spectral_tail` (the primary stress) also shows the pre-registered positive margin may Gate 0A advance to Gate 0B.
+
+A positive cross-regime average must never override a `spectral_tail` failure — the adversarial regime gates the verdict. There is **no** Grassmann kill and **no** blanket "Stage 1+2 don't exist" kill in this gate.
 
 ## 💰 Cost axis (restored)
 
@@ -76,7 +90,7 @@ Record bytes/sample, peak memory, encode time, downstream fit/predict time, and 
 
 1. Fix and verify **centering AND standardization** using training-fold stats only — an uncentered or unscaled PCA null is not a valid comparator.
 2. Bind the data-contract hashes (`DATA_CONTRACT.json`).
-3. Run the **detectability gate**: simulate known `Δ ∈ {0, 0.002, 0.005, 0.01}` and fix the margin and the replicate count so the design can actually separate them (20 seeds is likely underpowered at `h²=0.05, N≈2247`).
+3. Run the **detectability gate** (`20260904_grassmann_gate0a_detectability_rc1`): simulate known `Δ ∈ {0, 0.002, 0.005, 0.01}` across `R ∈ {20,50,100,200}` and fix the replicate count `R` that reaches ≥0.90 power at the fixed primary margin 0.005 while keeping the false-positive rate at `Δ=0` near 0.05 (20 seeds is likely underpowered at `h²=0.05, N≈2247`).
 4. Run a **compute smoke** (3 blocks × 2 `k` × 1 outer fold) to validate the one-machine/one-week claim, or pre-register the randomized-SVD / Nyström / Lanczos eigensolver fallback rather than switching algorithms mid-run.
 5. Obtain explicit project-lead run authorization; then write the run code.
 

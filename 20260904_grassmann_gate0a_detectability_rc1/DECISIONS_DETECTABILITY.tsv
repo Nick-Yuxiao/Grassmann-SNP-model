@@ -1,0 +1,7 @@
+decision_id	status	decision	primary_changing	evidence_role
+D70	FROZEN	Fix the replicate count R by requiring >=0.90 power at the FIXED primary margin 0.005; never choose the margin from results	YES	power_target
+D71	FROZEN	Mirror the exact Gate 0A decision procedure: replicate is the inferential unit; percentile bootstrap CI over replicates; declare positive headroom iff CI lower bound > 0	YES	procedure_fidelity
+D72	FROZEN	Simulate Delta in {0,0.002,0.005,0.010} to report false-positive rate at 0 alongside power; the one-sided operational FPR of a calibrated 95% CI is ~0.025	NO	false_positive_guard
+D73	FROZEN	Treat sigma the paired-R2_genetic replicate SD as a planning axis; tabulate over a sigma grid; a real-panel pilot must pin sigma before R is fixed for Gate 0A	YES	planning_axis
+D74	FROZEN	Classify all outputs PLANNING_PROXY; run is permitted because no real data is used but results are never formal Gate 0A evidence	NO	evidence_firewall
+D75	FROZEN	If no gridded R reaches 0.90 power at the pinned sigma increase R never lower the 0.005 margin	YES	underpowered_action

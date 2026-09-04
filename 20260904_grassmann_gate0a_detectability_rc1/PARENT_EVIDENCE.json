@@ -1,0 +1,9 @@
+{
+  "package": "20260904_grassmann_gate0a_detectability_rc1",
+  "parent_design": "20260904_grassmann_phenotype_signal_compression_decision_rc2",
+  "role": "pre-run gate 3 for Gate 0A: fix the replicate count R at the fixed primary margin 0.005",
+  "mirrors_decision_procedure_of": "Gate 0A per-regime paired-difference bootstrap criterion",
+  "real_data_used": false,
+  "formal_server_result_used": false,
+  "evidence_classification": "PLANNING_PROXY"
+}

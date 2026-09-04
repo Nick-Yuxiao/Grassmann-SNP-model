@@ -1,66 +1,98 @@
 {
-  "schema_version": "1.0",
-  "purpose": "Frozen data-generating-process regimes for Gate 0A. The result of a compression comparison is entirely determined by where causal signal sits relative to the genotype variance/LD spectrum, so the regime set is pre-registered before any run and each regime is decided SEPARATELY.",
+  "schema_version": "2.1",
+  "purpose": "Frozen data-generating-process regimes for Gate 0A, organized into three tiers. The result of a compression comparison is entirely determined by where causal signal sits relative to the genotype variance/LD spectrum, so the regime set is pre-registered before any run and each regime is decided SEPARATELY (no pooled cross-regime average).",
   "trait_type": "quantitative_only",
   "trait_model": "y = g + e ; h2 = Var(g) / (Var(g) + Var(e))",
   "genetic_value_available": "g is known by construction and is the primary decision target (see R2_genetic)",
   "h2_grid": [0.05, 0.1, 0.2, 0.4],
   "polygenic_background": "every regime carries a diffuse polygenic background in addition to its named causal component",
 
-  "primary_regimes": {
-    "major_LD_aligned": {
-      "kind": "additive",
-      "causal_placement": "SNPs loading heavily on the leading block PCs / strong LD directions",
-      "expectation": "PCA-favorable; a regime where linear reconstruction compression should look good",
-      "downstream": "ridge_on_representation"
+  "regime_tiers": {
+    "A_primary_mechanistic_stress": {
+      "spectral_tail_adversarial": {
+        "kind": "additive",
+        "causal_placement": "SNPs in the low-variance spectral tail, orthogonal to the leading block PCs; top genotype variance carries little/no causal signal",
+        "role": "THE PRIMARY DECISION REGIME. Unsupervised reconstruction optimizes genotype variance, which has no reason to align with trait-causal directions; this regime asks directly whether spectral compression discards phenotype signal while keeping LD",
+        "downstream": "ridge_on_representation",
+        "gates_the_verdict": true
+      }
     },
-    "spectral_tail": {
-      "kind": "additive",
-      "causal_placement": "SNPs in the low-variance spectral tail, orthogonal to the leading block PCs",
-      "expectation": "ADVERSARIAL and the PRIMARY decision regime: unsupervised reconstruction optimizes genotype variance, which has no reason to align with trait-causal directions; this regime asks directly whether spectral compression discards phenotype signal while keeping LD",
-      "downstream": "ridge_on_representation"
+    "B_additive_controls": {
+      "major_LD_aligned": {
+        "kind": "additive",
+        "causal_placement": "SNPs loading heavily on the leading block PCs / strong LD directions",
+        "role": "easy PCA-favorable control",
+        "downstream": "ridge_on_representation"
+      },
+      "low_MAF_additive": {
+        "kind": "additive",
+        "causal_placement": "low-MAF variants",
+        "role": "MAF-axis control; interacts with standardization choice",
+        "downstream": "ridge_on_representation"
+      },
+      "within_block_additive": {
+        "kind": "additive",
+        "causal_placement": "additive effects within a single block",
+        "role": "local additive control",
+        "downstream": "ridge_on_representation"
+      },
+      "between_block_additive": {
+        "kind": "additive",
+        "causal_model": "y = beta_A G_A + beta_B G_B for SNPs in distant blocks",
+        "role": "DISTRIBUTED POLYGENIC control, explicitly NOT long-range interaction; tests whether per-block compression loses additive signal spread across blocks",
+        "downstream": "ridge_on_representation",
+        "must_not_be_called": "long-range interaction evidence"
+      }
     },
-    "low_MAF": {
-      "kind": "additive",
-      "causal_placement": "low-MAF variants",
-      "expectation": "tests whether MAF standardization vs raw-centering changes what survives compression",
-      "downstream": "ridge_on_representation"
-    },
-    "within_block_interaction": {
-      "kind": "interaction",
-      "causal_model": "y includes gamma * G_i * G_j for SNP pairs inside one block, plus polygenic background",
-      "downstream": "MATCHED_interaction_head",
-      "note": "a linear ridge cannot read out an interaction from any representation; the interaction head is applied identically to every arm"
-    },
-    "between_block_additive": {
-      "kind": "additive",
-      "causal_model": "y = beta_A G_A + beta_B G_B for SNPs in distant blocks",
-      "expectation": "DISTRIBUTED POLYGENIC, explicitly NOT long-range interaction; tests whether per-block compression loses additive signal spread across blocks",
-      "downstream": "ridge_on_representation",
-      "must_not_be_called": "long-range interaction evidence"
-    },
-    "between_block_interaction": {
-      "kind": "interaction",
-      "causal_model": "y includes gamma * G_A * G_B across distant blocks, plus polygenic background",
-      "expectation": "the TRUE long-range test and the only regime that is direct evidence for cross-block (Grassmann-style) structure",
-      "downstream": "MATCHED_interaction_head"
+    "C_interaction_stress": {
+      "within_block_interaction": {
+        "kind": "interaction",
+        "causal_model": "y includes gamma * G_i * G_j for SNP pairs inside one block, plus polygenic background",
+        "downstream": "MATCHED_bilinear_head",
+        "note": "a linear ridge cannot read out an interaction from any representation; the bilinear head is applied identically to every arm"
+      },
+      "between_block_interaction": {
+        "kind": "interaction",
+        "causal_model": "y includes gamma * G_A * G_B across distant blocks, plus polygenic background",
+        "role": "the TRUE long-range test and the only regime that is direct evidence for cross-block (Grassmann-style) structure",
+        "downstream": "MATCHED_bilinear_head"
+      }
     }
   },
 
+  "all_regimes": [
+    "spectral_tail_adversarial",
+    "major_LD_aligned",
+    "low_MAF_additive",
+    "within_block_additive",
+    "between_block_additive",
+    "within_block_interaction",
+    "between_block_interaction"
+  ],
+
   "matched_interaction_head": {
-    "definition": "for interaction regimes the downstream is ridge on the degree-2 polynomial expansion of the k-dim representation (its coordinates plus all pairwise products), fit identically for every arm",
-    "rationale": "expressive enough to recover an interaction the representation preserved, and identical across arms so it cannot advantage one; a representation that discarded the interacting factors will fail here, which is the intended signal",
-    "dimension_cap": "pairwise-product dimension capped by the representation budget; recorded in the cost ledger"
+    "primary": {
+      "name": "bilinear_cross_product_ridge",
+      "definition": "features = z_A (x) z_B (Kronecker cross-product of the two block representations); ridge on those features. Because z_A^T W z_B = vec(W)^T (z_B (x) z_A), this is still a CONVEX linear ridge, just with cross-block product inputs.",
+      "why_primary": "adds ONLY the between-block product terms that are the thing to detect; excludes z_A^2, z_B^2 and within-block quadratics, so a positive result is attributable to between-block interaction rather than an incidental within-block quadratic",
+      "example_dim": "k_A=k_B=16 -> 16*16 = 256 cross-features",
+      "attribution": "all arms accept the identical cross-block bilinear readout; if a compression preserves interaction better, the difference comes from the representation, not the head"
+    },
+    "robustness": {
+      "name": "full_degree2_polynomial_ridge",
+      "definition": "ridge on the full degree-2 polynomial expansion phi_2([z_A, z_B]) (coordinates + all pairwise products including squares)",
+      "role": "robustness_only_not_primary"
+    },
+    "dimension_cap": "cross-product / polynomial dimension capped by the representation budget; recorded in the cost ledger"
   },
 
   "exploratory_regimes_secondary_only": {
-    "common_causal": "additive on common variants; MAF-axis companion to low_MAF",
+    "common_causal": "additive on common variants; MAF-axis companion to low_MAF_additive",
     "high_LD_vs_low_LD": "additive on high- vs low-LD SNPs; LD-axis sensitivity"
   },
 
   "traits_per_regime": {
     "value": "SET_BY_DETECTABILITY_GATE",
-    "provisional": 50,
-    "note": "the number of independent simulation replicates (seeds) per regime is fixed by the DETECTABILITY_GATE before the decision run; 20 is likely underpowered at h2=0.05, N~2247"
+    "note": "the number of independent simulation replicates R per regime is fixed by the detectability gate to reach >=0.90 power at the primary margin 0.005; 20 is likely underpowered at h2=0.05, N~2247"
   }
 }

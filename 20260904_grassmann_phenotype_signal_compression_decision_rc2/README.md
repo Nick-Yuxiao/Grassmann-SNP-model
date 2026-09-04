@@ -47,18 +47,24 @@ rc1 的主测试臂是 raw genotype 上的 RBF kernel-PCA——它**不是**你�
 
 per-block `k` 的总维是 `D_total(k)=Σ_b min(k,m_b)`,不是 `k`。判决横轴是 **total representation budget** 与压缩率,per-block `k` 并列报告。主预算点是 per-block `k∈{8,16}`(运行前定死,避免 `argmax_k` 选择偏差);`{1,2,4,8,16,32,64}` 为探索。
 
-## 🧬 六个 DGP regime(分开判)
+## 🧬 七个 DGP regime(三层,分开判)
 
 见 `config/DGP_REGIMES.json`,只做定量性状,`h²∈{0.05,0.1,0.2,0.4}`,各带多基因背景:
 
-1. `major_LD_aligned`——加性,因果在 leading-PC/强 LD(PCA 有利);
-2. `spectral_tail`——加性,因果在低方差谱尾(**对抗;主判决 regime**);
-3. `low_MAF`——加性,因果在低频变异;
-4. `within_block_interaction`——block 内 `γ·G_i·G_j`,匹配交互 head;
-5. `between_block_additive`——远 block `β_A G_A+β_B G_B`,**分布式多基因,非** long-range 交互;
-6. `between_block_interaction`——跨 block `γ·G_A·G_B`,**真正的 long-range 测试**,匹配交互 head。
+**A 层——主机制压力**
+1. `spectral_tail_adversarial`——因果在低方差谱尾(top 基因型方差几乎不带因果信号)。**这个 regime 门控整个判决。**
 
-交互 regime 的下游是对表示做二次多项式展开后的 ridge,**所有臂完全相同**——线性 ridge 读不出任何表示里的交互,所以必须给交互能力,且相同以免偏袒某臂。丢掉交互因子的表示会在这里失败,这正是想要的信号。
+**B 层——加性对照**
+2. `major_LD_aligned`——因果在 leading-PC/强 LD(PCA 有利);
+3. `low_MAF_additive`——因果在低频变异;
+4. `within_block_additive`——block 内加性;
+5. `between_block_additive`——远 block `β_A G_A+β_B G_B`,**分布式多基因,非** long-range 交互。
+
+**C 层——交互压力**
+6. `within_block_interaction`——block 内 `γ·G_i·G_j`,匹配双线性 head;
+7. `between_block_interaction`——跨 block `γ·G_A·G_B`,**真正的 long-range 测试**,匹配双线性 head。
+
+**匹配交互 head(主 = 显式双线性)。** 交互 regime 的下游是对 Kronecker 交叉积 `z_A⊗z_B`(仅跨 block 乘积项)做 ridge,**所有臂完全相同**。因为 `z_Aᵀ W z_B=vec(W)ᵀ(z_B⊗z_A)`,它仍是凸线性 ridge,且只加入需要检测的跨 block 乘积项——**排除** `z_A²`、`z_B²` 与 block 内二次项,所以正结果可归因于 between-block 交互而非顺带的 block 内二次项(如 `k_A=k_B=16`→256 个交叉特征)。丢掉交互因子的表示会在这里失败,这正是想要的信号。完整二次多项式 ridge 只作 robustness。
 
 ## 📊 指标
 
@@ -70,13 +76,21 @@ per-block `k` 的总维是 `D_total(k)=Σ_b min(k,m_b)`,不是 `k`。判决横�
 
 推断单元是**模拟 replicate(seed)**,不是 CV fold。每个 replicate `r`:`Δ_r=R²_genetic(A_test,r)−R²_genetic(B_pca_z,r)`;95% CI 用 replicate 上的 percentile bootstrap(10000 次)。CV fold 只用于惩罚项选择与拟合。
 
-## 🔪 kill 判据(仅 Gate 0A)
+## 🔪 判决(逐 regime 判据 + 三态裁决)
 
-在**每个** DGP regime **分别**、在主预算点上:若 `A_test` 对 `B_pca_z` 的 paired-mean `ΔR²_genetic` 的 replicate-bootstrap 95% CI **不排除零**,则该 regime 无非线性压缩 headroom。
+**margin 先验定死。** 主实用 margin `ΔR²_genetic=0.005`;敏感性 margin `{0.002,0.010}`。detectability gate **不**根据结果选 margin,只定死"在固定 0.005 下达到 ≥0.90 power 所需的 replicate 数 `R`"(不够就加 `R`,绝不降 margin)。
+
+**逐 regime 判据。** 在**每个** regime **分别**、主预算点上:`A_test` 通过当且仅当其对 `B_pca_z` 的 paired-mean `ΔR²_genetic` 的 replicate-bootstrap 95% CI 下界在 0.005 margin 下 `>0`。
 
 > The paired-mean criterion is evaluated separately within each pre-registered DGP regime; no pooled cross-regime average is used for the primary decision.
 
-程序含义:若连 `spectral_tail` 与 `between_block_interaction` 都失败,则无监督谱压缩前提错误,该路径停;通过的 regime 定义带往 Gate 0B 的 headroom。本 gate **没有** Grassmann kill,也**没有**笼统的"Stage 1+2 不存在"kill。
+**三态裁决,由 `spectral_tail_adversarial` 门控:**
+
+- **FAIL**——spectral_tail 下非线性表示相比 PCA 无改善、且不能更好保存 `g`;
+- **REGIME_DEPENDENT**——只在容易 regime(major-LD/加性对照)赢,却在 spectral_tail 失败;
+- **HEADROOM_SUPPORTED**——**只有** spectral_tail 这个主压力场景也出现预注册正 margin,才允许进 Gate 0B。
+
+跨 regime 的正平均绝不能盖过 spectral_tail 的失败——对抗 regime 门控裁决。本 gate **没有** Grassmann kill,也**没有**笼统的"Stage 1+2 不存在"kill。
 
 ## 💰 成本轴(恢复)
 
@@ -94,7 +108,7 @@ python scripts/validate_design_package.py
 
 1. 修好并验证**中心化与标准化**(仅用训练折统计量);
 2. 绑定数据契约 hash;
-3. 跑 **detectability gate** 定死 margin 与 replicate 数(h²=0.05、N≈2247 下 20 seeds 很可能不够);
+3. 跑 **detectability gate**(`20260904_grassmann_gate0a_detectability_rc1`)在固定主 margin 0.005 下定死 replicate 数 `R`,并确认 `Δ=0` 的假阳性率约 0.05(h²=0.05、N≈2247 下 20 seeds 很可能不够);
 4. 跑 compute smoke(3 block × 2 k × 1 fold),或预注册 randomized-SVD/Nyström/Lanczos 回退;
 5. 取得项目负责人运行授权——然后才写运行代码。
 

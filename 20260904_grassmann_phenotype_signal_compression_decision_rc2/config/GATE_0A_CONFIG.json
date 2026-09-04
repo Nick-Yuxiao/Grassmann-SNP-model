@@ -60,7 +60,8 @@
 
   "downstream": {
     "additive_regimes": "ridge_regression_on_representation",
-    "interaction_regimes": "ridge_on_degree2_polynomial_expansion_of_representation (matched interaction head, identical across arms)",
+    "interaction_regimes_primary": "bilinear_cross_product_ridge: ridge on z_A (x) z_B (Kronecker cross-features only), identical across arms; still convex since z_A^T W z_B = vec(W)^T (z_B (x) z_A); excludes within-block quadratics so a positive is attributable to between-block interaction",
+    "interaction_regimes_robustness": "full_degree2_polynomial_ridge on phi_2([z_A,z_B]) (robustness only)",
     "penalty_selection": "inner_cv_on_training_folds_only",
     "outer_cv_folds": 5,
     "inner_cv_folds": 5,
@@ -91,12 +92,25 @@
     "rationale": "avoids selection bias from picking argmax_k after seeing results"
   },
 
-  "kill_criterion": {
-    "gate_0A_headroom_kill_per_regime": "within EACH pre-registered DGP regime SEPARATELY, at the primary budget points, if A_test_primary's paired-mean Delta R2_genetic vs B_pca_z has a replicate-bootstrap 95% CI that does NOT exclude zero, then unsupervised nonlinear compression has no headroom in that regime",
-    "no_pooling_rule": "The paired-mean criterion is evaluated separately within each pre-registered DGP regime; no pooled cross-regime average is used for the primary decision.",
-    "program_implication": "if A_test fails even the spectral_tail and between_block_interaction regimes, the unsupervised spectral-compression premise is wrong and the unsupervised path to Stage 1/2 stops; regimes where it passes define the headroom carried forward to Gate 0B",
-    "removed_from_rc1": "the Grassmann geometry-specificity kill is DELETED: Gate 0A has no Grassmann arm and cannot decide Grassmann-specificity",
-    "margin": "Delta R2_genetic margin frozen by the DETECTABILITY_GATE before any run"
+  "margins": {
+    "primary_practical_margin": 0.005,
+    "sensitivity_margins": [0.002, 0.010],
+    "rule": "0.005 is the SINGLE primary margin and is fixed a priori; the detectability gate does NOT choose the margin from results. {0.002, 0.010} are sensitivity margins only.",
+    "detectability_decides": "how many simulation replicates R are needed to reach >=0.90 power at the fixed primary margin 0.005; if underpowered, increase R (never lower the margin)"
+  },
+
+  "per_regime_criterion": {
+    "test": "within EACH pre-registered DGP regime SEPARATELY, at the primary budget points, A_test_primary passes the regime iff its paired-mean Delta R2_genetic vs B_pca_z has a replicate-bootstrap 95% CI whose lower bound exceeds 0 (equivalently the CI excludes 0 on the positive side) at the primary margin 0.005",
+    "no_pooling_rule": "The paired-mean criterion is evaluated separately within each pre-registered DGP regime; no pooled cross-regime average is used for the primary decision."
+  },
+
+  "gate_0A_three_way_verdict": {
+    "gating_regime": "spectral_tail_adversarial",
+    "FAIL": "under spectral_tail the nonlinear representation does not improve over PCA and cannot better preserve g (regime not passed)",
+    "REGIME_DEPENDENT": "A_test passes only easy regimes (e.g. major_LD_aligned / additive controls) but FAILS spectral_tail",
+    "HEADROOM_SUPPORTED": "ONLY if spectral_tail (the primary stress) also shows the pre-registered positive margin is Gate 0A allowed to advance to Gate 0B",
+    "rationale": "a positive cross-regime average must never override a spectral_tail failure; the adversarial regime gates the verdict",
+    "removed_from_rc1": "the Grassmann geometry-specificity kill is DELETED: Gate 0A has no Grassmann arm and cannot decide Grassmann-specificity"
   },
 
   "cost_ledger": {
@@ -107,7 +121,7 @@
   "pre_run_gates": [
     "fix_and_verify_centering_AND_standardization_using_training_fold_stats_only",
     "bind_data_contract_to_frozen_v7_chr22_panel_and_block_version_hashes",
-    "run_DETECTABILITY_GATE_to_fix_margin_and_replicate_count",
+    "run_DETECTABILITY_GATE_to_fix_replicate_count_R_at_the_fixed_primary_margin_0.005 (package 20260904_grassmann_gate0a_detectability_rc1)",
     "run_compute_smoke_3blocks_x_2k_x_1fold_or_preregister_eigensolver_fallback",
     "obtain_project_lead_run_authorization"
   ],

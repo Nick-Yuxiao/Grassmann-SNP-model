@@ -32,12 +32,13 @@ REQUIRED_FILES = [
     "scripts/validate_design_package.py",
 ]
 
-PRIMARY_REGIMES = {
+ALL_REGIMES = {
+    "spectral_tail_adversarial",
     "major_LD_aligned",
-    "spectral_tail",
-    "low_MAF",
-    "within_block_interaction",
+    "low_MAF_additive",
+    "within_block_additive",
     "between_block_additive",
+    "within_block_interaction",
     "between_block_interaction",
 }
 
@@ -79,11 +80,28 @@ def check_config_consistency() -> None:
     if "R2_genetic" not in metrics.get("primary_decision_metric", ""):
         _fail("primary decision metric must be R2_genetic")
 
-    kill = cfg.get("kill_criterion", {})
-    if "geometry" in json.dumps(kill).lower() and "DELETE" not in json.dumps(kill):
-        _fail("the Grassmann geometry-specificity kill must be deleted at Gate 0A")
-    if "no_pooling_rule" not in kill:
+    margins = cfg.get("margins", {})
+    if margins.get("primary_practical_margin") != 0.005:
+        _fail("primary_practical_margin must be fixed at 0.005")
+    if sorted(margins.get("sensitivity_margins", [])) != [0.002, 0.010]:
+        _fail("sensitivity_margins must be {0.002, 0.010}")
+
+    crit = cfg.get("per_regime_criterion", {})
+    if "no_pooling_rule" not in crit:
         _fail("the no-pooling-across-regimes rule must be present")
+
+    verdict = cfg.get("gate_0A_three_way_verdict", {})
+    if verdict.get("gating_regime") != "spectral_tail_adversarial":
+        _fail("the three-way verdict must be gated by spectral_tail_adversarial")
+    for key in ("FAIL", "REGIME_DEPENDENT", "HEADROOM_SUPPORTED"):
+        if key not in verdict:
+            _fail(f"three-way verdict missing state: {key}")
+    if "geometry" in json.dumps(verdict).lower() and "DELETE" not in json.dumps(verdict):
+        _fail("the Grassmann geometry-specificity kill must be deleted at Gate 0A")
+
+    inter = cfg.get("downstream", {}).get("interaction_regimes_primary", "")
+    if "bilinear_cross_product_ridge" not in inter:
+        _fail("primary interaction head must be bilinear_cross_product_ridge")
 
     summary = cfg.get("primary_summary_across_k", {})
     if summary.get("rule") != "FIXED_BUDGET_POINTS":
@@ -100,12 +118,18 @@ def check_config_consistency() -> None:
 
 def check_dgp_regimes() -> None:
     regimes = json.loads((PKG / "config/DGP_REGIMES.json").read_text())
-    present = set(regimes.get("primary_regimes", {}).keys())
-    if present != PRIMARY_REGIMES:
-        _fail(f"primary DGP regimes mismatch: {sorted(present)}")
+    present = set(regimes.get("all_regimes", []))
+    if present != ALL_REGIMES:
+        _fail(f"DGP regimes mismatch: {sorted(present)}")
+    tiers = regimes.get("regime_tiers", {})
+    if "spectral_tail_adversarial" not in tiers.get("A_primary_mechanistic_stress", {}):
+        _fail("spectral_tail_adversarial must be in tier A (primary mechanistic stress)")
     if regimes.get("trait_type") != "quantitative_only":
         _fail("round 1 must be quantitative_only")
-    print("OK: six pre-registered DGP regimes present (quantitative only)")
+    head = regimes.get("matched_interaction_head", {}).get("primary", {}).get("name")
+    if head != "bilinear_cross_product_ridge":
+        _fail("matched interaction head primary must be bilinear_cross_product_ridge")
+    print("OK: seven pre-registered DGP regimes in three tiers (quantitative only)")
 
 
 def check_firewall_closed() -> None:

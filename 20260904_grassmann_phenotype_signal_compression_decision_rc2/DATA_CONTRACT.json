@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "purpose": "Shared data contract. Every arm sees byte-identical inputs, blocks, splits, folds, and simulated traits; arms differ ONLY in the representation. Otherwise the compression comparison is not attributable.",
+  "shared_snp_set": {
+    "source": "frozen v7 chr22 donor-only panel",
+    "length_sites": 154850,
+    "maf_filter": "donor-only MAF>0.01",
+    "coordinate_rule": "exact CHROM:POS:REF:ALT; duplicate-position groups removed; 22<->chr22 alias only",
+    "must_not": "adjust MAF or truncate to a power of two or the SNPBag 81920"
+  },
+  "block_version": {
+    "definition": "LD blocks over the frozen chr22 panel; identical boundaries and version id across all arms",
+    "records_per_block": "m_b recorded per block; needed for total-budget accounting D_total = sum_b min(k, m_b)",
+    "binding": "block version id and hash fixed at run-authorization time"
+  },
+  "split": {
+    "donor_train": 2247,
+    "donor_validation": 249,
+    "cv_population": "the outer 5-fold nested CV is over the 2247 donor-train ONLY; the 249 donor-validation is held out and is NOT touched by the sigma pilot or by Gate 0A cross-validation",
+    "cv": "outer 5-fold nested CV drawn once and shared byte-identically across all arms, all budgets, all regimes, and all simulation replicates; a replicate is one fixed genetic value g predicted across all folds",
+    "preprocessing_stats": "p, mean, sd (for both raw-centering and MAF-standardization) computed on the outer-training fold ONLY",
+    "hgdp": "forbidden for this experiment; decision holdout untouched"
+  },
+  "trait_panel": {
+    "kind": "simulated quantitative only (no real phenotypes exist for this panel; binary dropped from round 1)",
+    "shared": "identical simulated trait matrices across all arms per regime and seed; arms never differ in labels or folds",
+    "regimes": "see config/DGP_REGIMES.json",
+    "genetic_value_g": "stored per trait; it is the primary decision target via R2_genetic",
+    "replicates_per_regime": "fixed by the DETECTABILITY_GATE"
+  },
+  "binding_status": {
+    "authoritative_record": "BINDING.json",
+    "bind_with": "scripts/bind_data_contract.py (computes real SHA-256; never hand-typed or fabricated)",
+    "server_steps": "server_ops/SERVER_STEPS.binding.md",
+    "ordering": "steps 1-3 (bind panel hash -> bind block-version hash -> freeze/verify preprocessing) MUST complete (BINDING.json status == BOUND) BEFORE the sigma pilot is built against this contract or run",
+    "binding_excluded_from_manifest": "BINDING.json is intentionally NOT listed in MANIFEST.sha256 because it is mutable state (UNBOUND -> BOUND); binding the contract therefore does not invalidate the frozen-design manifest, and no manifest regeneration is needed after binding",
+    "note": "hashes are unbound in this design-only package; the frozen panel and block artifacts live on the server and are not present in this repo, so binding is performed where the data lives"
+  },
+  "real_data_extension": {
+    "status": "out_of_scope_here",
+    "requires": "a new prospective data contract for an external panel with real phenotypes; not authorized by this package"
+  }
+}

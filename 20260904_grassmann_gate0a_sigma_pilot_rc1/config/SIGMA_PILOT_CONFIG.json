@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "package": "20260904_grassmann_gate0a_sigma_pilot_rc1",
+  "classification": "VARIANCE_CALIBRATION_ONLY",
+  "parent_design": "20260904_grassmann_phenotype_signal_compression_decision_rc2",
+  "purpose": "Estimate the replicate-level SD of the paired Delta R2_genetic on the exact bound frozen contract, then map it to the Gate 0A replicate count R. Estimates variance ONLY; decides no winner.",
+
+  "requires_before_run": {
+    "binding_status": "BOUND",
+    "binding_record": "../20260904_grassmann_phenotype_signal_compression_decision_rc2/BINDING.json",
+    "note": "run is refused unless BINDING.json status == BOUND and the exported panel matches the contract"
+  },
+
+  "estimand": "SD(Delta_r), Delta_r = R2_genetic(A_test=kpca_rbf) - R2_genetic(B_pca_z), per (regime, k) cell",
+  "primary_metric_is_heritability_independent": "R2_genetic fits the downstream to the noise-free genetic value g, so its replicate SD does not depend on h2; the pilot needs no h2 grid (h2 enters only the secondary R2_pheno used in Gate 0A reporting, not here)",
+
+  "representative_regimes": {
+    "spectral_tail_adversarial": "MUST include; the primary gating regime",
+    "major_LD_aligned": "easy low-difficulty reference",
+    "between_block_interaction": "high-variance / complex reference (bilinear head)"
+  },
+
+  "budget_points_per_block_k": [8, 16],
+  "R_pilot": 30,
+  "outer_cv_folds": 5,
+  "inner_cv_folds": 5,
+  "outer_folds_drawn_once": "the outer 5-fold split is drawn once over the training population and shared byte-identically across all regimes, budgets, arms, and replicates",
+  "trained_on": "donor-train only (2247); the 249 donor-validation rows are never touched by the pilot",
+  "replicate_is_one_fixed_trait": "each replicate draws g_r once; the same g_r is predicted across all outer folds (g does not change per fold)",
+  "ridge_lambda_grid": [0.01, 0.1, 1.0, 10.0],
+  "n_causal_directions": 3,
+  "polygenic_background_fraction": 0.5,
+  "polygenic_background_note": "each regime's g = sqrt(1-frac)*named_component + sqrt(frac)*diffuse_polygenic, matching the rc2 DGP which requires a diffuse polygenic background in every regime",
+  "eval_block_subset": {
+    "policy": "signal_bearing_blocks_plus_context",
+    "max_blocks": 40,
+    "note": "for additive regimes the downstream reads a bounded set of blocks to keep the pilot affordable; the chosen block set is recorded in the results so Gate 0A can match it. If set to null, all blocks are used."
+  },
+  "seed_base": 904300000,
+
+  "replicate_count_rule": {
+    "map": "sigma_hat -> required R via the detectability procedure (percentile bootstrap CI lower>0) at the FIXED margin 0.005 and target power 0.90",
+    "R_candidate_grid": [20, 50, 100, 200, 400, 800],
+    "R_formal": "max over the pre-registered primary-relevant cells of required R; NEVER the average -- size to the hardest regime so spectral_tail is not under-powered",
+    "underpowered": "if no candidate R suffices at the pinned sigma, increase R; never lower the 0.005 margin"
+  },
+
+  "firewall_results_may_only_decide": ["replicate_count_R", "compute_feasibility"],
+  "firewall_results_may_not_decide": [
+    "margin", "whether a DGP regime is retained", "k", "arm",
+    "success_threshold", "which_regime_is_primary"
+  ]
+}

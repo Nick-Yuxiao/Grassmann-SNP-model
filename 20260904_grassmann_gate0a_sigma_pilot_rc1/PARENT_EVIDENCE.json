@@ -1,0 +1,11 @@
+{
+  "package": "20260904_grassmann_gate0a_sigma_pilot_rc1",
+  "parent_design": "20260904_grassmann_phenotype_signal_compression_decision_rc2",
+  "detectability_reference": "20260904_grassmann_gate0a_detectability_rc1",
+  "role": "pre-run chain steps 5-8: run sigma pilot on the bound contract, estimate sigma, map to R, freeze R",
+  "depends_on_binding": "../20260904_grassmann_phenotype_signal_compression_decision_rc2/BINDING.json (status must be BOUND)",
+  "reference_implementation_note": "src/gate0a is the reference implementation of the Gate 0A arms, DGP, metric, and bilinear head; Gate 0A run code will reuse it",
+  "real_data_used": "yes, on the server at run time (frozen chr22 panel); this repo contains no genotype",
+  "formal_server_result_used": false,
+  "evidence_classification": "VARIANCE_CALIBRATION_ONLY"
+}

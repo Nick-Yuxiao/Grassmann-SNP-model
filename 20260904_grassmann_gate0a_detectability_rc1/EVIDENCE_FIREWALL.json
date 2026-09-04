@@ -1,0 +1,25 @@
+{
+  "classification": "PLANNING_PROXY",
+  "real_data_used": false,
+  "biological_claim_permitted": false,
+  "formal_gate_0A_evidence_permitted": false,
+  "run_permitted": true,
+  "run_permitted_rationale": "the simulation uses no real genotype or phenotype and makes no biological claim; it only sizes the decision procedure",
+  "permitted_uses": [
+    "size the Gate 0A replicate count R at the fixed 0.005 margin, as a planning proxy",
+    "expose infeasibility (if sigma is large, no gridded R suffices)",
+    "document the false-positive behavior of the decision procedure"
+  ],
+  "forbidden_uses": [
+    "using this R as formal Gate 0A evidence",
+    "fixing R for the real Gate 0A run without a real-panel sigma pilot",
+    "any real-genotype or real-phenotype work",
+    "choosing the margin from results",
+    "gpu_or_v7_a1r_work"
+  ],
+  "future_use_requires": [
+    "a small real-panel pilot to estimate sigma (the paired R2_genetic replicate SD)",
+    "reading R off this table at the pinned sigma",
+    "project_lead_authorization for the real Gate 0A run"
+  ]
+}

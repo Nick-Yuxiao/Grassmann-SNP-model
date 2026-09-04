@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "package": "20260904_grassmann_gate0a_detectability_rc1",
+  "classification": "PLANNING_PROXY",
+  "purpose": "Fix the Gate 0A replicate count R at the FIXED primary margin 0.005 using the same decision procedure Gate 0A will use. No real genotype; no biological claim.",
+
+  "decision_procedure_mirrored_from_gate_0A": {
+    "inferential_unit": "simulation_replicate",
+    "statistic": "paired difference Delta_r = R2_genetic(A) - R2_genetic(B) per replicate",
+    "uncertainty": "percentile bootstrap CI over replicates",
+    "decision": "declare positive headroom iff CI lower bound > 0 (one-sided positive)",
+    "ci_level": 0.95
+  },
+
+  "margins": {
+    "primary_practical_margin": 0.005,
+    "primary_is_fixed_a_priori": true,
+    "sensitivity_margins": [0.002, 0.010],
+    "rule": "the detectability gate NEVER chooses the margin from results; it only fixes R at the fixed 0.005"
+  },
+
+  "grids": {
+    "delta_grid": [0.0, 0.002, 0.005, 0.010],
+    "delta_roles": {
+      "0.0": "false_positive_rate",
+      "0.002": "sensitivity",
+      "0.005": "PRIMARY_power",
+      "0.010": "strong_effect_power"
+    },
+    "replicate_grid_R": [20, 50, 100, 200],
+    "sigma_grid": [0.005, 0.01, 0.02, 0.03, 0.05],
+    "sigma_axis_note": "sigma is the replicate-to-replicate SD of the paired R2_genetic difference (trait-architecture + estimation noise). It is a PLANNING AXIS, not known until a real panel is bound; a small real-panel pilot pins sigma and reads off R."
+  },
+
+  "detectability_criterion": {
+    "target": "P(95% CI lower bound > 0 | Delta = 0.005) >= 0.90",
+    "false_positive_guard": "report P(declare positive | Delta = 0) at every R; the one-sided operational FPR of a calibrated 95% CI is ~0.025",
+    "underpowered_action": "if no gridded R reaches 0.90 power at the pinned sigma, increase R; NEVER lower the 0.005 margin"
+  },
+
+  "monte_carlo": {
+    "outer_draws_M": 3000,
+    "bootstrap_resamples_B": 1500,
+    "seed": 20260904
+  },
+
+  "frozen_output_table_structure": {
+    "per_sigma": true,
+    "rows": "R in {20,50,100,200}",
+    "columns": ["FPR@0", "power@0.002", "power@0.005", "power@0.010"],
+    "summary": "min R reaching >=0.90 power at the primary 0.005 margin, per sigma",
+    "note": "the STRUCTURE is frozen here; the numbers are produced by the run"
+  },
+
+  "does_not_authorize": [
+    "using this R as formal Gate 0A evidence",
+    "any real-genotype or real-phenotype work",
+    "promoting R without a real-panel sigma pilot",
+    "gpu_or_v7_a1r_work"
+  ]
+}

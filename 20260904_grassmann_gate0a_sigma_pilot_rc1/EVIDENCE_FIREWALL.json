@@ -1,0 +1,31 @@
+{
+  "classification": "VARIANCE_CALIBRATION_ONLY",
+  "parent_design": "20260904_grassmann_phenotype_signal_compression_decision_rc2",
+  "requires_binding_status": "BOUND",
+  "run_permitted_only_when_bound": true,
+  "results_may_only_decide": ["replicate_count_R", "compute_feasibility"],
+  "results_may_not_decide": [
+    "the margin (fixed at 0.005 upstream)",
+    "whether any DGP regime is retained",
+    "k / representation budget",
+    "the arms",
+    "the success threshold",
+    "which regime is primary"
+  ],
+  "forbidden_uses": [
+    "declaring an arm the winner (this estimates variance only, not headroom)",
+    "running before BINDING.json status == BOUND",
+    "using a panel whose length differs from the bound contract",
+    "promoting these numbers to Gate 0A evidence",
+    "gpu_or_v7_a1r_work"
+  ],
+  "permitted_uses": [
+    "estimate SD(Delta R2_genetic) per representative cell on the bound contract",
+    "size R_formal = max over primary-relevant cells",
+    "expose compute infeasibility (if no candidate R suffices, increase R)"
+  ],
+  "future_use_requires": [
+    "R_formal fed into the Gate 0A run authorization",
+    "project_lead_authorization for the Gate 0A run"
+  ]
+}

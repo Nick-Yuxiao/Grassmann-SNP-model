@@ -23,6 +23,7 @@ REQUIRED_FILES = [
     "GATE_0A_PROTOCOL.md",
     "GATE_LADDER_ROADMAP.md",
     "DATA_CONTRACT.json",
+    "BINDING.json",
     "DECISIONS_COMPRESSION.tsv",
     "EVIDENCE_FIREWALL.json",
     "PARENT_EVIDENCE.json",
@@ -30,6 +31,8 @@ REQUIRED_FILES = [
     "config/DGP_REGIMES.json",
     "results/RUN_NOT_AUTHORIZED.md",
     "scripts/validate_design_package.py",
+    "scripts/bind_data_contract.py",
+    "server_ops/SERVER_STEPS.binding.md",
 ]
 
 ALL_REGIMES = {
@@ -132,6 +135,22 @@ def check_dgp_regimes() -> None:
     print("OK: seven pre-registered DGP regimes in three tiers (quantitative only)")
 
 
+def check_binding_status() -> None:
+    b = json.loads((PKG / "BINDING.json").read_text())
+    status = b.get("status")
+    if status not in ("UNBOUND", "PARTIAL", "BOUND"):
+        _fail(f"BINDING.json has invalid status: {status}")
+    # a claimed BOUND must actually carry both real hashes and verified preprocessing
+    if status == "BOUND":
+        if not (b["panel_manifest"]["sha256"] and b["block_version"]["sha256"]
+                and b["preprocessing_frozen"]["verified"]):
+            _fail("BINDING.json status=BOUND but hashes/preprocessing incomplete")
+        print("OK: data contract BOUND (panel + block hashes present, preprocessing verified)")
+    else:
+        print(f"OK: BINDING.json present, status={status} "
+              "(sigma pilot / Gate 0A run stay blocked until BOUND)")
+
+
 def check_firewall_closed() -> None:
     fw = json.loads((PKG / "EVIDENCE_FIREWALL.json").read_text())
     for key in (
@@ -182,6 +201,7 @@ def main() -> None:
     check_files_present()
     check_config_consistency()
     check_dgp_regimes()
+    check_binding_status()
     check_firewall_closed()
     check_no_run_outputs()
     check_manifest()

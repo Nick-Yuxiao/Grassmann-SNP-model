@@ -28,9 +28,11 @@
     "replicates_per_regime": "fixed by the DETECTABILITY_GATE"
   },
   "binding_status": {
-    "frozen_v7_panel_manifest_sha256": "TO_BE_BOUND_AT_RUN_AUTHORIZATION",
-    "block_version_sha256": "TO_BE_BOUND_AT_RUN_AUTHORIZATION",
-    "note": "hashes intentionally unbound in this design-only package; binding them is a pre-run gate"
+    "authoritative_record": "BINDING.json",
+    "bind_with": "scripts/bind_data_contract.py (computes real SHA-256; never hand-typed or fabricated)",
+    "server_steps": "server_ops/SERVER_STEPS.binding.md",
+    "ordering": "steps 1-3 (bind panel hash -> bind block-version hash -> freeze/verify preprocessing) MUST complete (BINDING.json status == BOUND) BEFORE the sigma pilot is built against this contract or run",
+    "note": "hashes are unbound in this design-only package; the frozen panel and block artifacts live on the server and are not present in this repo, so binding is performed where the data lives"
   },
   "real_data_extension": {
     "status": "out_of_scope_here",

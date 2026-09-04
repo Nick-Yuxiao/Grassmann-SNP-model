@@ -23,3 +23,5 @@ D66	FROZEN	Fix the primary practical margin at Delta R2_genetic = 0.005 a priori
 D67	FROZEN	Primary interaction head is the explicit bilinear cross-product ridge on z_A (x) z_B (cross-block terms only excluding within-block quadratics); full degree-2 polynomial ridge is robustness only	YES	interaction_head
 D68	FROZEN	Freeze seven DGP regimes in three tiers A primary-stress spectral_tail B additive-controls C interaction-stress; spectral_tail_adversarial is tier A and gates the verdict	YES	dgp_tiers
 D69	FROZEN	Gate 0A verdict is three-way FAIL REGIME_DEPENDENT HEADROOM_SUPPORTED gated by spectral_tail; a positive cross-regime average never overrides a spectral_tail failure	YES	three_way_verdict
+D76	FROZEN	Order is fixed: bind panel manifest hash then LD-block version hash then freeze/verify preprocessing (BINDING.json BOUND) BEFORE building or running the sigma pilot; never reversed	YES	ordering
+D77	FROZEN	Hashes are computed from real server artifacts by bind_data_contract.py and never hand-typed or fabricated; if artifacts are unreachable the chain stops rather than binding an unverified contract	NO	data_identity

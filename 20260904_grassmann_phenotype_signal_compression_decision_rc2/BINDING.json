@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "status": "UNBOUND",
+  "purpose": "Steps 1-3 of the pre-run chain: bind the frozen panel manifest hash, the LD-block version hash, and freeze preprocessing. Nothing downstream (sigma pilot or Gate 0A) may run until status == BOUND. Hashes are computed from the real server artifacts by scripts/bind_data_contract.py; they are NOT filled by hand and NEVER fabricated.",
+  "panel_manifest": {
+    "path": null,
+    "sha256": null,
+    "expected_length_sites": 154850,
+    "source": "frozen v7 chr22 donor-only panel manifest on the server"
+  },
+  "block_version": {
+    "path": null,
+    "id": null,
+    "sha256": null,
+    "source": "frozen LD-block definition over the 154850-site panel"
+  },
+  "preprocessing_frozen": {
+    "centering": "per-block G - 2p, stats from outer-training fold only",
+    "standardization": "MAF-z (G - 2p)/sqrt(2p(1-p)), stats from outer-training fold only",
+    "verified": false
+  },
+  "bound_by": null,
+  "bound_utc": null,
+  "note": "populate via: python scripts/bind_data_contract.py --panel-manifest <PATH> --block-version <PATH> [--verify-preprocessing]"
+}

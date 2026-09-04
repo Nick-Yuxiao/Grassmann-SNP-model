@@ -1,0 +1,9 @@
+decision_id	status	decision	primary_changing	evidence_role
+D78	FROZEN	Run the sigma pilot only on the bound frozen contract; refuse unless BINDING.json status == BOUND; order never reversed	YES	ordering
+D79	FROZEN	Estimand is SD(Delta R2_genetic) per (regime,k) cell; the pilot estimates variance only and never declares a winner	YES	estimand_scope
+D80	FROZEN	Because R2_genetic fits the noise-free genetic value g the primary replicate SD is heritability-independent; the pilot uses no h2 grid	NO	metric_property
+D81	FROZEN	Use three representative regimes spectral_tail_adversarial major_LD_aligned between_block_interaction at per-block k in {8,16} with R_pilot=30 and 5-fold CV	YES	pilot_design
+D82	FROZEN	R_formal = max over primary-relevant cells of the required R never the average; size to the hardest regime	YES	replicate_count
+D83	FROZEN	If no candidate R suffices increase R never lower the 0.005 margin	YES	underpowered_action
+D84	FROZEN	src/gate0a is the reference implementation of Gate 0A arms DGP metric and bilinear head; Gate 0A reuses it	NO	reference_impl
+D85	FROZEN	Pilot results may only decide replicate count and compute feasibility; not margin DGP retention k arm success threshold or which regime is primary	YES	evidence_firewall

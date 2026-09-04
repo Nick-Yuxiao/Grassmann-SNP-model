@@ -1,0 +1,12 @@
+decision_id	status	decision	primary_changing	evidence_role
+D42	FROZEN	Make the phenotype-signal compression question the FIRST experiment; all Stage-1/Stage-2/A1-R/phenotype-gating work waits on its result	YES	sequencing
+D43	FROZEN	Classify this package as DESIGN_ONLY_RUN_NOT_AUTHORIZED; it authorizes no execution and no Transformer or GPU work	NO	evidence_firewall
+D44	FROZEN	Fix the compression objective as unsupervised reconstruction; the correct linear null is therefore block PCA and NOT a supervised block-PLS	YES	null_selection
+D45	FROZEN	Pre-register the Stage-1/2 kill: A_test must beat block PCA at matched k in both within-block and between-block regimes with CV uncertainty excluding zero	YES	kill_criterion
+D46	FROZEN	Reinstate the same-dim random bilinear ablation and its geometry-specificity kill; PCA and random-bilinear answer two different questions	YES	ablation
+D47	FROZEN	Reinstate the shared data contract; every arm sees byte-identical SNP set block version split folds and simulated traits	NO	data_contract
+D48	FROZEN	Measure compression fidelity by downstream R2/AUC on simulated traits never by reconstruction loss	NO	fidelity_measurement
+D49	FROZEN	Evaluate phenotype signal on simulated traits with known architecture because the panel has no real phenotypes; report within-block and between-block causal retention separately	NO	simulation_scope
+D50	FROZEN	Do not touch phenotype gating until D45 and D46 have a result	NO	scope_control
+D51	FROZEN	Treat the centering-defect fix binding the panel and block-version hashes and freezing the margin rule as pre-run gates before any run authorization	NO	pre_run_gate
+D52	FROZEN	Use a seed namespace disjoint from v6.1 and from any v7 GPU/A1-R seed block	NO	scope_control

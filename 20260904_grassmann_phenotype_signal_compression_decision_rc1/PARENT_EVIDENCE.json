@@ -1,0 +1,11 @@
+{
+  "package": "20260904_grassmann_phenotype_signal_compression_decision_rc1",
+  "data_source_reference": "frozen v7 chr22 donor-only panel (L=154850, donor train 2247, validation 249)",
+  "data_source_handoff": "V7_SESSION_HANDOFF_20260828.md",
+  "data_source_manifest_sha256": "TO_BE_BOUND_AT_RUN_AUTHORIZATION",
+  "reference_use_only": "reuse the frozen SNP set, LD structure, and split as the shared data contract",
+  "formal_parentage": false,
+  "formal_server_result_used": false,
+  "supersedes_note": "This package does not overturn any v7 result; it inserts the upstream phenotype-signal compression decision that the v7 four-stage design assumed rather than tested.",
+  "evidence_classification": "DESIGN_ONLY_RUN_NOT_AUTHORIZED"
+}

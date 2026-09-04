@@ -1,0 +1,21 @@
+decision_id	status	decision	primary_changing	evidence_role
+D42	FROZEN	Make the phenotype-signal compression question the FIRST experiment; all downstream architecture work waits on it	YES	sequencing
+D43	FROZEN	Classify this package as DESIGN_ONLY_RUN_NOT_AUTHORIZED; it authorizes no execution and no Transformer or GPU work	NO	evidence_firewall
+D44	FROZEN	Fix the compression objective as unsupervised reconstruction; the linear null is block PCA as the reconstruction optimum and NOT a supervised PLS	YES	null_selection
+D47	FROZEN	Reinstate the shared data contract; every arm sees byte-identical SNP set block version split folds and simulated traits	NO	data_contract
+D48	FROZEN	Measure fidelity by downstream retention on simulated traits never by reconstruction loss	NO	fidelity_measurement
+D50	FROZEN	Do not touch phenotype gating; it is Gate 2 and waits on 0A 0B and 1	NO	scope_control
+D52	FROZEN	Use a seed namespace disjoint from rc1 v6.1 and any v7 GPU/A1-R seed block	NO	scope_control
+D53	FROZEN	Relabel this experiment Gate 0A nonlinear compression headroom; it cannot decide the pretrained encoder or Grassmann	YES	scope_correction
+D54	FROZEN	DELETE the rc1 Grassmann geometry-specificity kill; Gate 0A has no Grassmann arm; random bilinear is exploratory-only here and the matched comparator only at Gate 1	YES	attribution
+D55	FROZEN	Record the gate ladder 0A 0B 1 2 so attribution is explicit; 0B 1 2 are neither designed nor authorized here	NO	roadmap
+D56	FROZEN	Primary decision metric is R2_genetic against the known genetic value g; R2_pheno is secondary; drop binary/AUC from round 1	YES	metric_selection
+D57	FROZEN	Report total representation budget D_total = sum_b min(k,m_b) and compression ratio; the decision axis is total budget not per-block k	YES	budget_fairness
+D58	FROZEN	Run both MAF-standardized and raw-centered PCA; all p mean sd from outer-training folds only	NO	preprocessing
+D59	FROZEN	Split between-block into additive (distributed polygenic) and interaction; interaction regimes use a matched degree-2 downstream identical across arms; a linear ridge cannot carry long-range interaction evidence	YES	dgp_and_downstream
+D60	FROZEN	Freeze the six DGP regimes before any run; the spectral-tail adversarial regime is the primary decision regime	YES	dgp_freeze
+D61	FROZEN	Inferential unit is the simulation replicate; paired delta with percentile bootstrap CI over replicates; not CV-fold CI	YES	inference
+D62	FROZEN	Primary cross-k summary is fixed budget points per-block k in {8,16}; all other k are exploratory to avoid selection bias	YES	summary_statistic
+D63	FROZEN	Apply the paired-mean criterion separately within each DGP regime; no pooled cross-regime average for the primary decision	YES	kill_criterion
+D64	FROZEN	Restore the two-dimensional judgement retention times cost; log bytes/sample memory encode and downstream time	NO	cost_axis
+D65	FROZEN	Pre-run gates: fix centering AND standardization; bind hashes; run detectability gate to fix margin and replicate count; run compute smoke or preregister eigensolver fallback; obtain run authorization	NO	pre_run_gate

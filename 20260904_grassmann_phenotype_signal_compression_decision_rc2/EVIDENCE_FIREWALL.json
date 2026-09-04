@@ -1,0 +1,41 @@
+{
+  "classification": "DESIGN_ONLY_RUN_NOT_AUTHORIZED",
+  "gate": "GATE_0A_nonlinear_compression_headroom",
+  "supersedes": "20260904_grassmann_phenotype_signal_compression_decision_rc1",
+  "run_execution_permitted": false,
+  "formal_evidence_eligible": false,
+  "transformer_training_permitted": false,
+  "gate_0b_1_2_permitted": false,
+  "gpu_or_v7_work_permitted": false,
+  "phenotype_gating_permitted": false,
+  "binary_or_real_phenotype_claim_permitted": false,
+  "architecture_go_no_go_permitted": false,
+  "grassmann_specificity_claim_permitted": false,
+  "permitted_uses": [
+    "define_and_freeze_gate_0A",
+    "record_the_gate_ladder",
+    "per_regime_headroom_verdict_when_later_run",
+    "stop_the_unsupervised_compression_path_if_all_regimes_fail",
+    "document_pre_run_gates"
+  ],
+  "forbidden_uses": [
+    "executing_any_run_from_this_package",
+    "training_any_transformer",
+    "designing_or_running_gate_0b_1_or_2",
+    "phenotype_gating",
+    "gpu_or_v7_a1r_work",
+    "reading_hgdp_holdout",
+    "binary_or_real_phenotype_prediction_claim",
+    "architecture_go_no_go",
+    "grassmann_specificity_claim_from_this_gate",
+    "pooling_across_dgp_regimes_for_the_primary_decision",
+    "tuning_budget_margin_or_regimes_after_seeing_results"
+  ],
+  "future_run_requires": [
+    "centering_and_standardization_fixed_and_verified",
+    "data_contract_hashes_bound",
+    "detectability_gate_fixes_margin_and_replicate_count",
+    "compute_smoke_passes_or_eigensolver_fallback_preregistered",
+    "project_lead_run_authorization"
+  ]
+}

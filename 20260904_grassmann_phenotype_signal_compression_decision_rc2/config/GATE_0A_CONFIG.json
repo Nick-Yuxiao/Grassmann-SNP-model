@@ -1,0 +1,126 @@
+{
+  "schema_version": "2.0",
+  "package": "20260904_grassmann_phenotype_signal_compression_decision_rc2",
+  "supersedes": "20260904_grassmann_phenotype_signal_compression_decision_rc1",
+  "classification": "DESIGN_ONLY_RUN_NOT_AUTHORIZED",
+  "gate": "GATE_0A_nonlinear_compression_headroom",
+  "scope_statement": "Gate 0A decides ONE proposition: on the shared genotype panel, is there any cheap nonlinear low-dimensional map that preserves more genetic/phenotype signal than the matched linear reconstruction null, per DGP regime. It does NOT test the pretrained encoder (Gate 0B) and does NOT test Grassmann geometry (Gate 1).",
+
+  "compression_objective": "unsupervised_reconstruction",
+  "primary_linear_null": "block_pca_on_maf_standardized_input",
+  "primary_linear_null_rationale": "PCA is the linear RECONSTRUCTION optimum (not an upper bound over all linear phenotype-retention methods). Under the unsupervised reconstruction objective it is the matched linear comparator. The primary null uses the same MAF-standardized input the kernel encoder sees so preprocessing cannot confound the comparison.",
+
+  "seed_base": 904200000,
+  "seed_namespace_note": "disjoint from rc1 (904e6+0), from v6.1 (629e6), and from any v7 GPU/A1-R seed block",
+
+  "input_preprocessing": {
+    "primary": "maf_standardized_z = (G - 2p) / sqrt(2p(1-p))",
+    "secondary_sensitivity": "raw_centered = G - 2p",
+    "stats_estimated_from": "outer-training-fold ONLY (p, mean, sd); no leakage",
+    "all_arms_share_the_same_input": true
+  },
+
+  "representation_budget": {
+    "per_block_k_primary_points": [8, 16],
+    "per_block_k_exploratory_grid": [1, 2, 4, 8, 16, 32, 64],
+    "total_budget_definition": "D_total(k) = sum_b min(k, m_b) over blocks b with m_b SNPs",
+    "compression_ratio_definition": "D_total / number_of_original_SNPs",
+    "decision_axis": "total_representation_budget (NOT per-block k); per-block k is reported alongside"
+  },
+
+  "arms": {
+    "A_test_primary": {
+      "name": "rbf_kernel_pca_topk",
+      "role": "PRIMARY_TEST_ARM",
+      "closed_form": true,
+      "bandwidth_selection": "median_heuristic_on_training_folds_only",
+      "eigensolver_fallback_preregistered": ["randomized_svd", "nystrom", "lanczos"]
+    },
+    "A_test_secondary": {
+      "name": "shallow_block_autoencoder_topk",
+      "role": "robustness_only_not_decision"
+    },
+    "B_pca_z": {
+      "name": "block_pca_topk_on_maf_standardized",
+      "role": "PRIMARY_LINEAR_NULL"
+    },
+    "B_pca_raw": {
+      "name": "block_pca_topk_on_raw_centered",
+      "role": "preprocessing_sensitivity_secondary_null"
+    },
+    "B_rand_bilinear": {
+      "name": "random_bilinear_quadratic_features_dim_k",
+      "role": "EXPLORATORY_ONLY_no_kill",
+      "note": "at Gate 0A this is a descriptive 'cheaper generic nonlinear map?' reference; it becomes the MATCHED comparator only at Gate 1, where the test arm is an actual Grassmann feature"
+    },
+    "B_rand_proj": {"name": "gaussian_random_projection_dim_k", "role": "trivial_lower_reference"},
+    "B_ldprune": {"name": "ld_pruned_snp_subset_count_matched_to_budget", "role": "naive_snp_selection_reference"},
+    "B_blockmean": {"name": "block_mean_and_simple_haplotype_dosage", "role": "floor_reference"}
+  },
+
+  "downstream": {
+    "additive_regimes": "ridge_regression_on_representation",
+    "interaction_regimes": "ridge_on_degree2_polynomial_expansion_of_representation (matched interaction head, identical across arms)",
+    "penalty_selection": "inner_cv_on_training_folds_only",
+    "outer_cv_folds": 5,
+    "inner_cv_folds": 5,
+    "cv_is_nested": true,
+    "note": "CV folds are used for penalty selection and fitting, NOT as the inferential unit"
+  },
+
+  "metrics": {
+    "primary_decision_metric": "R2_genetic(k) = R2(g, g_hat), g_hat = downstream(Z_k) fit to the KNOWN genetic value g",
+    "primary_rationale": "separates representation loss from phenotype noise; independent of the p>>n full-genotype ceiling problem",
+    "secondary_realistic_metric": "R2_pheno(k) = R2(y, y_hat)",
+    "dropped_from_round_1": "AUC / binary traits (no penetrance/liability/prevalence/scale defined; add only after Gate 0A)"
+  },
+
+  "inference": {
+    "inferential_unit": "simulation_replicate_seed",
+    "paired_difference": "Delta_r = R2_genetic(A_test, r) - R2_genetic(B_pca_z, r)",
+    "uncertainty": "percentile_bootstrap_CI_over_replicates",
+    "bootstrap_resamples": 10000,
+    "ci_level": 0.95,
+    "not_used": "CV-fold CIs (folds are not independent replicates)"
+  },
+
+  "primary_summary_across_k": {
+    "rule": "FIXED_BUDGET_POINTS",
+    "primary_points_per_block_k": [8, 16],
+    "everything_else_is_exploratory": true,
+    "rationale": "avoids selection bias from picking argmax_k after seeing results"
+  },
+
+  "kill_criterion": {
+    "gate_0A_headroom_kill_per_regime": "within EACH pre-registered DGP regime SEPARATELY, at the primary budget points, if A_test_primary's paired-mean Delta R2_genetic vs B_pca_z has a replicate-bootstrap 95% CI that does NOT exclude zero, then unsupervised nonlinear compression has no headroom in that regime",
+    "no_pooling_rule": "The paired-mean criterion is evaluated separately within each pre-registered DGP regime; no pooled cross-regime average is used for the primary decision.",
+    "program_implication": "if A_test fails even the spectral_tail and between_block_interaction regimes, the unsupervised spectral-compression premise is wrong and the unsupervised path to Stage 1/2 stops; regimes where it passes define the headroom carried forward to Gate 0B",
+    "removed_from_rc1": "the Grassmann geometry-specificity kill is DELETED: Gate 0A has no Grassmann arm and cannot decide Grassmann-specificity",
+    "margin": "Delta R2_genetic margin frozen by the DETECTABILITY_GATE before any run"
+  },
+
+  "cost_ledger": {
+    "record": ["bytes_per_sample", "peak_memory", "encode_time", "downstream_fit_time", "downstream_predict_time", "complexity_vs_num_snps"],
+    "secondary_decision_axis": "equal retention at lower budget/cost is a win; a tiny retention gain at large cost is not; restores the two-dimensional (retention x cost) judgement"
+  },
+
+  "pre_run_gates": [
+    "fix_and_verify_centering_AND_standardization_using_training_fold_stats_only",
+    "bind_data_contract_to_frozen_v7_chr22_panel_and_block_version_hashes",
+    "run_DETECTABILITY_GATE_to_fix_margin_and_replicate_count",
+    "run_compute_smoke_3blocks_x_2k_x_1fold_or_preregister_eigensolver_fallback",
+    "obtain_project_lead_run_authorization"
+  ],
+
+  "does_not_authorize": [
+    "any_run_execution_this_package_is_design_only",
+    "training_any_transformer",
+    "gate_0B_pretraining_or_gate_1_grassmann_or_gate_2_gating",
+    "phenotype_gating",
+    "gpu_or_v7_a1r_work",
+    "binary_or_real_phenotype_prediction_claim",
+    "architecture_go_no_go",
+    "reading_hgdp_holdout",
+    "tuning_budget_margin_or_regimes_after_seeing_results"
+  ]
+}

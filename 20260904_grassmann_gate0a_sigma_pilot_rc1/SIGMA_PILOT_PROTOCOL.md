@@ -20,12 +20,19 @@ The pilot estimates `SD(Δ R²_genetic)` per cell. It never declares a winner, a
 
 The primary metric `R²_genetic` fits the downstream to the **noise-free** genetic value `g` and evaluates `R²(g, ĝ)` on held-out folds. Since `g` carries no phenotype noise, the replicate SD of `Δ R²_genetic` is **heritability-independent**; the pilot therefore needs no h² grid. (h² enters only the secondary `R²_pheno` that Gate 0A reports, not the primary sizing here.)
 
-## 🧪 Design
+## 🧪 Design (contract-faithful)
 
-- Regimes (representative): `spectral_tail_adversarial` (must — the primary gate), `major_LD_aligned` (easy reference), `between_block_interaction` (high-variance reference, bilinear head).
-- Budget: per-block `k ∈ {8, 16}`; `R_pilot = 30`; outer 5-fold CV; ridge λ grid `{0.01,0.1,1,10}`; 3 causal directions.
-- Arms fit on the training fold only; MAF-z standardization with training-fold stats; primary arm KPCA-RBF (median-heuristic bandwidth on the training fold), null `B_pca_z`.
-- Additive regimes read a bounded set of blocks (≤40, recorded) so the pilot is affordable; interaction regimes use the matched bilinear cross-product head on the involved block pair.
+- **Training population only.** The pilot runs on the 2247 donor-train rows; the 249 donor-validation rows are never touched.
+- **Folds drawn once.** The outer 5-fold split is drawn a single time and shared byte-identically across all regimes, budgets, arms, and replicates.
+- **A replicate is one fixed `g`.** `g_r` is drawn once per replicate (named component + diffuse polygenic background, `frac=0.5`) and predicted across all five outer folds — `g` never changes per fold.
+- **Real nested CV.** Penalty selection is a nested inner 5-fold CV (not a single 80/20 split).
+- **Caching.** Arm representations do not depend on `g`, so they are computed once per (arm, fold, block) at `k=16` and sliced to `k=8`; this turns the run from tens of thousands of KPCA eigendecompositions into `2 arms × 5 folds × |blocks|`.
+- Regimes (representative): `spectral_tail_adversarial` (must — the primary gate), `major_LD_aligned` (easy reference), `between_block_interaction` (high-variance reference, bilinear head). Per-block `k ∈ {8, 16}`; `R_pilot = 30`; ridge λ `{0.01,0.1,1,10}`; 3 causal directions.
+- Arms fit on the fold-train only; MAF-z standardization with fold-train stats; primary arm KPCA-RBF (median-heuristic bandwidth on fold-train), null `B_pca_z`. Additive regimes read a bounded block set (≤40, recorded); interaction regimes use the matched bilinear cross-product head on the involved block pair.
+
+## 🔗 Provenance & isolation
+
+The run refuses unless `BINDING.json` is `BOUND` **and** an `EXPORT_MANIFEST.json` (written by `write_export_manifest.py`) ties the four exported arrays to the bound panel/block SHA-256 and confirms L=154850 / train=2247 / val=249. So the pilot cannot silently run on an export that was not derived from the bound artifacts, nor on a length-mismatched panel. `BINDING.json` is excluded from `MANIFEST.sha256` (mutable state), so binding does not invalidate the frozen-design manifest.
 
 ## 📐 σ → R and R_formal
 

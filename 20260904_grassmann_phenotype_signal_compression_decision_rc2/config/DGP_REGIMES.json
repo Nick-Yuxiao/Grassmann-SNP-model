@@ -6,6 +6,8 @@
   "genetic_value_available": "g is known by construction and is the primary decision target (see R2_genetic)",
   "h2_grid": [0.05, 0.1, 0.2, 0.4],
   "polygenic_background": "every regime carries a diffuse polygenic background in addition to its named causal component",
+  "polygenic_background_fraction": 0.5,
+  "genetic_value_composition": "g = sqrt(1-frac)*named_component + sqrt(frac)*diffuse_polygenic (both standardized), frac=0.5; the sigma pilot and Gate 0A use the same composition",
 
   "regime_tiers": {
     "A_primary_mechanistic_stress": {

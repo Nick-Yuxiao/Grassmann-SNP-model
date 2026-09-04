@@ -21,6 +21,7 @@ REQUIRED = [
     "src/gate0a/loader.py",
     "src/gate0a/sigma_map.py",
     "scripts/run_sigma_pilot.py",
+    "scripts/write_export_manifest.py",
     "scripts/validate_package.py",
     "tests/test_gate0a.py",
     "server_ops/SERVER_STEPS.sigma_pilot.md",
@@ -54,6 +55,12 @@ def check_config():
         _fail("spectral_tail_adversarial must be included")
     if "max" not in cfg["replicate_count_rule"]["R_formal"].lower():
         _fail("R_formal must be the max over cells, not the average")
+    if cfg.get("inner_cv_folds") != 5:
+        _fail("inner_cv_folds must be 5 (real nested CV)")
+    if cfg.get("polygenic_background_fraction") is None:
+        _fail("polygenic_background_fraction must be set")
+    if "train" not in str(cfg.get("trained_on", "")).lower():
+        _fail("config must state training-only population (val untouched)")
     mustnot = set(cfg["firewall_results_may_not_decide"])
     for k in ("margin", "k", "arm", "success_threshold", "which_regime_is_primary"):
         if k not in mustnot:

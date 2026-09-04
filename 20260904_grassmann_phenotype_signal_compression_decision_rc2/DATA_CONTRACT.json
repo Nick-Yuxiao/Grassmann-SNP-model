@@ -16,7 +16,8 @@
   "split": {
     "donor_train": 2247,
     "donor_validation": 249,
-    "cv": "outer 5-fold nested CV drawn once and shared byte-identically across all arms and all budgets",
+    "cv_population": "the outer 5-fold nested CV is over the 2247 donor-train ONLY; the 249 donor-validation is held out and is NOT touched by the sigma pilot or by Gate 0A cross-validation",
+    "cv": "outer 5-fold nested CV drawn once and shared byte-identically across all arms, all budgets, all regimes, and all simulation replicates; a replicate is one fixed genetic value g predicted across all folds",
     "preprocessing_stats": "p, mean, sd (for both raw-centering and MAF-standardization) computed on the outer-training fold ONLY",
     "hgdp": "forbidden for this experiment; decision holdout untouched"
   },
@@ -32,6 +33,7 @@
     "bind_with": "scripts/bind_data_contract.py (computes real SHA-256; never hand-typed or fabricated)",
     "server_steps": "server_ops/SERVER_STEPS.binding.md",
     "ordering": "steps 1-3 (bind panel hash -> bind block-version hash -> freeze/verify preprocessing) MUST complete (BINDING.json status == BOUND) BEFORE the sigma pilot is built against this contract or run",
+    "binding_excluded_from_manifest": "BINDING.json is intentionally NOT listed in MANIFEST.sha256 because it is mutable state (UNBOUND -> BOUND); binding the contract therefore does not invalidate the frozen-design manifest, and no manifest regeneration is needed after binding",
     "note": "hashes are unbound in this design-only package; the frozen panel and block artifacts live on the server and are not present in this repo, so binding is performed where the data lives"
   },
   "real_data_extension": {

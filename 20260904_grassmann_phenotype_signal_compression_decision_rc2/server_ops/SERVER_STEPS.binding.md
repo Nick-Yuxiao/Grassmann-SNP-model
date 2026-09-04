@@ -50,4 +50,6 @@ python 20260904_grassmann_phenotype_signal_compression_decision_rc2/scripts/bind
 
 Commit the resulting `BINDING.json` (or paste its `panel_manifest.sha256`, `block_version.sha256`, and `status` back here). Only once `status == BOUND` may the σ-pilot package be built against this contract and run.
 
+`BINDING.json` is intentionally excluded from `MANIFEST.sha256` (it is mutable state), so binding does **not** invalidate the frozen-design manifest and no manifest regeneration is needed. `python scripts/validate_design_package.py` will report `data contract BOUND` once done.
+
 > ⚠️ Never hand-type or fabricate a hash. If the frozen artifacts are not reachable, binding does not proceed — the chain stops here rather than running against an unverified contract.

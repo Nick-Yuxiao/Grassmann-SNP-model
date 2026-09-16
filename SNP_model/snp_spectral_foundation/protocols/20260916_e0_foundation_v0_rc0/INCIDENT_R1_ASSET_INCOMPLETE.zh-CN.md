@@ -56,6 +56,70 @@ _2026-09-16 · 里程碑 `R1`（未完成）· 状态 `ASSET_INCOMPLETE` · 事�
 
 `ukb_event_labels_*`、`ukb5_lab_traits_*` 与 SAS 主表中的 trait 字段属于 outcome，E0 全程不读；上述检查只涉及列名，不读取任何数据行。
 
+## 🧩 迁移脚本解释了缺口，而不是证明资产不存在
+
+`/data3/ukb_all/logs/run_all_ukb_migration_20260503.sh` 的拷贝范围是写死的两个 glob：
+
+```text
+ukb_imp_chr*_v3.{bed,bim,fam,log}
+*.sas7bdat
+```
+
+因此 array calls、haplotype、`ukb_rel_*.dat`、`ukb_sqc_*`、`ukb_mfi_*` **在构造上不可能被迁移过来**，与它们在原盘是否存在无关。`rsync` 日志中这些模式命中 0 次，只说明脚本没尝试过，不构成原盘没有的证据。
+
+原始来源路径（来自 `source_manifest_all_ukb_20260503.tsv`）：
+
+| 来源 | 内容 |
+| --- | --- |
+| `/data1/jingyixi/ukb_crosschr_fixed/` | `chr3`、`chr5`、`chr11` |
+| `/data2/external_drive_copies/{gsq_root,onetouch_root}/` | `chr2`、`chr3`、`chr4` |
+| `/mnt/gsq/` | `chr1`；`/mnt/gsq/新建文件夹/` 为 SAS 原件 |
+| `/mnt/onetouch/` | `chr6`、`chr7` |
+
+这些位置尚未被检查，是下一步搜索 array/kinship/mfi 的首选目标。
+
+## 🔑 授权与转换链（来自 PLINK 日志）
+
+`mnt_gsq/ukb_imp_chr1_v3.log` 给出完整的上游链条：
+
+| 项目 | 值 |
+| --- | --- |
+| Application ID | **44430**（由 `--sample ukb44430_imp_chr1_v3_s487298.sample` 推得） |
+| 上游输入 | `ukb_imp_chr1_v3.bgen`（BGEN v1.2）+ 官方 `.sample` |
+| 转换工具 | PLINK v2.00a2.1 32-bit（2020-01-14，主机 `DESKTOP-UUS2K98`，`D:\UKB`） |
+| chr1 variants | 7,402,791 |
+| 样本 | 487,409（264,303 女 / 222,995 男 / 111 ambiguous） |
+
+**必须记录的转换风险**：日志含
+
+```text
+Warning: No --bgen REF/ALT mode specified ('ref-first', 'ref-last', or 'ref-unknown').
+```
+
+UKB imputed BGEN 为 ref-first。未显式指定时，`.bim` 的 A1/A2 与官方 REF/ALT 的对应关系不确定。对 E0 内部任务而言，全文件统一的方向翻转只是把 genotype class `0` 与 `2` 一致地互换，masked-genotype CE 不受影响；但它使以下操作在未审计前不可进行：
+
+- 与外部 reference panel（含 `M1b` 的 Beagle reference）比对
+- 与官方 `mfi` AF 或任何外部 AF 交叉验证
+- 任何跨 cohort 的 allele 方向断言
+
+因此 `CONTRACT.json` 必须显式记录 allele 方向为「PLINK 转换自定义，未对齐官方 REF/ALT」，并在需要外部比对时先做方向审计。
+
+## 📊 分层变量已齐备
+
+`phenotype/derived/ukb_covariates_chr1fam_aligned.tsv` 共 53 列，按 `chr1` fam 顺序对齐：
+
+| 列 | 字段 | 用途 |
+| --- | --- | --- |
+| `fid`、`iid`、`eid`、`n_eid` | 标识 | 与 genotype fam 对齐 |
+| `n_31_0_0`、`n_22001_0_0` | 自报 sex、genetic sex | strata |
+| `n_22000_0_0` | genotype measurement batch | strata（可区分 UKBiLEVE 与 Axiom array） |
+| `n_22006_0_0` | genetic ethnic grouping | strata |
+| `n_54_0_0` | assessment centre | strata |
+| `n_22009_0_1` – `n_22009_0_40` | **genetic PC 1–40** | strata 与 `M1a` 协变量 |
+| `n_34_0_0`、`n_52_0_0`、`n_21003_0_0`、`n_21022_0_0` | 出生年月、年龄 | 非 E0 所需 |
+
+`R2` 的 `--strata-file` 输入因此已经具备。**该表不含 field `22021`**，亲缘信息仍需另找来源。
+
 ## 🔍 全盘搜索结果
 
 在 `/data3` 与 `/home/tyuxiao` 的 `maxdepth 4` 范围内搜索 `*_cal_*`、`ukb_snp_*`、`*_hap_*`、`*rel*.dat`、`*.kin0`、`*sqc*`、`*mfi*`，**返回为空**。该深度已覆盖 `genotype` 各子目录中的文件。
@@ -67,7 +131,7 @@ _2026-09-16 · 里程碑 `R1`（未完成）· 状态 `ASSET_INCOMPLETE` · 事�
 | 阻断 | 性质 | 影响 |
 | --- | --- | --- |
 | 全部 22 条染色体均只有 imputed fileset | **科学性阻断** | E0 primary target 必须是观测分型 |
-| 无可解析 kinship/relatedness 文件 | **硬阻断** | family connected components 无法冻结，`R2` family 轴停摆 |
+| 无可解析 kinship/relatedness 文件 | **硬阻断** | family connected components 无法冻结，`R2` family 轴停摆。应用号 44430 已知，官方 `ukbgene rel` 可直接下载该文件 |
 | 无 genetic map | 工程阻断 | `1 cM` guard 规则无法执行 |
 | 未探测到 CUDA-enabled PyTorch | 疑似误报 | inventory 由系统 `python3` 3.10.12 运行，非 miniforge 环境；需在含 torch 的环境复测 |
 

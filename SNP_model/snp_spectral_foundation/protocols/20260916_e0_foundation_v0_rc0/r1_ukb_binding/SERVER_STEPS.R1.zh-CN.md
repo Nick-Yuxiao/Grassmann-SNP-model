@@ -123,7 +123,7 @@ python3 scripts/r2_validate_family_manifest.py \
 ```bash
 python3 scripts/r1_bind_contract.py \
   --inventory "$OUT/r1_inventory_rc0/INVENTORY.json" \
-  --template ../CONTRACT.template.json \
+  --template CONTRACT.template.json \
   --family-summary "$OUT/r2_family_rc0/FAMILY_SUMMARY.json" \
   --output "$OUT/r1_inventory_rc0/CONTRACT.R1_DRAFT.json"
 ```

@@ -17,12 +17,21 @@ _2026-09-16 · 里程碑 `R1`（未完成）· 状态 `ASSET_INCOMPLETE` · 事�
 | 主机 | `c20-5090.cbicrcluster.tianmouc.com` · Linux 5.15.0 · glibc 2.35 |
 | 扫描根 | `/data3/ukb_all/genotype/新建文件夹` |
 | 目录总量 | 3.4 TB |
-| Fileset 命名 | `ukb_imp_chr{11..22}_v3.{bed,bim,fam,log}`（首屏 50 行所见；完整染色体覆盖待确认） |
+| Fileset 命名 | `ukb_imp_chr{11..22}_v3.{bed,bim,fam,log}` |
+| 染色体覆盖 | 仅 `chr11`–`chr22`；48 个文件 = 12 染色体 × 4 文件。**`chr1`–`chr10` 不在此目录** |
+| Fileset 数 | 12，全部判为 `imputed_candidate` |
+| 样本数 | 487,409（各染色体一致） |
+| Variant 数 | `chr11` 4,628,348 至 `chr22` 1,255,683 |
+| Build hint | 有判别力的染色体一致指向 `GRCh37`，无冲突 |
 | 单染色体 `.bed` | 15.8 GB（chr21）至 564 GB（chr11） |
-| `.bim` 量级 | chr22 为 39 MB，约 1.26×10⁶ variants，符合 imputed 密度 |
-| `.fam` | 所有染色体均为 12,671,752 bytes，指向同一套约 4.87×10⁵ 样本 |
-| 分类结果 | `imputed_candidate`，`e0_primary_target_eligible = false` |
+| `e0_primary_target_eligible` | 12 个 fileset 全为 `false` |
 | 输出盘 | `/home/tyuxiao` 可用 70,943 GiB；`/data3` 仅余 3.0 TB |
+
+## 🔍 全盘搜索结果
+
+在 `/data3` 与 `/home/tyuxiao` 的 `maxdepth 4` 范围内搜索 `*_cal_*`、`ukb_snp_*`、`*_hap_*`、`*rel*.dat`、`*.kin0`、`*sqc*`、`*mfi*`，**返回为空**。该深度已覆盖 `genotype` 各子目录中的文件。
+
+`/data3/ukb_all/` 下存在四个同级目录：`genotype`、`phenotype`、`logs`、`runs`；`genotype` 本身还有多个尚未列出的子目录，`chr1`–`chr10` 与其余资产可能在其中。全部资产属主为 `jingyixi`（组 `tpc`），即本集群的数据管理方。
 
 ## 🚫 四条阻断
 
@@ -76,12 +85,15 @@ genetic map 不是 UKB 受限资产。优先复用开发阶段已冻结哈希的
 
 ## 📅 下一步
 
-1. 确认扫描根的完整染色体覆盖与是否存在非 `imp` 文件
-2. 在 `/data3` 与用户主目录范围内搜索 `*_cal_*`、`ukb_snp_*`、`*_hap_*`、`*rel*.dat`、`*.kin0`、`*sqc*`、`*mfi*`
+1. 列出 `/data3/ukb_all/genotype` 其余子目录与 `phenotype`、`runs`，定位 `chr1`–`chr10` 及可能的 array/kinship 资产
+2. 向数据管理方 `jingyixi` 申请 `ukb_cal_*`、`ukb_rel_*.dat`、`ukb_sqc_v2.txt`，以及退路所需的 `ukb_mfi_chr*_v3.txt`
 3. 在含 torch 的 miniforge 环境复测 CUDA，清除第四条阻断
-4. 取得 kinship 后重跑 R1，并在 `PASS` 后才进入 R2 family 轴
+4. 传入已冻结哈希的 `geneticMap-GRCh37` 镜像，清除 genetic map 阻断
+5. 取得 kinship 后重跑 R1，`PASS` 后才进入 R2 family 轴
 
-在上述第 1–2 步有结果前，不扩大扫描范围，不生成任何 manifest，不签发 `RUN_AUTHORIZED`。
+在第 1–2 步有结果前，不生成任何 manifest，不签发 `RUN_AUTHORIZED`。
+
+即便走路径 B，当前可见资产也只覆盖 `chr11`–`chr22`；primary claim 的染色体范围需相应限定或补齐。
 
 ## 🔗 相关
 

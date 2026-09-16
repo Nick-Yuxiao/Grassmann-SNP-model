@@ -27,6 +27,35 @@ _2026-09-16 · 里程碑 `R1`（未完成）· 状态 `ASSET_INCOMPLETE` · 事�
 | `e0_primary_target_eligible` | 12 个 fileset 全为 `false` |
 | 输出盘 | `/home/tyuxiao` 可用 70,943 GiB；`/data3` 仅余 3.0 TB |
 
+## 🗂️ `genotype/` 全树（第二轮扫描）
+
+`/data3/ukb_all/genotype/` 共七个实体子目录，合计约 11.1 TB。全部为 imputation v3 的 PLINK 转换产物，**没有任何 array、haplotype、kinship、sample-QC 或 mfi 文件**。
+
+| 子目录 | 体积 | 染色体 |
+| --- | --- | --- |
+| `新建文件夹` | 3.4 TB | `chr11`–`chr22` |
+| `data2_external_drive_copies` | 2.4 TB | `chr2`（`gsq_root`）、`chr3`、`chr4`（`onetouch_root`） |
+| `data1_ukb_crosschr_fixed` | 1.6 TB | `chr3`、`chr5`、`chr11` |
+| `external_new_chr8_9_10` | 1.6 TB | `chr8`、`chr9`（`gsq`）、`chr10`（`onetouch`） |
+| `mnt_onetouch` | 1.3 TB | `chr6`、`chr7` |
+| `mnt_gsq` | 841 GB | `chr1` |
+| `$RECYCLE.BIN`、`System Volume Information` | 20 KB | Windows 残留，非数据 |
+
+结论：`chr1`–`chr22` 全部齐备（`chr3`、`chr11` 等存在跨目录重复副本），所有 `.fam` 均为 12,671,752 bytes，即同一套 487,409 人。**覆盖范围不再是阻断；数据类型仍然是阻断。**
+
+目录来源可追溯：`mnt_gsq`、`mnt_onetouch`、`data2_external_drive_copies` 指向外接硬盘，迁移记录在 `/data3/ukb_all/logs/`（`rsync_all_ukb_20260503.log`、`source_manifest_all_ukb_20260503.tsv`）。原盘上是否还有 array 或 mfi 资产未随迁，需查该 manifest。
+
+## 🧾 `phenotype/` 中的原始交付物
+
+`/data3/ukb_all/phenotype/mnt_gsq_xinjianwenjianjia/` 保存了 UKB 主数据集的 SAS 原件，合计约 380 GB，其中 `ukb_alldata.sas7bdat` 为 123 GB。`phenotype/derived/` 下是已按 `chr1` fam 顺序对齐的派生表，包括 `ukb_covariates_chr1fam_aligned.tsv`（212 MB）。
+
+这批资产对 E0 有两处潜在价值，均待验证：
+
+1. **分层变量**：若 covariates 或 SAS 主表含 genetic PCs、genotyping array、batch、sex，可直接作为 `R2` 的 `--strata-file`。
+2. **亲缘信息的替代来源**：UKB field `22021`（genetic kinship to other participants）是每个个体的汇总标记，而非配对边。它不能重建 connected components，但可支持一条替代设计——只保留 `22021 == 0` 的无亲缘子集，使 family-disjoint 由构造保证。该替代方案需作为协议修正单独登记，并明确它把 `δ_S` 的解释从「新家系」收窄为「新的无亲缘个体」。
+
+`ukb_event_labels_*`、`ukb5_lab_traits_*` 与 SAS 主表中的 trait 字段属于 outcome，E0 全程不读；上述检查只涉及列名，不读取任何数据行。
+
 ## 🔍 全盘搜索结果
 
 在 `/data3` 与 `/home/tyuxiao` 的 `maxdepth 4` 范围内搜索 `*_cal_*`、`ukb_snp_*`、`*_hap_*`、`*rel*.dat`、`*.kin0`、`*sqc*`、`*mfi*`，**返回为空**。该深度已覆盖 `genotype` 各子目录中的文件。
@@ -37,7 +66,7 @@ _2026-09-16 · 里程碑 `R1`（未完成）· 状态 `ASSET_INCOMPLETE` · 事�
 
 | 阻断 | 性质 | 影响 |
 | --- | --- | --- |
-| 无 array-scale 直接分型 fileset | **科学性阻断** | E0 primary target 必须是观测分型 |
+| 全部 22 条染色体均只有 imputed fileset | **科学性阻断** | E0 primary target 必须是观测分型 |
 | 无可解析 kinship/relatedness 文件 | **硬阻断** | family connected components 无法冻结，`R2` family 轴停摆 |
 | 无 genetic map | 工程阻断 | `1 cM` guard 规则无法执行 |
 | 未探测到 CUDA-enabled PyTorch | 疑似误报 | inventory 由系统 `python3` 3.10.12 运行，非 miniforge 环境；需在含 torch 的环境复测 |

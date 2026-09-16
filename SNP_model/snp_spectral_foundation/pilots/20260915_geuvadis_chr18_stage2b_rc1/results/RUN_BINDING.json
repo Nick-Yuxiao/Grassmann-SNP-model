@@ -1,0 +1,40 @@
+{
+  "assets": {
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pgen": {
+      "bytes": 24290193,
+      "sha256": "71b72570eb7326ae97084a7b2576cf759e269800001636c5dc51318943465173"
+    },
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pvar": {
+      "bytes": 28327814,
+      "sha256": "98ce39cf8cb71f7d2080d1577315780aaf0d2d4748c9e6a8ccfd9cb642d89ba8"
+    },
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.psam": {
+      "bytes": 4459,
+      "sha256": "e8e757f42399bd7ee7065f365a4b3e7c5134170b71219ad5280331efb3bc14a4"
+    },
+    "GEUVADIS.445_samples.expression.bed.gz": {
+      "bytes": 27631128,
+      "sha256": "2e05f173907e4ba1e9fa4d5c5ad5389d2852f5aaf0eda72dc5c9d6865a80f562"
+    },
+    "integrated_call_samples_v3.20130502.ALL.panel": {
+      "bytes": 55156,
+      "sha256": "b4023dc6ee2d62ee89c8d4d347db4d348e65518d66d346574cdae7a4bbd76858"
+    },
+    "integrated_call_samples_v3.20250704.ALL.ped": {
+      "bytes": 209431,
+      "sha256": "02c5f7a2a706fe944bb46642f73f0cd99fb8cb22e35ae717589c3317efd50e57"
+    }
+  },
+  "runtime": {
+    "python": "3.10.20",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "numpy": "2.2.6",
+    "sklearn": "1.7.2",
+    "torch": "2.13.0+cpu",
+    "pgenlib": "0.94.1",
+    "cuda": false
+  },
+  "protocol_sha256": "eb2a62a38f9480f7d4935e2ec0bf1539286e08da5ec20dd69e7a28f12e848e6e",
+  "config_sha256": "9d40c47c2cbf8532a9af12a284e28f9f917c2a2b1a764c21fb4bf96525448f49",
+  "sample_manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6"
+}

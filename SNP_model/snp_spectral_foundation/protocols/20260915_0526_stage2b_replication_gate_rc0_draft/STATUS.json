@@ -1,0 +1,28 @@
+{
+  "protocol_id": "0526-stage2b-bridge-replication-gate-rc0-draft",
+  "created_local_date": "2026-09-15",
+  "status": "DRAFT_NOT_RUNNABLE",
+  "new_phenotype_outcomes_accessed": false,
+  "rc2_disposition": "NO-GO in this setting",
+  "rc2_test_subjects_reuse_allowed": false,
+  "new_model_families_allowed": false,
+  "primary_estimand": "macro_mean_trait_r2_C_minus_B",
+  "task_gate_estimand": "macro_mean_trait_r2_B_minus_A",
+  "three_disjoint_partitions_required": [
+    "development",
+    "task_gate_holdout",
+    "bridge_test_holdout"
+  ],
+  "unresolved_freeze_items": [
+    "validated_individual_level_assets_and_checksums",
+    "eligible_sample_and_family_manifest",
+    "trait_panel",
+    "coordinate_and_cis_panel_contract",
+    "allocation_seed_and_exact_partition_sizes",
+    "task_gate_threshold_and_uncertainty_rule",
+    "bridge_effect_scale_for_design_sensitivity",
+    "minimum_bridge_test_sample_size",
+    "encoder_checkpoint_policy"
+  ],
+  "run_authorized": false
+}

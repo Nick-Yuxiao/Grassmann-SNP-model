@@ -1,0 +1,36 @@
+{
+  "classification": "DEVELOPMENT_ONLY_NON_EVIDENCE",
+  "formal_use_allowed": false,
+  "evaluation_family_split": "validation",
+  "evaluation_block_split": "validation",
+  "train_sample_count": 1753,
+  "evaluation_sample_count": 376,
+  "block_count": 22,
+  "variant_count": 138510,
+  "masked_target_count": 10417109,
+  "family_block_seed_cell_count": 8272,
+  "mask_rate": 0.2,
+  "mask_seeds": [
+    20260916
+  ],
+  "smoothing": 0.5,
+  "equal_cell_macro": {
+    "m0a_ce": 0.11186796623627684,
+    "m0b_ce": 0.11771376255285153,
+    "m0a_accuracy": 0.9557617872852091,
+    "m0b_accuracy": 0.9545954037823576
+  },
+  "skipped_records": {
+    "non_biallelic_snp": 6652
+  },
+  "inputs": {
+    "vcf_sha256": "5d52145d6e3be132dc19ff525af2ae2e792511e60c49c148cb8eee669f114c2c",
+    "family_manifest_sha256": "1731a4aad4abab33b3ddd3b56f30b7bd10f96647a09e47fe3f70064af542d556",
+    "block_manifest_sha256": "1c5d8755569c03d0a0d91704fcbfc6b95180864302b9aff90d71d65417348231"
+  },
+  "output_sha256": {
+    "MASK_MANIFEST.tsv.gz": "fee541e0fbf31a237a150e18a3dc415e525a5b3b39ea95a0ffecaa1f43604779",
+    "VARIANT_STATS.tsv.gz": "d1ae203fdc8fc06ee5b5a688e2acd34a837cb524e8b4ec542cd976440bbd08b3",
+    "M0_CELL_METRICS.tsv.gz": "39e26fc47b8e82137a7e2a493cfa1c36530f3447514463644d87f38bfef38043"
+  }
+}

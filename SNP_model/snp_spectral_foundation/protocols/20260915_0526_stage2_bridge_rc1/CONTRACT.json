@@ -1,0 +1,113 @@
+{
+  "analysis_id": "0526-stage2-phenotype-bridge-rc1",
+  "created_local_date": "2026-09-15",
+  "timezone": "America/Los_Angeles",
+  "status": "FROZEN_EXECUTION_BLOCKED",
+  "run_authorized": false,
+  "objective": "Test whether one frozen genotype-pretrained representation adds out-of-sample quantitative phenotype information beyond covariates and a strong additive dosage baseline.",
+  "route": "0526_stage2_only",
+  "prohibited_detour": "new_foundation_model_attribution_audit",
+  "phenotype": {
+    "type": "quantitative_laboratory_trait",
+    "cohort_id": null,
+    "trait_id": null,
+    "unit": null,
+    "authorization_verified": false,
+    "outcome_accessed_for_representation_selection": false
+  },
+  "encoder": {
+    "count": 1,
+    "checkpoint_sha256": null,
+    "code_sha256": null,
+    "variant_panel_sha256": null,
+    "assembly": null,
+    "representation_shape": null,
+    "frozen": false
+  },
+  "split": {
+    "train_fraction": 0.70,
+    "validation_fraction": 0.15,
+    "test_fraction": 0.15,
+    "relatedness_component_disjoint": true,
+    "seed": null,
+    "manifest_sha256": null
+  },
+  "arms": {
+    "A": "covariates",
+    "B": "covariates_plus_additive_dosage_ridge",
+    "C": "covariates_plus_full_aligned_H",
+    "D": "covariates_plus_aligned_low_rank_H",
+    "E": "covariates_plus_grassmann_subspace_H"
+  },
+  "decoder": {
+    "family": "ridge",
+    "alpha_grid": [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100, 1000, 10000, 100000, 1000000],
+    "selection_metric": "validation_mse",
+    "tie_break": "largest_alpha",
+    "nonlinear_primary_allowed": false
+  },
+  "primary_metric": "test_predictive_r2_1_minus_sse_over_sst_using_train_mean",
+  "primary_family": [
+    {
+      "id": "P1",
+      "contrast": "B-A",
+      "estimand": "delta_r2_additive",
+      "sesoi": 0.005,
+      "pass": "point_estimate>=0.005_and_holm_adjusted_ci_low>0"
+    },
+    {
+      "id": "P2",
+      "contrast": "C-B",
+      "estimand": "delta_r2_pretraining",
+      "sesoi": 0.005,
+      "pass": "point_estimate>=0.005_and_holm_adjusted_ci_low>0"
+    },
+    {
+      "id": "P3",
+      "contrast": "E-D",
+      "estimand": "delta_r2_grassmann_vs_aligned",
+      "noninferiority_margin": -0.002,
+      "superiority_sesoi": 0.002,
+      "noninferior": "adjusted_ci_low>-0.002",
+      "superior": "point_estimate>=0.002_and_adjusted_ci_low>0"
+    }
+  ],
+  "multiplicity": {
+    "method": "Holm",
+    "familywise_alpha": 0.05,
+    "family": ["P1", "P2", "P3"]
+  },
+  "uncertainty": {
+    "method": "paired_cluster_bootstrap",
+    "replicates": 5000,
+    "cluster": "family_or_kinship_connected_component"
+  },
+  "power": {
+    "target_delta_r2": 0.005,
+    "minimum_power": 0.80,
+    "holm_worst_case_alpha": 0.016666666666666666,
+    "report_sha256": null
+  },
+  "grassmann_duty": {
+    "G0": "E-A>=0.005_and_adjusted_ci_low>0",
+    "G1": "G0_and_E_noninferior_to_D",
+    "G2": "E-D>=0.002_and_adjusted_ci_low>0"
+  },
+  "gates": {
+    "cohort_authorization": false,
+    "trait_bound": false,
+    "encoder_bound": false,
+    "coordinate_and_allele_contract": false,
+    "split_bound": false,
+    "power_pass": false,
+    "test_outcome_unopened": true
+  },
+  "go_rule": "A new immutable rc2 may set run_authorized=true only when every gate is true, every null binding is replaced, validation passes, and no representation-specific confirmation outcome has been accessed.",
+  "stop_rules": {
+    "P1_fail": "stop_for_no_additive_headroom",
+    "P2_fail": "close_0526_phenotype_bridge_without_scaling_or_weighting",
+    "P3_fail": "remove_grassmann_from_main_model_but_retain_full_or_aligned_route",
+    "test_affecting_bug": "seal_run_invalid_and_require_new_independent_test"
+  }
+}
+

@@ -1,0 +1,55 @@
+{
+  "analysis_id": "tq2-ab-empirical-power-calibration-rc2",
+  "status": "AB_DESIGN_UNDERPOWERED",
+  "null_false_positive_rate": 0.0,
+  "power_at_minimum_increment": 0.0,
+  "minimum_increment": 0.02,
+  "required_power": 0.8,
+  "maximum_null_false_positive_rate": 0.05,
+  "real_phenotype_accessed": false,
+  "encoder_or_grassmann_used": false,
+  "folds": [
+    {
+      "fold": 0,
+      "train_n": 350,
+      "test_n": 95,
+      "train_families": 289,
+      "test_families": 72
+    },
+    {
+      "fold": 1,
+      "train_n": 357,
+      "test_n": 88,
+      "train_families": 289,
+      "test_families": 72
+    },
+    {
+      "fold": 2,
+      "train_n": 357,
+      "test_n": 88,
+      "train_families": 289,
+      "test_families": 72
+    },
+    {
+      "fold": 3,
+      "train_n": 356,
+      "test_n": 89,
+      "train_families": 289,
+      "test_families": 72
+    },
+    {
+      "fold": 4,
+      "train_n": 360,
+      "test_n": 85,
+      "train_families": 288,
+      "test_families": 73
+    }
+  ],
+  "binding": {
+    "config_sha256": "c736adb2495e3bfccefc0aa1c82baec68db7d97cbf6550d8c1db16a92497ac3f",
+    "protocol_sha256": "de80f239bfc5b5246ea948cfebd58cda94578f3b001fa723a423eb0868f57a66",
+    "rc1_final_sha256": "3fc2e41d36f4521b421a69db9e1ef0132ee3bdc617a5763e2d2872af97bc08f9",
+    "source_trait_panel_sha256": "91fb614d5b395c428de76d957c0c37717d4bd7c617ed14b6ceb861d261bd5820",
+    "source_manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6"
+  }
+}

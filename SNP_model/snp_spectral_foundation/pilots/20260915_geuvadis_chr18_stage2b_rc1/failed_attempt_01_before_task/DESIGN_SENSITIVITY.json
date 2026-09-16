@@ -1,0 +1,16 @@
+{
+  "method": "frozen_gaussian_monte_carlo_normal_critical_value",
+  "n_bridge": 230,
+  "traits": 8,
+  "exchangeable_trait_correlation": 0.2,
+  "simulations": 20000,
+  "assumed_B_r2": 0.1,
+  "minimum_scientific_delta_r2": 0.02,
+  "mean_simulated_delta_r2": 0.019937804088391062,
+  "sd_simulated_estimator": 0.00699638459274896,
+  "one_sided_critical_delta": 0.013712661823778895,
+  "estimated_power": 0.81595,
+  "required_power": 0.8,
+  "eligible": true,
+  "limitation": "model-based planning sensitivity, not an empirical guarantee"
+}

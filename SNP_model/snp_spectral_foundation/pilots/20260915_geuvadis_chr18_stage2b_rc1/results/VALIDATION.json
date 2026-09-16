@@ -1,0 +1,23 @@
+{
+  "validation_status": "PASS",
+  "scientific_status": "TASK-INELIGIBLE",
+  "checks": {
+    "bridge_outcome_artifact_absent": true,
+    "sample_counts": {
+      "bridge_test": 230,
+      "development": 150,
+      "task_gate": 50,
+      "EXCLUDED_RC2_TEST": 15
+    },
+    "family_overlap_zero": true,
+    "trait_and_panel_contract": true,
+    "all_encoder_contextual_lifts_positive": true,
+    "task_point_estimate_recomputed": true,
+    "task_gate_failure_reason": "paired_ci95_lower_not_gt_zero",
+    "design_sensitivity_passed_before_task": true,
+    "asset_binding_verified": true,
+    "expression_gzip_crc_and_uncompressed_bytes": 173950222,
+    "original_run_manifest_verified": true
+  },
+  "important_boundary": "Task Gate failed; Bridge phenotype was not evaluated, so no C-B conclusion exists for Stage 2B rc1."
+}

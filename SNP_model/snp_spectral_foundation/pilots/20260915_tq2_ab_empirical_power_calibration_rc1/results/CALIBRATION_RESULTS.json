@@ -1,0 +1,6065 @@
+{
+  "analysis_id": "tq2-ab-empirical-power-calibration-rc1",
+  "status": "AB_DESIGN_UNDERPOWERED",
+  "null_false_positive_rate": 0.37,
+  "power_at_minimum_increment": 0.39,
+  "minimum_increment": 0.02,
+  "required_power": 0.8,
+  "maximum_null_false_positive_rate": 0.05,
+  "real_phenotype_accessed": false,
+  "encoder_or_grassmann_used": false,
+  "grid": [
+    {
+      "injected_increment": 0.0,
+      "empirical_pass_rate": 0.37,
+      "mean_observed_B_minus_A": 0.0070836134241675265,
+      "median_observed_B_minus_A": 0.007437105448993529,
+      "mean_oracle_test_increment": 0.0,
+      "seed_results": [
+        {
+          "simulation": 0,
+          "macro_delta_B_minus_A": -0.01321751907809604,
+          "ci95": [
+            -0.027740857865285056,
+            0.002012823818794489
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 1,
+          "macro_delta_B_minus_A": 0.012482436664987356,
+          "ci95": [
+            -0.000996344600391575,
+            0.027094455551705764
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 2,
+          "macro_delta_B_minus_A": -0.012018006677015289,
+          "ci95": [
+            -0.030353583688943486,
+            0.004781656190173724
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 3,
+          "macro_delta_B_minus_A": -0.018174739458784006,
+          "ci95": [
+            -0.04438692404037659,
+            0.0056272409238616265
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 4,
+          "macro_delta_B_minus_A": 0.023933254076075453,
+          "ci95": [
+            0.010685515717661766,
+            0.038256864955326236
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 5,
+          "macro_delta_B_minus_A": 0.004914746181786764,
+          "ci95": [
+            -0.01141640095425385,
+            0.023538892379997973
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 6,
+          "macro_delta_B_minus_A": -0.025882752611040963,
+          "ci95": [
+            -0.056156201273128974,
+            0.0006452829869753213
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 7,
+          "macro_delta_B_minus_A": 0.0055905857568468165,
+          "ci95": [
+            -0.011857122779354103,
+            0.023707941621641623
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 8,
+          "macro_delta_B_minus_A": -0.03182638159606868,
+          "ci95": [
+            -0.07851243936148085,
+            0.00844876595344588
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 9,
+          "macro_delta_B_minus_A": 0.005580997118903447,
+          "ci95": [
+            -0.013305827381743822,
+            0.0244448418473205
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 10,
+          "macro_delta_B_minus_A": 0.019576268752130727,
+          "ci95": [
+            0.001729191272111637,
+            0.035432265407419415
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 11,
+          "macro_delta_B_minus_A": 0.018170164804650085,
+          "ci95": [
+            0.005393838030506219,
+            0.032352369379080585
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 12,
+          "macro_delta_B_minus_A": -0.005463852520786711,
+          "ci95": [
+            -0.02407823235245583,
+            0.01087171040794878
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 13,
+          "macro_delta_B_minus_A": 0.02472729760324391,
+          "ci95": [
+            0.012534955857524318,
+            0.03808649533131533
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 14,
+          "macro_delta_B_minus_A": 0.001645134961085995,
+          "ci95": [
+            -0.00961016085816404,
+            0.012461544043830772
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 15,
+          "macro_delta_B_minus_A": 0.02700332247306339,
+          "ci95": [
+            0.010866457061344066,
+            0.04518188117948052
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 16,
+          "macro_delta_B_minus_A": 0.03667699036209898,
+          "ci95": [
+            0.02193157702157213,
+            0.052578140242451554
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 17,
+          "macro_delta_B_minus_A": 0.034042841219605866,
+          "ci95": [
+            0.01767882384863987,
+            0.05193584591666218
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 18,
+          "macro_delta_B_minus_A": 0.014727509570205966,
+          "ci95": [
+            -0.00219554882338792,
+            0.033031261111669576
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 19,
+          "macro_delta_B_minus_A": -0.060900720484650686,
+          "ci95": [
+            -0.09289062673276524,
+            -0.03361832135657326
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 20,
+          "macro_delta_B_minus_A": -0.01659466809527864,
+          "ci95": [
+            -0.04103342278275657,
+            0.005169855052147594
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 21,
+          "macro_delta_B_minus_A": 0.003439139303309413,
+          "ci95": [
+            -0.017919468915907254,
+            0.024737363969157763
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 22,
+          "macro_delta_B_minus_A": -0.023543497860712997,
+          "ci95": [
+            -0.052270648483848034,
+            0.005492026666550928
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 23,
+          "macro_delta_B_minus_A": 0.003546818738973903,
+          "ci95": [
+            -0.01993960281777556,
+            0.0272682855503044
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 24,
+          "macro_delta_B_minus_A": 0.006984113079112467,
+          "ci95": [
+            -0.009161930431931604,
+            0.021937724496458113
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 25,
+          "macro_delta_B_minus_A": 0.022016527648233836,
+          "ci95": [
+            0.007929780636180635,
+            0.038026440191944184
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 26,
+          "macro_delta_B_minus_A": -0.005763220222201992,
+          "ci95": [
+            -0.035893672974955194,
+            0.021975569315054323
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 27,
+          "macro_delta_B_minus_A": 0.00924158699502134,
+          "ci95": [
+            -0.0007339345865062841,
+            0.020253572591414196
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 28,
+          "macro_delta_B_minus_A": 0.04098446766276086,
+          "ci95": [
+            0.025141760533326073,
+            0.05767624803947546
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 29,
+          "macro_delta_B_minus_A": -0.002595856171811156,
+          "ci95": [
+            -0.020383320867855007,
+            0.014134076852628491
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 30,
+          "macro_delta_B_minus_A": 0.02767256965947093,
+          "ci95": [
+            0.015284474203640964,
+            0.04043282914276421
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 31,
+          "macro_delta_B_minus_A": -0.06147951071648276,
+          "ci95": [
+            -0.0940646453508938,
+            -0.03298219099949669
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 32,
+          "macro_delta_B_minus_A": 0.01647195002328801,
+          "ci95": [
+            0.002818250741720462,
+            0.029766021600044594
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 33,
+          "macro_delta_B_minus_A": 0.0428701115457918,
+          "ci95": [
+            0.02402639262078673,
+            0.06489307922288692
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 34,
+          "macro_delta_B_minus_A": 0.009021632646755817,
+          "ci95": [
+            -0.004460936890191155,
+            0.022132735699976962
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 35,
+          "macro_delta_B_minus_A": -0.006907869702674513,
+          "ci95": [
+            -0.02552714027761203,
+            0.010502799147758006
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 36,
+          "macro_delta_B_minus_A": 0.01550219926483952,
+          "ci95": [
+            0.0020219775341567786,
+            0.03082683550584549
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 37,
+          "macro_delta_B_minus_A": -0.013049195705802166,
+          "ci95": [
+            -0.032912564057865794,
+            0.006188097157112289
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 38,
+          "macro_delta_B_minus_A": -0.004541702921797619,
+          "ci95": [
+            -0.02045108197710869,
+            0.011346507858902547
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 39,
+          "macro_delta_B_minus_A": 0.024261454677735994,
+          "ci95": [
+            0.005398911181291397,
+            0.04257302034082721
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 40,
+          "macro_delta_B_minus_A": 0.03745364880260786,
+          "ci95": [
+            0.016146327460907536,
+            0.062240721599578365
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 41,
+          "macro_delta_B_minus_A": -0.038334131781236236,
+          "ci95": [
+            -0.07045758838525923,
+            -0.01219992923155228
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 42,
+          "macro_delta_B_minus_A": -0.004679815897317113,
+          "ci95": [
+            -0.024246880553679025,
+            0.015561877809624536
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 43,
+          "macro_delta_B_minus_A": 0.025765777201482362,
+          "ci95": [
+            0.010813828063196954,
+            0.03950956650772287
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 44,
+          "macro_delta_B_minus_A": -0.001789002435630238,
+          "ci95": [
+            -0.02004556565335037,
+            0.01722892917662299
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 45,
+          "macro_delta_B_minus_A": 0.05509328531241539,
+          "ci95": [
+            0.035923360113747624,
+            0.0743360237129386
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 46,
+          "macro_delta_B_minus_A": -0.0007510596865884511,
+          "ci95": [
+            -0.015786008573822254,
+            0.015544203185544414
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 47,
+          "macro_delta_B_minus_A": 0.051399344881800466,
+          "ci95": [
+            0.030017680670321796,
+            0.07229557272317597
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 48,
+          "macro_delta_B_minus_A": 0.013410499075690072,
+          "ci95": [
+            -0.00765586242566553,
+            0.0315719575117056
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 49,
+          "macro_delta_B_minus_A": 0.022255398423729103,
+          "ci95": [
+            0.0050416711152621385,
+            0.03896937380580136
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 50,
+          "macro_delta_B_minus_A": -0.006340152427010137,
+          "ci95": [
+            -0.02610131962981516,
+            0.01364392381556455
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 51,
+          "macro_delta_B_minus_A": 0.030049190735138273,
+          "ci95": [
+            0.00937236348256539,
+            0.050451398023234416
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 0.5000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 52,
+          "macro_delta_B_minus_A": 0.018620055956407144,
+          "ci95": [
+            0.004099225502794351,
+            0.034099447530259556
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 53,
+          "macro_delta_B_minus_A": 0.018991524783656663,
+          "ci95": [
+            0.004319174698562662,
+            0.033789816829483815
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 54,
+          "macro_delta_B_minus_A": 0.013666194071709423,
+          "ci95": [
+            -0.004362379903232763,
+            0.03186225720582012
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 55,
+          "macro_delta_B_minus_A": -0.006788541565365791,
+          "ci95": [
+            -0.027773066880960536,
+            0.012427920881695833
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 56,
+          "macro_delta_B_minus_A": 0.03389261099231693,
+          "ci95": [
+            0.016943227334836504,
+            0.04876589243338028
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 57,
+          "macro_delta_B_minus_A": 0.050934242008249864,
+          "ci95": [
+            0.035147446554154846,
+            0.0664073121655605
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 58,
+          "macro_delta_B_minus_A": -0.00543851789685125,
+          "ci95": [
+            -0.024938294616261,
+            0.01284867512141948
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 59,
+          "macro_delta_B_minus_A": 0.0034828287601104124,
+          "ci95": [
+            -0.016241964250367145,
+            0.02056911922172784
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 60,
+          "macro_delta_B_minus_A": 0.013845669353398773,
+          "ci95": [
+            0.0012056875709896332,
+            0.02487867739594187
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 1000.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 61,
+          "macro_delta_B_minus_A": 0.006641944910309908,
+          "ci95": [
+            -0.009672847383912926,
+            0.023785751916382172
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 62,
+          "macro_delta_B_minus_A": 0.0006607786626846024,
+          "ci95": [
+            -0.01667478180833157,
+            0.018288827900320898
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 63,
+          "macro_delta_B_minus_A": -0.0006819750573583416,
+          "ci95": [
+            -0.024939724709676175,
+            0.021388651836142858
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 64,
+          "macro_delta_B_minus_A": 0.03801109618676063,
+          "ci95": [
+            0.015504368402556055,
+            0.05801097675565945
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 65,
+          "macro_delta_B_minus_A": -0.0019425560577688572,
+          "ci95": [
+            -0.0214210799257433,
+            0.01903628286413315
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 66,
+          "macro_delta_B_minus_A": -0.006946055553242583,
+          "ci95": [
+            -0.02592574297543208,
+            0.011112982276400294
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 50.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 67,
+          "macro_delta_B_minus_A": 0.020249172845370533,
+          "ci95": [
+            -0.0016194802517919679,
+            0.03708897465019694
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 68,
+          "macro_delta_B_minus_A": -0.03939040719945923,
+          "ci95": [
+            -0.0871107379998408,
+            -0.0003483040162782123
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 69,
+          "macro_delta_B_minus_A": -0.04719579162274537,
+          "ci95": [
+            -0.07921425740609896,
+            -0.020879250773137896
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 70,
+          "macro_delta_B_minus_A": 0.013246855343873487,
+          "ci95": [
+            -0.0025834261030319035,
+            0.029152627219288196
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 71,
+          "macro_delta_B_minus_A": 0.03754178890473915,
+          "ci95": [
+            0.02009479105954552,
+            0.056026441077334295
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 72,
+          "macro_delta_B_minus_A": 0.02471335351450059,
+          "ci95": [
+            0.004354653180196167,
+            0.04776822568712457
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 73,
+          "macro_delta_B_minus_A": 0.027751099945038826,
+          "ci95": [
+            0.01194520592459995,
+            0.04467166905614305
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 74,
+          "macro_delta_B_minus_A": -0.07464479400493003,
+          "ci95": [
+            -0.15261032625869303,
+            -0.015105733315921405
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 75,
+          "macro_delta_B_minus_A": -0.015785715688458546,
+          "ci95": [
+            -0.03852413045103523,
+            0.0034402190704483785
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 76,
+          "macro_delta_B_minus_A": -0.0028425598665427904,
+          "ci95": [
+            -0.02357712386569112,
+            0.018153728707782393
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 77,
+          "macro_delta_B_minus_A": 0.025280232609864173,
+          "ci95": [
+            0.00851396365608815,
+            0.04399411441551183
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 78,
+          "macro_delta_B_minus_A": 0.02202585502051907,
+          "ci95": [
+            0.002122594780465226,
+            0.04112796369273296
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 79,
+          "macro_delta_B_minus_A": 0.0031074617720992515,
+          "ci95": [
+            -0.014054450413706593,
+            0.02402832523384388
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 80,
+          "macro_delta_B_minus_A": -0.009769825950267194,
+          "ci95": [
+            -0.03016494691527048,
+            0.00805307392141342
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 81,
+          "macro_delta_B_minus_A": 0.006659416405873919,
+          "ci95": [
+            -0.012103060760530677,
+            0.02492348595969556
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 82,
+          "macro_delta_B_minus_A": 0.006566725721862288,
+          "ci95": [
+            -0.007836535338378983,
+            0.020625966510014925
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 83,
+          "macro_delta_B_minus_A": 0.007206740572275078,
+          "ci95": [
+            -0.009223893154870554,
+            0.023394088930948912
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 84,
+          "macro_delta_B_minus_A": -0.0003712453155908374,
+          "ci95": [
+            -0.022310043944765164,
+            0.018728372674808563
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 85,
+          "macro_delta_B_minus_A": 0.007667470325711981,
+          "ci95": [
+            -0.014537645827044799,
+            0.02813065528048837
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 86,
+          "macro_delta_B_minus_A": 0.015820908975812745,
+          "ci95": [
+            -0.00342440119643932,
+            0.03462036621176727
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 87,
+          "macro_delta_B_minus_A": 0.025337350774949016,
+          "ci95": [
+            0.01375935702342147,
+            0.03826793695742402
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 88,
+          "macro_delta_B_minus_A": 0.021713079593985912,
+          "ci95": [
+            0.006326186898426658,
+            0.037034591681250235
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 89,
+          "macro_delta_B_minus_A": -0.001898347350189511,
+          "ci95": [
+            -0.024301446890876127,
+            0.01868254929679812
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 90,
+          "macro_delta_B_minus_A": -0.005345333853364859,
+          "ci95": [
+            -0.02578482006657334,
+            0.014357403629856673
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 91,
+          "macro_delta_B_minus_A": 0.014125264213415867,
+          "ci95": [
+            0.0006579291394920204,
+            0.028228945923108713
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 92,
+          "macro_delta_B_minus_A": 0.0018877387330854534,
+          "ci95": [
+            -0.013339948204727932,
+            0.018254898304963067
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 93,
+          "macro_delta_B_minus_A": 0.024473452510841917,
+          "ci95": [
+            0.008059868515948029,
+            0.03977910067588136
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 94,
+          "macro_delta_B_minus_A": 0.012263818468795915,
+          "ci95": [
+            -0.0017056198603106454,
+            0.02439593299724405
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 95,
+          "macro_delta_B_minus_A": 0.0301590103867429,
+          "ci95": [
+            0.011232969682794474,
+            0.050378388966000706
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 96,
+          "macro_delta_B_minus_A": 0.04620485182635119,
+          "ci95": [
+            0.031168881290623784,
+            0.05969597992727224
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 97,
+          "macro_delta_B_minus_A": 0.010325415296795051,
+          "ci95": [
+            -0.0046694835570298965,
+            0.02857771600172705
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 98,
+          "macro_delta_B_minus_A": 0.013922213807429737,
+          "ci95": [
+            -0.00400389169623725,
+            0.0321367175969814
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 99,
+          "macro_delta_B_minus_A": -0.02225082302850631,
+          "ci95": [
+            -0.04428560720443083,
+            -0.00017625750554633497
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        }
+      ]
+    },
+    {
+      "injected_increment": 0.01,
+      "empirical_pass_rate": 0.36,
+      "mean_observed_B_minus_A": 0.004915634787604535,
+      "median_observed_B_minus_A": 0.008488248694111349,
+      "mean_oracle_test_increment": 0.017709607438279554,
+      "seed_results": [
+        {
+          "simulation": 0,
+          "macro_delta_B_minus_A": 0.02779750712809026,
+          "ci95": [
+            0.013909539808303456,
+            0.041942931787989884
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02289450982452272,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 1,
+          "macro_delta_B_minus_A": -0.046517318235085925,
+          "ci95": [
+            -0.08063126796171699,
+            -0.018569310800884288
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013541078446635366,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 2,
+          "macro_delta_B_minus_A": 0.016260341274786885,
+          "ci95": [
+            -0.007994478297158,
+            0.0405561934048933
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.029886170101047382,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 3,
+          "macro_delta_B_minus_A": 0.008937456575514119,
+          "ci95": [
+            -0.005547825975990766,
+            0.02413289207433194
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013786677421346094,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 4,
+          "macro_delta_B_minus_A": 0.008039040812708578,
+          "ci95": [
+            -0.008751894209253848,
+            0.0238520709745572
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.022741300337139808,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 5,
+          "macro_delta_B_minus_A": 0.015366143512335256,
+          "ci95": [
+            -4.233860015419362e-05,
+            0.02907457890581531
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01938360954279407,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 6,
+          "macro_delta_B_minus_A": -0.0062224647701807495,
+          "ci95": [
+            -0.02311057722746644,
+            0.011842232595304689
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013171140655997005,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 7,
+          "macro_delta_B_minus_A": 0.02242922279144037,
+          "ci95": [
+            0.007005403654827193,
+            0.03719130391354248
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.004289076292769686,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 8,
+          "macro_delta_B_minus_A": 0.0362140912186429,
+          "ci95": [
+            0.016724708385377998,
+            0.05451207597954878
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02059289662513908,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 9,
+          "macro_delta_B_minus_A": 0.02193253935477721,
+          "ci95": [
+            0.0068818903635755775,
+            0.039475434018544565
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.006080377006447549,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 10,
+          "macro_delta_B_minus_A": 0.006837337777362368,
+          "ci95": [
+            -0.009580996983616358,
+            0.023237976270787702
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.024487573723682377,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 11,
+          "macro_delta_B_minus_A": 0.009554949970842191,
+          "ci95": [
+            -0.007763502455036215,
+            0.02785378210158001
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.033399454370551446,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 12,
+          "macro_delta_B_minus_A": 0.04164121154584295,
+          "ci95": [
+            0.02361562822322673,
+            0.06118611727640584
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.01283228826571109,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 13,
+          "macro_delta_B_minus_A": -0.02846663415678856,
+          "ci95": [
+            -0.05479134635475619,
+            -0.005329528785824326
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.023414978256133964,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 14,
+          "macro_delta_B_minus_A": -0.06290430447879268,
+          "ci95": [
+            -0.10555329193141327,
+            -0.027258271585620743
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.014747770143661965,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 15,
+          "macro_delta_B_minus_A": 0.004190314156894304,
+          "ci95": [
+            -0.01943534520214346,
+            0.027253354754837655
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02116640564660298,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 16,
+          "macro_delta_B_minus_A": 0.00259196697505866,
+          "ci95": [
+            -0.015692631761853395,
+            0.02038535422327502
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.024615651992956122,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 17,
+          "macro_delta_B_minus_A": 0.028581307538517883,
+          "ci95": [
+            0.011386802639517753,
+            0.047539384504180715
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.025609964490194023,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 18,
+          "macro_delta_B_minus_A": -0.013264049646991335,
+          "ci95": [
+            -0.03875844334628952,
+            0.008868996362284534
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01582435549357805,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 19,
+          "macro_delta_B_minus_A": -0.01884784103836766,
+          "ci95": [
+            -0.051481729417468786,
+            0.006828875599956973
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.027942003985394606,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 20,
+          "macro_delta_B_minus_A": -0.052136457143101764,
+          "ci95": [
+            -0.11125841472180356,
+            -0.010679481961607529
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.014680635619308116,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 21,
+          "macro_delta_B_minus_A": -0.020539122882344912,
+          "ci95": [
+            -0.03953277299415389,
+            -0.0023876647217183017
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01909241001614001,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 22,
+          "macro_delta_B_minus_A": 0.024554269059166467,
+          "ci95": [
+            -0.0007940802277917909,
+            0.04642025899600873
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019738410117276478,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 23,
+          "macro_delta_B_minus_A": 0.012635478641362247,
+          "ci95": [
+            0.0003956430311416387,
+            0.02576019763062746
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.019265164015413325,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 24,
+          "macro_delta_B_minus_A": -0.004171225797626729,
+          "ci95": [
+            -0.022878699006304588,
+            0.013795961562556917
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.022357509131440717,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 25,
+          "macro_delta_B_minus_A": -0.0035049305022234606,
+          "ci95": [
+            -0.017508604754777626,
+            0.012245532737933558
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013598698304385662,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 26,
+          "macro_delta_B_minus_A": 0.015267262617192301,
+          "ci95": [
+            -0.001626848173649506,
+            0.031210679021209196
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.008604894641280017,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 27,
+          "macro_delta_B_minus_A": -0.10072238941719142,
+          "ci95": [
+            -0.15785622732228632,
+            -0.05268663294470598
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.011124909457414525,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 28,
+          "macro_delta_B_minus_A": 0.03603805118229991,
+          "ci95": [
+            0.019373785746632437,
+            0.053711660896234525
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.005010887051992138,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 29,
+          "macro_delta_B_minus_A": 0.03685646821277369,
+          "ci95": [
+            0.018746676330969197,
+            0.05459045846392555
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014902870405482577,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 30,
+          "macro_delta_B_minus_A": 0.02213965177129841,
+          "ci95": [
+            0.007876628061989261,
+            0.038181587564871694
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.01683118313942225,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 31,
+          "macro_delta_B_minus_A": 0.018089662151838493,
+          "ci95": [
+            0.004025687042917246,
+            0.03075922056611501
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.018970275311283563,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 32,
+          "macro_delta_B_minus_A": 0.015262103107318223,
+          "ci95": [
+            0.0013674779511980953,
+            0.029441306759144286
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014967683492098469,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 33,
+          "macro_delta_B_minus_A": 0.03894617173531778,
+          "ci95": [
+            0.023044774029934125,
+            0.05579519416584663
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.010374819922313955,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 34,
+          "macro_delta_B_minus_A": -0.09816101315442244,
+          "ci95": [
+            -0.15191411179850262,
+            -0.05215004542298547
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.026443575990276816,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 35,
+          "macro_delta_B_minus_A": -0.0005553534765895263,
+          "ci95": [
+            -0.021305799746065914,
+            0.01952025889019859
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02887932990577184,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 36,
+          "macro_delta_B_minus_A": 0.01528505486527107,
+          "ci95": [
+            -0.002274798031693937,
+            0.03490653592770865
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019623978129627087,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 37,
+          "macro_delta_B_minus_A": 0.030244481429797937,
+          "ci95": [
+            0.008931483890521364,
+            0.05062901493069961
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.023849913951496868,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 38,
+          "macro_delta_B_minus_A": 0.022226341888297294,
+          "ci95": [
+            0.004617529326768671,
+            0.04066034941068657
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.020136090326722367,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 39,
+          "macro_delta_B_minus_A": 0.016411099964430492,
+          "ci95": [
+            0.001193328213921488,
+            0.031656733928907506
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.024274884306061853,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 40,
+          "macro_delta_B_minus_A": 0.016470246316887316,
+          "ci95": [
+            -0.0007158159150363662,
+            0.033769109546443264
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.005775904766699702,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 41,
+          "macro_delta_B_minus_A": 0.01845643894331206,
+          "ci95": [
+            0.004538740288789377,
+            0.0327695825882893
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014006932649553924,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 42,
+          "macro_delta_B_minus_A": 0.011219749140358337,
+          "ci95": [
+            -0.0007701046323448453,
+            0.02437980341091849
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013071318233374221,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 43,
+          "macro_delta_B_minus_A": 0.030814549902010047,
+          "ci95": [
+            0.01221309106015744,
+            0.047489069807032984
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.017011098297805075,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 44,
+          "macro_delta_B_minus_A": 0.011075113203672105,
+          "ci95": [
+            -0.003326186766446813,
+            0.024754211784788004
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.023673105862010213,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 45,
+          "macro_delta_B_minus_A": -0.009778911302993742,
+          "ci95": [
+            -0.028715182049552545,
+            0.008970037427838152
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.014482315063351,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 46,
+          "macro_delta_B_minus_A": -0.028981671364864237,
+          "ci95": [
+            -0.05959835111620555,
+            -0.002007655147372877
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.014565914246892825,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 47,
+          "macro_delta_B_minus_A": 0.03960204635766207,
+          "ci95": [
+            0.025317237232933176,
+            0.055895495536732134
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.01849988082391127,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 48,
+          "macro_delta_B_minus_A": 0.028030638553079107,
+          "ci95": [
+            0.009032387429570642,
+            0.046609614588322905
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.017733808997527786,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 49,
+          "macro_delta_B_minus_A": 0.00222420950698006,
+          "ci95": [
+            -0.01450532742268005,
+            0.01831048583591879
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.020808424560826946,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 50,
+          "macro_delta_B_minus_A": 0.005931909700122195,
+          "ci95": [
+            -0.006579353808723682,
+            0.01948187539175355
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0041259562694433705,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 51,
+          "macro_delta_B_minus_A": -0.016655604024014767,
+          "ci95": [
+            -0.0417134909471317,
+            0.009015186976910313
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019781224875972156,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 52,
+          "macro_delta_B_minus_A": 0.011331276211354963,
+          "ci95": [
+            -0.00213855671275635,
+            0.02487651825404936
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02529592637369936,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 53,
+          "macro_delta_B_minus_A": 0.029536360300323347,
+          "ci95": [
+            0.01406644903625656,
+            0.04622548224041262
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014081958088598925,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 54,
+          "macro_delta_B_minus_A": 0.03768977596316142,
+          "ci95": [
+            0.021958693120929684,
+            0.05335903634279956
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.015261219162441775,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 55,
+          "macro_delta_B_minus_A": 0.03749644919854535,
+          "ci95": [
+            0.019362647947436282,
+            0.05547152021205712
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.01921169055705778,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 56,
+          "macro_delta_B_minus_A": 0.00994305103660588,
+          "ci95": [
+            -0.005061338856752514,
+            0.024123838637039416
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02229077948047442,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 57,
+          "macro_delta_B_minus_A": 0.01740918963844494,
+          "ci95": [
+            0.0009010920582306775,
+            0.03315896514561937
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.025355416273133466,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 58,
+          "macro_delta_B_minus_A": -0.026036391481169152,
+          "ci95": [
+            -0.05868467424716513,
+            0.0034954447997347154
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.013239103342818179,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 59,
+          "macro_delta_B_minus_A": -0.023103773457031435,
+          "ci95": [
+            -0.051355313278559515,
+            0.000371442922125705
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01048361382103552,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 60,
+          "macro_delta_B_minus_A": -0.021767983091053517,
+          "ci95": [
+            -0.0483841370059233,
+            0.0029646536279816604
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.006655014944207921,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 61,
+          "macro_delta_B_minus_A": 0.0022677246669079443,
+          "ci95": [
+            -0.012534453321016761,
+            0.018021577595368918
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01507955789625065,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 62,
+          "macro_delta_B_minus_A": -0.021537840027906638,
+          "ci95": [
+            -0.04106794789724663,
+            -0.0013342679964991873
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.015459649564573477,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 63,
+          "macro_delta_B_minus_A": 0.028832475769906746,
+          "ci95": [
+            0.007722837515956113,
+            0.048609312178386294
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.013102846298451945,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 64,
+          "macro_delta_B_minus_A": 0.020096062104308754,
+          "ci95": [
+            0.0056246482410981895,
+            0.036114837286399484
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.011753354048703743,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 65,
+          "macro_delta_B_minus_A": -0.015344665571869073,
+          "ci95": [
+            -0.03990775307148214,
+            0.007171213561314965
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01450136165613164,
+          "median_alpha_A": 50.5,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 66,
+          "macro_delta_B_minus_A": 0.0033432399639114763,
+          "ci95": [
+            -0.011772543503330858,
+            0.017298386814724037
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0183386579444237,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 67,
+          "macro_delta_B_minus_A": 0.015478378946692087,
+          "ci95": [
+            -0.008179344133930615,
+            0.040752411132720094
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.016908892177788237,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 68,
+          "macro_delta_B_minus_A": -0.014123894594976108,
+          "ci95": [
+            -0.03752805389945445,
+            0.006894664823187976
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.012008718532287702,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 69,
+          "macro_delta_B_minus_A": 0.009752341340499543,
+          "ci95": [
+            -0.010451981916965055,
+            0.030150019363932967
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.011809275663585306,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 70,
+          "macro_delta_B_minus_A": 0.0037113725187586377,
+          "ci95": [
+            -0.015421307343612049,
+            0.022964317281128632
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01307797292659571,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 71,
+          "macro_delta_B_minus_A": -0.05244019797381674,
+          "ci95": [
+            -0.0918671041951762,
+            -0.021218030339632724
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02419886933344996,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 72,
+          "macro_delta_B_minus_A": 0.036602605143879224,
+          "ci95": [
+            0.01734511820245164,
+            0.05637351248306294
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.018267347947861265,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 73,
+          "macro_delta_B_minus_A": -0.014743819699622684,
+          "ci95": [
+            -0.031789011736370436,
+            0.002183103881827185
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.021365065265696995,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 74,
+          "macro_delta_B_minus_A": 0.04244096129416451,
+          "ci95": [
+            0.028274508372454654,
+            0.05771680503551704
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014148747341091839,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 75,
+          "macro_delta_B_minus_A": -0.02673802628842456,
+          "ci95": [
+            -0.04915772682731105,
+            -0.005338032961015247
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.006383494727783712,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 76,
+          "macro_delta_B_minus_A": -0.02766735810308825,
+          "ci95": [
+            -0.05018595108791936,
+            -0.007580536121890901
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.012301067235924598,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 77,
+          "macro_delta_B_minus_A": 0.0012663676990025824,
+          "ci95": [
+            -0.01593757558362736,
+            0.01745610296805159
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019517720492443102,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 78,
+          "macro_delta_B_minus_A": -0.006505522722811144,
+          "ci95": [
+            -0.037025148172308314,
+            0.02082151903666081
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.031623417555227254,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 79,
+          "macro_delta_B_minus_A": 0.002228611609372183,
+          "ci95": [
+            -0.01392595969026063,
+            0.01941665962337087
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02479333608379658,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 80,
+          "macro_delta_B_minus_A": 0.03690836144530105,
+          "ci95": [
+            0.019942066892546732,
+            0.056296693204720576
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.013660114517156818,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 81,
+          "macro_delta_B_minus_A": 0.003337315941084301,
+          "ci95": [
+            -0.01012418786560161,
+            0.018256221693757905
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.011776253226863737,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 82,
+          "macro_delta_B_minus_A": -0.005315172467808174,
+          "ci95": [
+            -0.023109842506054572,
+            0.010960224791811923
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01890877299412405,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 83,
+          "macro_delta_B_minus_A": 0.05017193203119791,
+          "ci95": [
+            0.03398576605903046,
+            0.065851670087156
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.004327494999191175,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 84,
+          "macro_delta_B_minus_A": 0.028527792837480026,
+          "ci95": [
+            0.010033069404459671,
+            0.04724741233533091
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.01866021627995315,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 85,
+          "macro_delta_B_minus_A": -0.003993825656534014,
+          "ci95": [
+            -0.023698203301458436,
+            0.013383896805697681
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.023472316528537263,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 86,
+          "macro_delta_B_minus_A": 0.025233391065478117,
+          "ci95": [
+            0.008899288607692905,
+            0.042399343691324885
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0186805090257271,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 87,
+          "macro_delta_B_minus_A": 0.02331326009927595,
+          "ci95": [
+            0.008564780460160494,
+            0.03811854248878323
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0124341789430992,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 88,
+          "macro_delta_B_minus_A": -0.028354846080000926,
+          "ci95": [
+            -0.05065641759835666,
+            -0.003908981602251641
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03001085859329529,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 89,
+          "macro_delta_B_minus_A": 0.007736476475172144,
+          "ci95": [
+            -0.007881699025764525,
+            0.021633475190854456
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.026489305120467904,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 90,
+          "macro_delta_B_minus_A": 0.0029557328402061156,
+          "ci95": [
+            -0.01707152817959798,
+            0.02334161643857332
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02532520841361803,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 91,
+          "macro_delta_B_minus_A": 0.03183826948030742,
+          "ci95": [
+            0.015232108899325242,
+            0.04919824315714711
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.018577520210543333,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 92,
+          "macro_delta_B_minus_A": 0.006590762792660687,
+          "ci95": [
+            -0.0131606147529906,
+            0.02709124392590909
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.029537119458506206,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 93,
+          "macro_delta_B_minus_A": -0.0007303648042659983,
+          "ci95": [
+            -0.017418190275354763,
+            0.014930022948323922
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0206214960582862,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 94,
+          "macro_delta_B_minus_A": 0.032471848500353284,
+          "ci95": [
+            0.016346547117173933,
+            0.05023378843570456
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.007965089131684713,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 95,
+          "macro_delta_B_minus_A": -0.02628629785868815,
+          "ci95": [
+            -0.04819863965084312,
+            -0.006392476634949137
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.015366981935594062,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 96,
+          "macro_delta_B_minus_A": -0.012191736081540963,
+          "ci95": [
+            -0.03575745871097665,
+            0.009310333134880097
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019953284858098663,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 97,
+          "macro_delta_B_minus_A": 0.0010307598384435013,
+          "ci95": [
+            -0.021398180364271664,
+            0.02417711699322575
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.019511641281571915,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 98,
+          "macro_delta_B_minus_A": 0.0012305742256355223,
+          "ci95": [
+            -0.018335927544205058,
+            0.01872256684899614
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.016618388651255353,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 99,
+          "macro_delta_B_minus_A": 0.05094733625094375,
+          "ci95": [
+            0.03193198143771678,
+            0.06734535570116236
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.025878628359964365,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        }
+      ]
+    },
+    {
+      "injected_increment": 0.02,
+      "empirical_pass_rate": 0.39,
+      "mean_observed_B_minus_A": 0.00024392607355906468,
+      "median_observed_B_minus_A": 0.011381673127375834,
+      "mean_oracle_test_increment": 0.0359585953657872,
+      "seed_results": [
+        {
+          "simulation": 0,
+          "macro_delta_B_minus_A": 0.029610486103889055,
+          "ci95": [
+            0.01641513676194821,
+            0.04320923723387869
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03306926901656536,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 1,
+          "macro_delta_B_minus_A": 0.0016441544410248227,
+          "ci95": [
+            -0.019451056416223033,
+            0.020337381378217178
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.036116523659163555,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 2,
+          "macro_delta_B_minus_A": -0.05125808898516658,
+          "ci95": [
+            -0.09003729184721514,
+            -0.01685574260351072
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.043475053507544326,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 3,
+          "macro_delta_B_minus_A": 0.027836061425773884,
+          "ci95": [
+            0.010149109046366924,
+            0.04608998115117305
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.04171427712383746,
+          "median_alpha_A": 0.5000005,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 4,
+          "macro_delta_B_minus_A": 0.00749252129052215,
+          "ci95": [
+            -0.020758236472676075,
+            0.03231842310657066
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.026863455464742517,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 5,
+          "macro_delta_B_minus_A": -0.02553867326936818,
+          "ci95": [
+            -0.05003387744435734,
+            -0.001769307555495321
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.05775144332808266,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 6,
+          "macro_delta_B_minus_A": 0.02576168803391271,
+          "ci95": [
+            0.004212263956044716,
+            0.04425381422433593
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.05857265821166835,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 7,
+          "macro_delta_B_minus_A": 0.027648055256946913,
+          "ci95": [
+            0.002722751076997421,
+            0.049227474563173806
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.05724883788576543,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 8,
+          "macro_delta_B_minus_A": 0.02192524655406808,
+          "ci95": [
+            0.007412004770697015,
+            0.03581880710588383
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03813585400414704,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 9,
+          "macro_delta_B_minus_A": 0.04471327950330299,
+          "ci95": [
+            0.02796146991322842,
+            0.06107976760697997
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.050567993638687025,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 10,
+          "macro_delta_B_minus_A": 0.022311054268219874,
+          "ci95": [
+            0.004152783613223065,
+            0.041980714878205795
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03475257848727774,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 11,
+          "macro_delta_B_minus_A": 0.00739772661113379,
+          "ci95": [
+            -0.010988398670211907,
+            0.025447385924613
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03073623138461179,
+          "median_alpha_A": 50.0000005,
+          "median_alpha_B": 5050.0
+        },
+        {
+          "simulation": 12,
+          "macro_delta_B_minus_A": -0.012326442104708638,
+          "ci95": [
+            -0.033916682114513264,
+            0.008398579728898679
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.025766643247554497,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 13,
+          "macro_delta_B_minus_A": 0.008415404186552317,
+          "ci95": [
+            -0.015856847693849877,
+            0.030156318096751667
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03991909448088203,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 14,
+          "macro_delta_B_minus_A": 0.026411489947073125,
+          "ci95": [
+            0.008898140794093906,
+            0.04619658655182698
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02646472284944977,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 15,
+          "macro_delta_B_minus_A": 0.0011103239360691214,
+          "ci95": [
+            -0.0232761117616925,
+            0.02020748637287983
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.049721640979659434,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 16,
+          "macro_delta_B_minus_A": 0.013737472755893154,
+          "ci95": [
+            -0.003069781437718473,
+            0.030196799391133237
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.05022888087795284,
+          "median_alpha_A": 50.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 17,
+          "macro_delta_B_minus_A": -0.008247613113833846,
+          "ci95": [
+            -0.02980900560364883,
+            0.01279153011759869
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04483607198646318,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 18,
+          "macro_delta_B_minus_A": -0.06959305844794814,
+          "ci95": [
+            -0.11615952994026488,
+            -0.03235088012083438
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04340587252335741,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 19,
+          "macro_delta_B_minus_A": -0.13412923013006517,
+          "ci95": [
+            -0.19240486928182907,
+            -0.08198344131010417
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.034450165280571474,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 20,
+          "macro_delta_B_minus_A": -0.025955526415144786,
+          "ci95": [
+            -0.06074453912271897,
+            0.0069958401654667155
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.030625817297989327,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 21,
+          "macro_delta_B_minus_A": 0.009746092066865927,
+          "ci95": [
+            -0.008542422688339109,
+            0.025254220318439546
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04246533052140937,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 22,
+          "macro_delta_B_minus_A": 0.013445898782550009,
+          "ci95": [
+            -0.011741467377706946,
+            0.0373639776792492
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.027857082252578616,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 23,
+          "macro_delta_B_minus_A": 0.011552337324526166,
+          "ci95": [
+            -0.0020557256483108707,
+            0.025103895563512113
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03748287871293034,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 24,
+          "macro_delta_B_minus_A": 0.022193609265682965,
+          "ci95": [
+            0.0051151525204246855,
+            0.03995681445446138
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.04007487477499529,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 25,
+          "macro_delta_B_minus_A": 0.0390887116451175,
+          "ci95": [
+            0.022499010050112997,
+            0.05851761958461713
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03448969088424139,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 26,
+          "macro_delta_B_minus_A": 0.0009228193695307169,
+          "ci95": [
+            -0.017482606351596403,
+            0.017388115858715702
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.030155711806701416,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 27,
+          "macro_delta_B_minus_A": 0.003989791870304987,
+          "ci95": [
+            -0.009778054244346381,
+            0.01658942780049172
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.027094311303628646,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 28,
+          "macro_delta_B_minus_A": -0.18243881702800646,
+          "ci95": [
+            -0.255721066740506,
+            -0.12429390771495906
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.033209468244564486,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 29,
+          "macro_delta_B_minus_A": -0.3045445491528359,
+          "ci95": [
+            -0.40938779344480275,
+            -0.22342542146774538
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.030970463580275,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 30,
+          "macro_delta_B_minus_A": 0.011211008930225502,
+          "ci95": [
+            -0.008661964922301923,
+            0.030237876042440347
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01982181900649649,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 31,
+          "macro_delta_B_minus_A": -0.009879539338251753,
+          "ci95": [
+            -0.0314147545433078,
+            0.010765943013539026
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03321689381109752,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 32,
+          "macro_delta_B_minus_A": 0.008820941409401262,
+          "ci95": [
+            -0.010666719141797714,
+            0.027897365092627042
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.024298431149983854,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 33,
+          "macro_delta_B_minus_A": -0.007462257783595966,
+          "ci95": [
+            -0.0252550349138654,
+            0.01171791928187267
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02353285588748752,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 34,
+          "macro_delta_B_minus_A": 0.028690374128014215,
+          "ci95": [
+            0.012859257291210496,
+            0.045352124386053794
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03192230574981959,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 35,
+          "macro_delta_B_minus_A": 0.006999008401623888,
+          "ci95": [
+            -0.01359803934504592,
+            0.025797362148261185
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.05394446500589728,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 36,
+          "macro_delta_B_minus_A": 0.03919458552149191,
+          "ci95": [
+            0.019977811763752438,
+            0.05961830109840653
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.014931706579552603,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 37,
+          "macro_delta_B_minus_A": 0.06184085453373453,
+          "ci95": [
+            0.04346503568216094,
+            0.0797099088863936
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.05723479088411684,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 38,
+          "macro_delta_B_minus_A": -0.0029777666838443073,
+          "ci95": [
+            -0.02049362630134392,
+            0.014432888819880332
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.01956073713460113,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 39,
+          "macro_delta_B_minus_A": 0.0456670250796863,
+          "ci95": [
+            0.032703464306361264,
+            0.05947204471814483
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.025627735153154127,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 40,
+          "macro_delta_B_minus_A": 0.024755241549188817,
+          "ci95": [
+            0.0016367741947509254,
+            0.045803489435163526
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.011471142844387702,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 41,
+          "macro_delta_B_minus_A": -0.02809364191736484,
+          "ci95": [
+            -0.052777260352249056,
+            -0.005301559037211783
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.025625207152552038,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 42,
+          "macro_delta_B_minus_A": 0.037275079009097184,
+          "ci95": [
+            0.024492993363432764,
+            0.05041346243312492
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.039490180481890985,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 43,
+          "macro_delta_B_minus_A": -0.0364846974967305,
+          "ci95": [
+            -0.07305112866539029,
+            -0.006742498728250754
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04282590241390087,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 44,
+          "macro_delta_B_minus_A": 0.031922280521676616,
+          "ci95": [
+            0.012316179790511392,
+            0.048838634022407595
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0265869236809234,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 45,
+          "macro_delta_B_minus_A": -0.10269630154733608,
+          "ci95": [
+            -0.152044153711625,
+            -0.06230762827610821
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04401803105675273,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 46,
+          "macro_delta_B_minus_A": -0.009780101424379767,
+          "ci95": [
+            -0.031035066440501986,
+            0.010883822500498685
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.030230153936726026,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 47,
+          "macro_delta_B_minus_A": 0.014702183638170593,
+          "ci95": [
+            -0.0035313420388089515,
+            0.035047253359957564
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03403050402809912,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 48,
+          "macro_delta_B_minus_A": 0.025132646703919514,
+          "ci95": [
+            0.002312678632398074,
+            0.047094693485294575
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.032964650958097697,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 49,
+          "macro_delta_B_minus_A": 0.04176007303072414,
+          "ci95": [
+            0.024971739664246685,
+            0.05806455332973969
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.020492352137175346,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 50,
+          "macro_delta_B_minus_A": -0.005025230555519261,
+          "ci95": [
+            -0.02896023232698338,
+            0.016591022744873042
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08949441519823652,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 51,
+          "macro_delta_B_minus_A": 0.016547725050022846,
+          "ci95": [
+            0.000491797800305166,
+            0.033281089773600336
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03054875127448123,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 52,
+          "macro_delta_B_minus_A": 0.03598642113758771,
+          "ci95": [
+            0.021012125161912348,
+            0.05095717882024536
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.04648225972344963,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 53,
+          "macro_delta_B_minus_A": 0.03430988139752242,
+          "ci95": [
+            0.018983083248290705,
+            0.047387309701785514
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.029650753141743022,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 54,
+          "macro_delta_B_minus_A": 0.023134271579879254,
+          "ci95": [
+            -0.0002264673120216376,
+            0.04653200266921719
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.036768995500032084,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 55,
+          "macro_delta_B_minus_A": -0.14020817268785943,
+          "ci95": [
+            -0.2161838435021241,
+            -0.07934401263031496
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.048189412392022526,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 56,
+          "macro_delta_B_minus_A": 0.0053491012711827934,
+          "ci95": [
+            -0.009123423198242078,
+            0.019437440130929937
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.026701402168058844,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 57,
+          "macro_delta_B_minus_A": -0.14114307651909735,
+          "ci95": [
+            -0.20293480180923112,
+            -0.09068515003664625
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.026443429988652428,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 58,
+          "macro_delta_B_minus_A": 0.008432277491351309,
+          "ci95": [
+            -0.011145053204670343,
+            0.02759146979056786
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03241114031005091,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 59,
+          "macro_delta_B_minus_A": 0.0177975317377915,
+          "ci95": [
+            -0.002320677735719699,
+            0.03833845238295675
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.016326921170704917,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 60,
+          "macro_delta_B_minus_A": 0.04122949636433748,
+          "ci95": [
+            0.021026149546522682,
+            0.061910563716456736
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.026263280091805605,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 61,
+          "macro_delta_B_minus_A": 0.01663614591803078,
+          "ci95": [
+            0.0008855304967338527,
+            0.03142270271930454
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.03502446524538476,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 62,
+          "macro_delta_B_minus_A": 0.011945730096637075,
+          "ci95": [
+            -0.007804577512434879,
+            0.030052719798012117
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0351521285384762,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 63,
+          "macro_delta_B_minus_A": 0.040964010857671374,
+          "ci95": [
+            0.02486540751685273,
+            0.057726502453227475
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02850708318125586,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 64,
+          "macro_delta_B_minus_A": 0.022905404654285602,
+          "ci95": [
+            0.005652882655801314,
+            0.04043928565430499
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02361072830145665,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 65,
+          "macro_delta_B_minus_A": 0.05282023360178796,
+          "ci95": [
+            0.035863939027441435,
+            0.06902266711685189
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02604757379825974,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 66,
+          "macro_delta_B_minus_A": -0.010516243322735694,
+          "ci95": [
+            -0.0393937430438614,
+            0.01421006510098268
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.044087234101207004,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 67,
+          "macro_delta_B_minus_A": -0.02153309606957443,
+          "ci95": [
+            -0.0462312605607476,
+            0.0028236019597328126
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.031529858216788775,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 68,
+          "macro_delta_B_minus_A": 0.006841488147931826,
+          "ci95": [
+            -0.007784194271538176,
+            0.023784127407142332
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04953362760048938,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 69,
+          "macro_delta_B_minus_A": 0.022798579391985055,
+          "ci95": [
+            0.008035521414476282,
+            0.03880523900285238
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.029586064887904898,
+          "median_alpha_A": 50.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 70,
+          "macro_delta_B_minus_A": -0.011563394639429514,
+          "ci95": [
+            -0.03668276233978972,
+            0.008779890641080713
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.029488486634297942,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 71,
+          "macro_delta_B_minus_A": 0.009440209979828612,
+          "ci95": [
+            -0.014713318507426926,
+            0.029245571562292367
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.045149252903753184,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 72,
+          "macro_delta_B_minus_A": 0.010050073007669039,
+          "ci95": [
+            -0.01884926395811516,
+            0.03471395365104439
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03406560570236694,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 73,
+          "macro_delta_B_minus_A": 0.02780754143946207,
+          "ci95": [
+            0.011835622414435996,
+            0.047675942476780336
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.05314867876717591,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 74,
+          "macro_delta_B_minus_A": 0.04068226311432108,
+          "ci95": [
+            0.02076296140733441,
+            0.05899249465413541
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.034828196352042276,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 75,
+          "macro_delta_B_minus_A": -0.013748804073947754,
+          "ci95": [
+            -0.0515001430256706,
+            0.016726128906003532
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.048256591181434744,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 76,
+          "macro_delta_B_minus_A": 0.05105440409908829,
+          "ci95": [
+            0.03539840627967721,
+            0.06602144676028004
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02967880463052458,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 77,
+          "macro_delta_B_minus_A": 0.032917271267798656,
+          "ci95": [
+            0.017817818347539538,
+            0.04967997970197724
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.04136218951057054,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 78,
+          "macro_delta_B_minus_A": 0.03274418987394756,
+          "ci95": [
+            0.01629593676486765,
+            0.04843426441207935
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.04727613177880732,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 79,
+          "macro_delta_B_minus_A": 0.02961402177077814,
+          "ci95": [
+            0.015951922450070398,
+            0.04290875720280706
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.040488000991927356,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 10000.0
+        },
+        {
+          "simulation": 80,
+          "macro_delta_B_minus_A": 0.023915930878134886,
+          "ci95": [
+            -0.0034161043145091463,
+            0.048970895161340844
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0404630049036203,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 81,
+          "macro_delta_B_minus_A": 0.00946047569852744,
+          "ci95": [
+            -0.004753212122454683,
+            0.023077492754373145
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.049479893926422505,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 82,
+          "macro_delta_B_minus_A": -0.035149834416770054,
+          "ci95": [
+            -0.06375914962235724,
+            -0.005940501922818939
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04016439861092973,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 83,
+          "macro_delta_B_minus_A": 0.016686916325236723,
+          "ci95": [
+            -0.004720844460782932,
+            0.036862266671012854
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.023560861330895827,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 84,
+          "macro_delta_B_minus_A": 0.05694824326925288,
+          "ci95": [
+            0.03640976013915228,
+            0.07527971090696582
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0487440773790407,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 85,
+          "macro_delta_B_minus_A": 0.0026804914332769075,
+          "ci95": [
+            -0.011193209988957186,
+            0.01589160714640398
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03900124888565372,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 86,
+          "macro_delta_B_minus_A": 0.03405996052862663,
+          "ci95": [
+            0.01840687000175572,
+            0.04840242014648983
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02668210128844324,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 87,
+          "macro_delta_B_minus_A": 0.022609531671480346,
+          "ci95": [
+            -0.0006799346040704286,
+            0.04383990421720943
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03661524272236487,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 88,
+          "macro_delta_B_minus_A": -0.03728648367000219,
+          "ci95": [
+            -0.07418291431665947,
+            -0.004419675280171085
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03432926390475127,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 89,
+          "macro_delta_B_minus_A": 0.0025258406154474444,
+          "ci95": [
+            -0.015948418912779667,
+            0.018878382850317326
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03767195217977652,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 90,
+          "macro_delta_B_minus_A": 0.01195695315091054,
+          "ci95": [
+            -0.005783534639581042,
+            0.03103173120994277
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03295789100344462,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 50500.0
+        },
+        {
+          "simulation": 91,
+          "macro_delta_B_minus_A": 0.029354663216971125,
+          "ci95": [
+            0.014007435260419948,
+            0.04651415516220217
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.02184349666856006,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 92,
+          "macro_delta_B_minus_A": 0.0040871705641652295,
+          "ci95": [
+            -0.014270126203593636,
+            0.02370069546404404
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.042409880557566004,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 93,
+          "macro_delta_B_minus_A": 0.004806659298851407,
+          "ci95": [
+            -0.017181693037044185,
+            0.023522465574146532
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.02947591738001365,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 94,
+          "macro_delta_B_minus_A": 0.05505889690339581,
+          "ci95": [
+            0.03948254134742826,
+            0.07065205977075772
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.030492734006830627,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 95,
+          "macro_delta_B_minus_A": -0.035012121584053424,
+          "ci95": [
+            -0.06939376423548328,
+            -0.005850423408249576
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.04387815875076001,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 96,
+          "macro_delta_B_minus_A": 0.010751824834769774,
+          "ci95": [
+            -0.0068307956869058765,
+            0.028998350560482316
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0353548267311051,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 97,
+          "macro_delta_B_minus_A": -0.12746443824421,
+          "ci95": [
+            -0.18550852919713623,
+            -0.07425942457496028
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.022863262168449514,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 98,
+          "macro_delta_B_minus_A": -0.0282715049200066,
+          "ci95": [
+            -0.05024386514133912,
+            -0.009520508087405918
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.03315728717470165,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 99,
+          "macro_delta_B_minus_A": 0.020883954161832877,
+          "ci95": [
+            0.004009400440572069,
+            0.039505680762543356
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0405628873520181,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        }
+      ]
+    },
+    {
+      "injected_increment": 0.05,
+      "empirical_pass_rate": 0.35,
+      "mean_observed_B_minus_A": 0.0047147758037133095,
+      "median_observed_B_minus_A": 0.012747022951791441,
+      "mean_oracle_test_increment": 0.08541159496260876,
+      "seed_results": [
+        {
+          "simulation": 0,
+          "macro_delta_B_minus_A": 0.045816829066501696,
+          "ci95": [
+            0.028862357553484486,
+            0.06181551721363149
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.08671673415740508,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 1,
+          "macro_delta_B_minus_A": 0.026530087449253212,
+          "ci95": [
+            0.0033433057587882982,
+            0.04804267608691364
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.10901058670896284,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 2,
+          "macro_delta_B_minus_A": -0.002163775112433139,
+          "ci95": [
+            -0.013099891673593043,
+            0.009649618173900004
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09385163344441544,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 3,
+          "macro_delta_B_minus_A": 0.0038613594929385597,
+          "ci95": [
+            -0.03224996624883203,
+            0.03653786429737171
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08072504035557254,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 4,
+          "macro_delta_B_minus_A": 0.02635079125985665,
+          "ci95": [
+            0.00964710366771294,
+            0.041355012601772184
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.10188773109513637,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 5,
+          "macro_delta_B_minus_A": 0.024436405714698448,
+          "ci95": [
+            0.008425491818721589,
+            0.04208031543294974
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.06626861575024907,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 6,
+          "macro_delta_B_minus_A": 0.06667937078492125,
+          "ci95": [
+            0.044879235189325684,
+            0.08821654891140407
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.05846203690462208,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 7,
+          "macro_delta_B_minus_A": 0.02530515943535669,
+          "ci95": [
+            0.006397109576487657,
+            0.0459380263968704
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.07989785751273484,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 8,
+          "macro_delta_B_minus_A": 0.022593238215944986,
+          "ci95": [
+            0.007427797221434483,
+            0.037397960552355745
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09511984824789896,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 9,
+          "macro_delta_B_minus_A": -0.04447153342892354,
+          "ci95": [
+            -0.08840499270614775,
+            -0.011489091402534606
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07700448750621802,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 10,
+          "macro_delta_B_minus_A": 0.010586633240360618,
+          "ci95": [
+            -0.013747116640733581,
+            0.035069021512994215
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08568884335061455,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 11,
+          "macro_delta_B_minus_A": 0.01475203433238556,
+          "ci95": [
+            -0.004193221813412058,
+            0.03026985952244049
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07714031546233578,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 12,
+          "macro_delta_B_minus_A": -0.03389760985385998,
+          "ci95": [
+            -0.07224357444949736,
+            -7.73408520809985e-05
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07566055136104477,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 13,
+          "macro_delta_B_minus_A": 0.008477283391017831,
+          "ci95": [
+            -0.01477636530942324,
+            0.030518704404030147
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08138731069475431,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 14,
+          "macro_delta_B_minus_A": 0.01755702640553937,
+          "ci95": [
+            0.0029716449607932976,
+            0.032027861222452735
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09917566974400546,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 15,
+          "macro_delta_B_minus_A": 0.025893552043717016,
+          "ci95": [
+            0.009469562027028085,
+            0.0451591556079255
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0966009469584145,
+          "median_alpha_A": 0.500005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 16,
+          "macro_delta_B_minus_A": -0.03925267074164686,
+          "ci95": [
+            -0.06742485502456755,
+            -0.012450027136770653
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08165750954901706,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 17,
+          "macro_delta_B_minus_A": 0.0033590411868242853,
+          "ci95": [
+            -0.016299804539540275,
+            0.02163688295617112
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08821714763849144,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 18,
+          "macro_delta_B_minus_A": -0.2153872240760682,
+          "ci95": [
+            -0.3082381996042303,
+            -0.13670795900171276
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07959332422278846,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 19,
+          "macro_delta_B_minus_A": 0.03168814361466042,
+          "ci95": [
+            0.016417281227371856,
+            0.04753185895694266
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.06560866035506513,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 20,
+          "macro_delta_B_minus_A": -0.004787475970687585,
+          "ci95": [
+            -0.029463840972641476,
+            0.01710326432848959
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.14261486432213363,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 21,
+          "macro_delta_B_minus_A": 0.012308226318064094,
+          "ci95": [
+            -0.003762957549189017,
+            0.026534442149389156
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09231007489154888,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 22,
+          "macro_delta_B_minus_A": -0.016664781393485442,
+          "ci95": [
+            -0.040433951060184624,
+            0.006534360382993004
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09189393791049502,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 23,
+          "macro_delta_B_minus_A": 0.03974509722028169,
+          "ci95": [
+            0.024068553134417747,
+            0.055445688860793436
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09642016863064201,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 24,
+          "macro_delta_B_minus_A": 0.0306188494366033,
+          "ci95": [
+            9.44024318499632e-06,
+            0.05658726083180116
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09686212330692094,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 25,
+          "macro_delta_B_minus_A": 0.028161935773718394,
+          "ci95": [
+            0.005554905060250964,
+            0.051011649811334284
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.07650020794674711,
+          "median_alpha_A": 5.000005,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 26,
+          "macro_delta_B_minus_A": -0.017145853296979832,
+          "ci95": [
+            -0.04544381573727582,
+            0.008056785481868714
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08638963463329152,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 27,
+          "macro_delta_B_minus_A": 0.006702394922060734,
+          "ci95": [
+            -0.015082624695056408,
+            0.02797285671734229
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06938706718747557,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 28,
+          "macro_delta_B_minus_A": 0.0158953663476816,
+          "ci95": [
+            -0.009269900153617096,
+            0.038877354977069116
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.11749960468575822,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 29,
+          "macro_delta_B_minus_A": -0.018279980312796623,
+          "ci95": [
+            -0.04724461775059669,
+            0.007620282056877403
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09706766060233456,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 30,
+          "macro_delta_B_minus_A": -0.0261236462416215,
+          "ci95": [
+            -0.06219797528645947,
+            0.003469262856441248
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.10029951060407978,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 31,
+          "macro_delta_B_minus_A": -0.012228584870158224,
+          "ci95": [
+            -0.0418315994551116,
+            0.013516735642272699
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09541984053712678,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 32,
+          "macro_delta_B_minus_A": 0.020951133996815363,
+          "ci95": [
+            -0.004267039934100131,
+            0.0436781114452173
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06855000077222963,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 33,
+          "macro_delta_B_minus_A": 0.02313765079623771,
+          "ci95": [
+            0.004348103217347843,
+            0.04146531232111443
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09698697167048045,
+          "median_alpha_A": 5.500000000000001e-06,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 34,
+          "macro_delta_B_minus_A": 0.0160913196833658,
+          "ci95": [
+            -0.005488722188073891,
+            0.03944029160083732
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0770017487100773,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 35,
+          "macro_delta_B_minus_A": 0.0049175942662448985,
+          "ci95": [
+            -0.029009733282075997,
+            0.03308166056473538
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08405292567248178,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 36,
+          "macro_delta_B_minus_A": -0.009254005901788265,
+          "ci95": [
+            -0.02740762422973301,
+            0.007322389216460872
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07396913334608969,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 37,
+          "macro_delta_B_minus_A": 0.04123880760542696,
+          "ci95": [
+            0.008376349424166046,
+            0.07166889797231761
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.11798191178816886,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 38,
+          "macro_delta_B_minus_A": -0.00044587972739884574,
+          "ci95": [
+            -0.03851040414846755,
+            0.02878772213568583
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09471115052337767,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 39,
+          "macro_delta_B_minus_A": 0.021505411124019477,
+          "ci95": [
+            -0.004101666674095463,
+            0.046226450277929494
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.11280745319666009,
+          "median_alpha_A": 5.000005,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 40,
+          "macro_delta_B_minus_A": -0.003313529065519155,
+          "ci95": [
+            -0.02740259081829233,
+            0.019766403677019272
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09592123376504627,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 41,
+          "macro_delta_B_minus_A": 0.03597715865188783,
+          "ci95": [
+            0.011130168653992654,
+            0.059995656822270316
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09523261889628418,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 42,
+          "macro_delta_B_minus_A": -0.01610987065348901,
+          "ci95": [
+            -0.052134183766680914,
+            0.01715699793479888
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08793158160736697,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 43,
+          "macro_delta_B_minus_A": -0.07351197549130219,
+          "ci95": [
+            -0.11601145609216816,
+            -0.037127680414690604
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09808062808323384,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 44,
+          "macro_delta_B_minus_A": 0.03067459454287741,
+          "ci95": [
+            0.014082297023137312,
+            0.046292413436718936
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.08865657956991682,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 45,
+          "macro_delta_B_minus_A": 0.016466573741793514,
+          "ci95": [
+            -0.0025638932437100754,
+            0.03576352354637614
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07757085032292867,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 46,
+          "macro_delta_B_minus_A": 0.033721090613540866,
+          "ci95": [
+            0.015476873124305384,
+            0.05177930656585008
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1278869928472136,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 47,
+          "macro_delta_B_minus_A": 0.03073597058304113,
+          "ci95": [
+            0.01441851924586211,
+            0.047930860364539744
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.06709754112430595,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 48,
+          "macro_delta_B_minus_A": -0.003877283757928035,
+          "ci95": [
+            -0.03869697003406774,
+            0.02829983667578585
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07493631921067431,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 49,
+          "macro_delta_B_minus_A": 0.03775029851036747,
+          "ci95": [
+            0.01922149776161383,
+            0.05628387499092266
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.07504303721005937,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 50,
+          "macro_delta_B_minus_A": -0.02608424543349143,
+          "ci95": [
+            -0.060680633838021185,
+            0.0021165467913585203
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06194574334173686,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 51,
+          "macro_delta_B_minus_A": 0.009024576014007885,
+          "ci95": [
+            -0.016168024958105227,
+            0.030840170164371992
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07027579454837021,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 52,
+          "macro_delta_B_minus_A": 0.03835021667713842,
+          "ci95": [
+            0.019579565850864747,
+            0.057479546861197224
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.10651804082037133,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 53,
+          "macro_delta_B_minus_A": -0.004648120005733461,
+          "ci95": [
+            -0.033396472123558445,
+            0.022651575459684492
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.05965357283908777,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 54,
+          "macro_delta_B_minus_A": 0.028430838028186106,
+          "ci95": [
+            0.00875989471797928,
+            0.04704255328508044
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0647504278991088,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 55,
+          "macro_delta_B_minus_A": 0.031691794674418,
+          "ci95": [
+            0.011433771098966646,
+            0.051299237756794715
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.10078101165061752,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 56,
+          "macro_delta_B_minus_A": -0.04283522638060505,
+          "ci95": [
+            -0.0858422589816625,
+            -0.006015464605713024
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07485068435532777,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 57,
+          "macro_delta_B_minus_A": 0.01803363209979157,
+          "ci95": [
+            -0.004043513874313483,
+            0.03974240464543526
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.10580756962367584,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 58,
+          "macro_delta_B_minus_A": 0.014193506946592105,
+          "ci95": [
+            -0.007144327703803027,
+            0.03377553039022281
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.05408073974278768,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 59,
+          "macro_delta_B_minus_A": 0.023844434998462477,
+          "ci95": [
+            -0.00872897040874627,
+            0.05288557563083213
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08230541516709007,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 60,
+          "macro_delta_B_minus_A": 0.011511310918061748,
+          "ci95": [
+            -0.008143525365422503,
+            0.029302922015320854
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08970655299199547,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 61,
+          "macro_delta_B_minus_A": -0.10265730808235977,
+          "ci95": [
+            -0.1606840607668662,
+            -0.05417079740273402
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0986479523316561,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 62,
+          "macro_delta_B_minus_A": 0.044742880183528524,
+          "ci95": [
+            0.029470796810772856,
+            0.0612783464094675
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.08976421032120124,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 63,
+          "macro_delta_B_minus_A": 0.019227515206843557,
+          "ci95": [
+            -4.683562871548128e-05,
+            0.03681620420171339
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08377039210691647,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 64,
+          "macro_delta_B_minus_A": -0.005615363822538105,
+          "ci95": [
+            -0.024247839761618276,
+            0.013565899939316891
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06828299390039107,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 65,
+          "macro_delta_B_minus_A": 0.02481945296845385,
+          "ci95": [
+            0.0034842744644616977,
+            0.04534694721591395
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.08199782759067693,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 5050.0
+        },
+        {
+          "simulation": 66,
+          "macro_delta_B_minus_A": 0.03849067134763477,
+          "ci95": [
+            0.0207708979256826,
+            0.05528377397045401
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.11134287930247384,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 67,
+          "macro_delta_B_minus_A": 0.042713818988713,
+          "ci95": [
+            0.0279379651149436,
+            0.05767599754387251
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09525350499577041,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 68,
+          "macro_delta_B_minus_A": 0.005578619317542138,
+          "ci95": [
+            -0.023162379630185175,
+            0.03195366058989374
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.10771032750129053,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 69,
+          "macro_delta_B_minus_A": 0.04776456338856096,
+          "ci95": [
+            0.023940344636559547,
+            0.06953233171763361
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0782508780190907,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 70,
+          "macro_delta_B_minus_A": -0.02302688035941758,
+          "ci95": [
+            -0.06312201923074919,
+            0.012752414104731118
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06360880172958183,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 71,
+          "macro_delta_B_minus_A": -0.014758373674016986,
+          "ci95": [
+            -0.03820260254032836,
+            0.00845413816510908
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06337762940994925,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 72,
+          "macro_delta_B_minus_A": -0.027196009808214225,
+          "ci95": [
+            -0.05864990016098641,
+            -0.0002899961280387999
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07775905408321213,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 73,
+          "macro_delta_B_minus_A": 0.013185819585518788,
+          "ci95": [
+            -0.007446469204942812,
+            0.03447750484601043
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08146658729121055,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 74,
+          "macro_delta_B_minus_A": 0.00944415802677967,
+          "ci95": [
+            -0.02025732320164488,
+            0.0366396223942072
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08576215264178723,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 75,
+          "macro_delta_B_minus_A": 0.03339500903059241,
+          "ci95": [
+            -0.0010337388906153974,
+            0.0614832134444873
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09888199412935667,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 76,
+          "macro_delta_B_minus_A": 0.02635404451420892,
+          "ci95": [
+            -0.0018967212823712638,
+            0.05181842666569649
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07859994990110233,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 77,
+          "macro_delta_B_minus_A": 0.02401508676101055,
+          "ci95": [
+            0.0029423498551574894,
+            0.04779077824859133
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.06368437018761859,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 78,
+          "macro_delta_B_minus_A": 0.0056747430566088525,
+          "ci95": [
+            -0.008666781855076197,
+            0.019599922183530367
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08344285161535997,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 79,
+          "macro_delta_B_minus_A": -0.0016345221336913351,
+          "ci95": [
+            -0.03208081027646721,
+            0.02633209407305253
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08388244303071289,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 80,
+          "macro_delta_B_minus_A": 0.01801510641163538,
+          "ci95": [
+            -0.0038432910408815477,
+            0.0388740821784038
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09743375658348277,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 81,
+          "macro_delta_B_minus_A": -0.03658011250128848,
+          "ci95": [
+            -0.08512072584761089,
+            0.0008201830241167422
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08141641489004604,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 82,
+          "macro_delta_B_minus_A": 0.04385482754560534,
+          "ci95": [
+            0.022518329057538734,
+            0.0644642181095931
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0808177579089886,
+          "median_alpha_A": 505.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 83,
+          "macro_delta_B_minus_A": -0.11165642412939852,
+          "ci95": [
+            -0.18465980675006916,
+            -0.05256104270904753
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08723774777608073,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 84,
+          "macro_delta_B_minus_A": -0.030070317682591732,
+          "ci95": [
+            -0.070333659484386,
+            0.00628133648043229
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0863414219704012,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 85,
+          "macro_delta_B_minus_A": -2.5378997690783667e-05,
+          "ci95": [
+            -0.026375354200615247,
+            0.02685786637454373
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1076543761192736,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 86,
+          "macro_delta_B_minus_A": -0.0365764524019135,
+          "ci95": [
+            -0.07405970264910208,
+            -0.0023422954347705662
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.09349043165555733,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 87,
+          "macro_delta_B_minus_A": 0.04643408161551367,
+          "ci95": [
+            0.025285730762381237,
+            0.0690672716875256
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.07050781048321039,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 88,
+          "macro_delta_B_minus_A": 0.021716794269608083,
+          "ci95": [
+            0.004255260388788346,
+            0.04015772503665046
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.09504252834726681,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 89,
+          "macro_delta_B_minus_A": -0.031409674567669105,
+          "ci95": [
+            -0.0628997144599581,
+            -0.005774344026660035
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07147613673952914,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 90,
+          "macro_delta_B_minus_A": -0.010137942096847749,
+          "ci95": [
+            -0.047087059496598714,
+            0.022227376172788037
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07530846934072194,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 91,
+          "macro_delta_B_minus_A": 0.02340452906326604,
+          "ci95": [
+            -0.0022272408934533683,
+            0.048120165483744
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.0699937012419543,
+          "median_alpha_A": 1.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 92,
+          "macro_delta_B_minus_A": 0.04951512308062317,
+          "ci95": [
+            0.033717083124007875,
+            0.06700001587769405
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.0566169534949037,
+          "median_alpha_A": 5.0000005,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 93,
+          "macro_delta_B_minus_A": -0.021202101999216183,
+          "ci95": [
+            -0.04999071260246871,
+            0.0037973498787072274
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08770550652694582,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 94,
+          "macro_delta_B_minus_A": -0.014316997348849572,
+          "ci95": [
+            -0.04507858090022003,
+            0.014692465675395009
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08840805932926503,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 95,
+          "macro_delta_B_minus_A": 0.04694401545568158,
+          "ci95": [
+            0.030381903401779427,
+            0.06461867678449074
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.06328557058369262,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 96,
+          "macro_delta_B_minus_A": -0.04593912064098778,
+          "ci95": [
+            -0.08765628425960292,
+            -0.01178054921300369
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.06215422665052765,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 97,
+          "macro_delta_B_minus_A": 0.019822196323194055,
+          "ci95": [
+            0.004641521902383555,
+            0.034346554392941445
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.08524419562238002,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 98,
+          "macro_delta_B_minus_A": 0.0021572163400756517,
+          "ci95": [
+            -0.03250914956975009,
+            0.03731557609311441
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.08367146933318416,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 99,
+          "macro_delta_B_minus_A": 0.011926819728076576,
+          "ci95": [
+            -0.0024982744472313656,
+            0.027561179896160467
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.07443238399903793,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        }
+      ]
+    },
+    {
+      "injected_increment": 0.1,
+      "empirical_pass_rate": 0.62,
+      "mean_observed_B_minus_A": 0.02914801262310788,
+      "median_observed_B_minus_A": 0.0361707158037719,
+      "mean_oracle_test_increment": 0.16687831415166518,
+      "seed_results": [
+        {
+          "simulation": 0,
+          "macro_delta_B_minus_A": 0.037390264819992164,
+          "ci95": [
+            -0.0012640209093675587,
+            0.07328245026264611
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16804286756929926,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 505.0
+        },
+        {
+          "simulation": 1,
+          "macro_delta_B_minus_A": -0.01903041478044462,
+          "ci95": [
+            -0.055459944358453556,
+            0.015804817427111505
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.13425750221082616,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 2,
+          "macro_delta_B_minus_A": 0.03535684071917326,
+          "ci95": [
+            0.011368283832571522,
+            0.05493059430554773
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.14420998748416686,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 3,
+          "macro_delta_B_minus_A": 0.014328210388553572,
+          "ci95": [
+            -0.02002327022718039,
+            0.046195048000958194
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1765343009016172,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 4,
+          "macro_delta_B_minus_A": 0.08100492958021473,
+          "ci95": [
+            0.0517156389016302,
+            0.10696693221299011
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.20937441949229024,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 5,
+          "macro_delta_B_minus_A": 0.061214691807145394,
+          "ci95": [
+            0.03422921698456803,
+            0.08458402553269485
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17000485843242946,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 6,
+          "macro_delta_B_minus_A": 0.03634512484094721,
+          "ci95": [
+            0.01231251419548889,
+            0.05777702832721935
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.13249105231087377,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 7,
+          "macro_delta_B_minus_A": 0.011163119491818085,
+          "ci95": [
+            -0.03159209433914,
+            0.04747988079572295
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16298388115945134,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 8,
+          "macro_delta_B_minus_A": 0.03888183130537899,
+          "ci95": [
+            0.006825965070523112,
+            0.06751435060419635
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.16707810132100187,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 9,
+          "macro_delta_B_minus_A": 0.039249610949627464,
+          "ci95": [
+            0.010138211862669168,
+            0.06544422223536796
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.16753370148375568,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 10,
+          "macro_delta_B_minus_A": 0.035656674505588556,
+          "ci95": [
+            0.01667087398906715,
+            0.05170048131753243
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1287615433426729,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 11,
+          "macro_delta_B_minus_A": 0.03762487970545407,
+          "ci95": [
+            0.01701495296294826,
+            0.05883968133259628
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17819618460439887,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 12,
+          "macro_delta_B_minus_A": 0.06078381426027828,
+          "ci95": [
+            0.029860666764414776,
+            0.08869696552709513
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17785336742670987,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 13,
+          "macro_delta_B_minus_A": -0.016989361101527642,
+          "ci95": [
+            -0.055332694735237914,
+            0.01566171026821599
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15338432694176074,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 14,
+          "macro_delta_B_minus_A": 0.04333301578899992,
+          "ci95": [
+            0.017948401047962158,
+            0.06427885497576903
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1487024681171093,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 15,
+          "macro_delta_B_minus_A": 0.04005575212659336,
+          "ci95": [
+            0.025258771286070167,
+            0.05273422517698225
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1747746286710088,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 16,
+          "macro_delta_B_minus_A": 0.02554866919359773,
+          "ci95": [
+            -0.004359387987484643,
+            0.05420681248430648
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.2643523986463958,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 17,
+          "macro_delta_B_minus_A": -0.08050616890867145,
+          "ci95": [
+            -0.13745208235229273,
+            -0.03172248165376307
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16212432582333483,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 18,
+          "macro_delta_B_minus_A": -0.015284718928911326,
+          "ci95": [
+            -0.04349477499657385,
+            0.010500339215368753
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.13873350949911223,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 19,
+          "macro_delta_B_minus_A": 0.028688523708783706,
+          "ci95": [
+            -0.0013923840191187157,
+            0.05522453595243161
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.18643715376782802,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 20,
+          "macro_delta_B_minus_A": 0.051249863724823916,
+          "ci95": [
+            0.029711620166216937,
+            0.07276805052082494
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.24677606413152342,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 21,
+          "macro_delta_B_minus_A": 0.08541825633534599,
+          "ci95": [
+            0.05837187766045748,
+            0.11186414622886898
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.20899471831391458,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 22,
+          "macro_delta_B_minus_A": 0.0387179721254598,
+          "ci95": [
+            0.01653785391259196,
+            0.05940866503637269
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.16043127912940697,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 23,
+          "macro_delta_B_minus_A": 0.07555069906069908,
+          "ci95": [
+            0.052054407102760054,
+            0.09846825156006035
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.18865365280956042,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 24,
+          "macro_delta_B_minus_A": 0.008768170926319985,
+          "ci95": [
+            -0.03297964850562336,
+            0.047413160465827525
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15113470063070397,
+          "median_alpha_A": 50.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 25,
+          "macro_delta_B_minus_A": 0.04920051620074932,
+          "ci95": [
+            0.0173607120995493,
+            0.07979619945921763
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1427981222173642,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 26,
+          "macro_delta_B_minus_A": -0.07719633190491959,
+          "ci95": [
+            -0.13512040688500412,
+            -0.027030470420394
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15983685164679323,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 27,
+          "macro_delta_B_minus_A": 0.05045197045936074,
+          "ci95": [
+            0.024828176001754233,
+            0.07381046167484924
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1608288406850021,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 28,
+          "macro_delta_B_minus_A": -0.007784825633177311,
+          "ci95": [
+            -0.06933126724336369,
+            0.03541134841591166
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15462732819301706,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 29,
+          "macro_delta_B_minus_A": 0.07143310988097377,
+          "ci95": [
+            0.04576962638182101,
+            0.10160545695573335
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.18901264143116672,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 30,
+          "macro_delta_B_minus_A": 0.030224151635580038,
+          "ci95": [
+            -0.009608546684863745,
+            0.061680325467263195
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.17327236946192948,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 31,
+          "macro_delta_B_minus_A": 0.060424806587394436,
+          "ci95": [
+            0.028202377703817165,
+            0.09019333226330788
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17021745124615728,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 32,
+          "macro_delta_B_minus_A": 0.041866625572984914,
+          "ci95": [
+            0.01304491064430555,
+            0.06796382044404971
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.16662550455297193,
+          "median_alpha_A": 50.5,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 33,
+          "macro_delta_B_minus_A": 0.04974392385136027,
+          "ci95": [
+            0.027360399017213932,
+            0.07133990520288144
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1714132422790835,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 34,
+          "macro_delta_B_minus_A": 0.02846597227289921,
+          "ci95": [
+            -0.00682404915263571,
+            0.05927407988593888
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.14664271711216714,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 35,
+          "macro_delta_B_minus_A": 0.015236785802003605,
+          "ci95": [
+            -0.017933159871444705,
+            0.045750002047667514
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1320415479457917,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 36,
+          "macro_delta_B_minus_A": 0.03036309069432061,
+          "ci95": [
+            0.011257514883867935,
+            0.04654568560351995
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1627148720847755,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 37,
+          "macro_delta_B_minus_A": 0.0681841723196327,
+          "ci95": [
+            0.04827358837251294,
+            0.08536109778340323
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1371571633760833,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 38,
+          "macro_delta_B_minus_A": 0.025514025371443733,
+          "ci95": [
+            -0.00042751613757386773,
+            0.051428849488343364
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.13142196907128922,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 39,
+          "macro_delta_B_minus_A": 0.014641213491185412,
+          "ci95": [
+            -0.010767536640953333,
+            0.03608839061292585
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.12695501140326496,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 40,
+          "macro_delta_B_minus_A": 0.039752140768300206,
+          "ci95": [
+            0.008171706634269258,
+            0.06843905389468137
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17460403458350215,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 41,
+          "macro_delta_B_minus_A": 0.07088154639904871,
+          "ci95": [
+            0.04200103258945877,
+            0.09788124584952738
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1961698100368247,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 42,
+          "macro_delta_B_minus_A": 0.04553766045538189,
+          "ci95": [
+            0.0076117913278567,
+            0.07866215156594597
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1355012040593767,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 43,
+          "macro_delta_B_minus_A": 0.0022694847728105955,
+          "ci95": [
+            -0.057495708556145435,
+            0.049478902140411236
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1683888782281197,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 44,
+          "macro_delta_B_minus_A": 0.07855677288404962,
+          "ci95": [
+            0.061720380537032334,
+            0.09665638628495729
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.16049245373028906,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 45,
+          "macro_delta_B_minus_A": 0.0017683918857277076,
+          "ci95": [
+            -0.04223080251901264,
+            0.03610157515684165
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.18518830796338706,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 46,
+          "macro_delta_B_minus_A": 0.058710776138140575,
+          "ci95": [
+            0.034646926839917824,
+            0.08079105013235233
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.161020583515226,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 47,
+          "macro_delta_B_minus_A": 0.03262692526786948,
+          "ci95": [
+            0.015799219267936444,
+            0.049377504014546936
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.12725285932691208,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 48,
+          "macro_delta_B_minus_A": 0.04805604979435277,
+          "ci95": [
+            0.022844708766240708,
+            0.07257636358874081
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.22196766921313565,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 49,
+          "macro_delta_B_minus_A": 0.06699953600213501,
+          "ci95": [
+            0.03586139920574513,
+            0.09731576958992186
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.10357547780092788,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 50,
+          "macro_delta_B_minus_A": -0.005658368529307678,
+          "ci95": [
+            -0.039448177791988295,
+            0.026100143259298037
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16955581181924823,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 51,
+          "macro_delta_B_minus_A": -0.035607634718959696,
+          "ci95": [
+            -0.07271961192498604,
+            -0.0014078043918352243
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.19768890087410929,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 52,
+          "macro_delta_B_minus_A": 0.003178183443767177,
+          "ci95": [
+            -0.03197878688590504,
+            0.03314163544950349
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.19916688343504604,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 53,
+          "macro_delta_B_minus_A": 0.019958690901434775,
+          "ci95": [
+            -0.007502519879800786,
+            0.04414975140689295
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16021105864302054,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 54,
+          "macro_delta_B_minus_A": 0.016509793116397276,
+          "ci95": [
+            0.0006244736715672869,
+            0.03453463865859564
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.12406728968107861,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 55,
+          "macro_delta_B_minus_A": -0.06439814438373888,
+          "ci95": [
+            -0.10599888162210139,
+            -0.032635999080902575
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.11633573043991381,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 56,
+          "macro_delta_B_minus_A": 0.04101425100352331,
+          "ci95": [
+            0.020096615648933034,
+            0.06276937506483346
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.12263852060034422,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 57,
+          "macro_delta_B_minus_A": -0.030826837528722048,
+          "ci95": [
+            -0.07622685793066203,
+            0.007066166137530812
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.17016263619456065,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 58,
+          "macro_delta_B_minus_A": -0.017201087073990762,
+          "ci95": [
+            -0.05490215142347523,
+            0.011617981006422124
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.11852780733343586,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 59,
+          "macro_delta_B_minus_A": 0.013189827705786777,
+          "ci95": [
+            -0.011415879991675969,
+            0.0376171573277808
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.18451969443462873,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 60,
+          "macro_delta_B_minus_A": 0.052840903224924615,
+          "ci95": [
+            0.029104050060031576,
+            0.07370948513513165
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.19366048755548015,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 61,
+          "macro_delta_B_minus_A": 0.04675375586068846,
+          "ci95": [
+            0.020455979504716577,
+            0.0716829090325902
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.19793153636684607,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 62,
+          "macro_delta_B_minus_A": 0.023344493942578787,
+          "ci95": [
+            -0.010074195447498045,
+            0.05002649307928909
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.14511995105059539,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 63,
+          "macro_delta_B_minus_A": 0.057950085633628634,
+          "ci95": [
+            0.029314176292038443,
+            0.0848696957474615
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1381489029371148,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 64,
+          "macro_delta_B_minus_A": 0.0429331033927364,
+          "ci95": [
+            0.021685490641011065,
+            0.06262748186827205
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.14162286586329792,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 65,
+          "macro_delta_B_minus_A": 0.04672822183627379,
+          "ci95": [
+            0.016148481315325227,
+            0.07350104537133505
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1666444890406236,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 66,
+          "macro_delta_B_minus_A": 0.04191384485870743,
+          "ci95": [
+            0.019982683864245458,
+            0.06276997131114379
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.15512785346149482,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 67,
+          "macro_delta_B_minus_A": 0.025157717669207547,
+          "ci95": [
+            0.0035329268921873644,
+            0.04636600030563089
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.151405542716952,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 68,
+          "macro_delta_B_minus_A": -0.002914576525003973,
+          "ci95": [
+            -0.03367230536881539,
+            0.02622995113801152
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.17061919689800253,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 69,
+          "macro_delta_B_minus_A": 0.06350184292079566,
+          "ci95": [
+            0.046959186097706315,
+            0.08046992149746793
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.15992842259666618,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 70,
+          "macro_delta_B_minus_A": -0.0234590116556017,
+          "ci95": [
+            -0.04421105156426298,
+            -0.005076453797084375
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16645060833095768,
+          "median_alpha_A": 550.0,
+          "median_alpha_B": 55000.0
+        },
+        {
+          "simulation": 71,
+          "macro_delta_B_minus_A": 0.0615002791017778,
+          "ci95": [
+            0.04284599699487995,
+            0.07893595862270403
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.23962895554605232,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 72,
+          "macro_delta_B_minus_A": 0.04662118588306553,
+          "ci95": [
+            0.02986202864515347,
+            0.06337506159972799
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.20076274245394227,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 73,
+          "macro_delta_B_minus_A": 0.029861389864015098,
+          "ci95": [
+            0.003988351788479778,
+            0.053497841961432445
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.15915704860122387,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 74,
+          "macro_delta_B_minus_A": 0.07878867669719655,
+          "ci95": [
+            0.04999640333775494,
+            0.1033410909839341
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.2170228706145793,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 75,
+          "macro_delta_B_minus_A": 0.02979648557988511,
+          "ci95": [
+            0.013542773855984387,
+            0.04541299440244106
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1564687687405921,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 76,
+          "macro_delta_B_minus_A": 0.0359963067665966,
+          "ci95": [
+            0.020808684671201297,
+            0.05040320978792261
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.13695372354114926,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 77,
+          "macro_delta_B_minus_A": 0.009012312741260561,
+          "ci95": [
+            -0.020109883165038787,
+            0.03557000724311892
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1444630440005905,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 78,
+          "macro_delta_B_minus_A": 0.0678359080137032,
+          "ci95": [
+            0.04434222478617929,
+            0.09333986819528947
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17358143847200236,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 79,
+          "macro_delta_B_minus_A": 0.045954736547481126,
+          "ci95": [
+            0.026097027587917654,
+            0.06615646806162682
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.15488629470547655,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 80,
+          "macro_delta_B_minus_A": 0.005449976161758269,
+          "ci95": [
+            -0.02280843988638529,
+            0.033365012322874574
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.2314447307957238,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 81,
+          "macro_delta_B_minus_A": 0.015751180117462224,
+          "ci95": [
+            -0.013641116036382336,
+            0.04126518002374381
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15387545777272654,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 82,
+          "macro_delta_B_minus_A": 0.03156688444155972,
+          "ci95": [
+            0.012108019525133521,
+            0.04958810096866321
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17433386199306478,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 83,
+          "macro_delta_B_minus_A": 0.03774776231479339,
+          "ci95": [
+            0.016219558095647926,
+            0.059225842629441965
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.15536319918473213,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 84,
+          "macro_delta_B_minus_A": 0.05365447541010056,
+          "ci95": [
+            0.03499829551319801,
+            0.07298042647710393
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17569483905063785,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 85,
+          "macro_delta_B_minus_A": 0.01986518292050235,
+          "ci95": [
+            -0.007863153795874796,
+            0.04600709796156387
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.21884952513374104,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 86,
+          "macro_delta_B_minus_A": 0.024750625475367355,
+          "ci95": [
+            -0.00017745813920322853,
+            0.05340623020354582
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.18584723196553465,
+          "median_alpha_A": 5.5,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 87,
+          "macro_delta_B_minus_A": 0.018613940336950005,
+          "ci95": [
+            -0.016145008501481293,
+            0.049864129959030196
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.1982175942917709,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 88,
+          "macro_delta_B_minus_A": 0.04340127244664334,
+          "ci95": [
+            0.016547330423912897,
+            0.06705936011127742
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1597142573297191,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 5500.0
+        },
+        {
+          "simulation": 89,
+          "macro_delta_B_minus_A": 0.04384752154910286,
+          "ci95": [
+            0.02683221184203304,
+            0.06085489844940519
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.14169792722879954,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 90,
+          "macro_delta_B_minus_A": 0.03177297234691363,
+          "ci95": [
+            0.007881387060750705,
+            0.05302594389219085
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.17532663671880558,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 91,
+          "macro_delta_B_minus_A": 0.008955687572913776,
+          "ci95": [
+            -0.018142940107215795,
+            0.03240894913756276
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.16180764507355194,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 92,
+          "macro_delta_B_minus_A": 0.03939296225788569,
+          "ci95": [
+            0.016688931299192918,
+            0.06118655065806012
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.13350961255632407,
+          "median_alpha_A": 5.000005,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 93,
+          "macro_delta_B_minus_A": 0.040303662604339915,
+          "ci95": [
+            0.018537715800325913,
+            0.06388044629570103
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.2051348908550416,
+          "median_alpha_A": 0.500005,
+          "median_alpha_B": 100.0
+        },
+        {
+          "simulation": 94,
+          "macro_delta_B_minus_A": 0.03995739423827187,
+          "ci95": [
+            0.021503454135804873,
+            0.058386461506353036
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1666297263695229,
+          "median_alpha_A": 10.0,
+          "median_alpha_B": 550.0
+        },
+        {
+          "simulation": 95,
+          "macro_delta_B_minus_A": 0.03398985406208063,
+          "ci95": [
+            0.008929500587912356,
+            0.058439560005432545
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.14882247007785632,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 96,
+          "macro_delta_B_minus_A": 0.03159265437371554,
+          "ci95": [
+            0.010748040618295778,
+            0.05332207960069726
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.18491366331881834,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 97,
+          "macro_delta_B_minus_A": 0.051150991441263324,
+          "ci95": [
+            0.03306512728658646,
+            0.07201365523459594
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.1563907061647804,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 98,
+          "macro_delta_B_minus_A": -0.06753038327670646,
+          "ci95": [
+            -0.1085344924058304,
+            -0.03218413161475284
+          ],
+          "pass": false,
+          "mean_oracle_test_increment": 0.15637462728055385,
+          "median_alpha_A": 55.0,
+          "median_alpha_B": 1000.0
+        },
+        {
+          "simulation": 99,
+          "macro_delta_B_minus_A": 0.039841566610914245,
+          "ci95": [
+            0.018017330120816577,
+            0.06131065374746037
+          ],
+          "pass": true,
+          "mean_oracle_test_increment": 0.20987582967007662,
+          "median_alpha_A": 100.0,
+          "median_alpha_B": 1000.0
+        }
+      ]
+    }
+  ],
+  "binding": {
+    "config_sha256": "d2ef23b48bd09ccde47cafdde19d5ca1020cd9cc54a2a1d24ffe1040141c50e8",
+    "protocol_sha256": "dd40eb3724f3308c52bf85f18f99ad512367925a83f2991c68270babac3b14bf",
+    "source_trait_panel_sha256": "91fb614d5b395c428de76d957c0c37717d4bd7c617ed14b6ceb861d261bd5820",
+    "source_manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6",
+    "source_stage_config_sha256": "9d40c47c2cbf8532a9af12a284e28f9f917c2a2b1a764c21fb4bf96525448f49"
+  }
+}

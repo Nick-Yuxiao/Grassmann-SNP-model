@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checks": {
+    "config_hash_matches": true,
+    "protocol_hash_matches": true,
+    "rc1_hash_matches": true,
+    "source_panel_hash_matches": true,
+    "rc1_failure_preserved": true,
+    "five_frozen_grid_points": true,
+    "one_hundred_seeds_each": true,
+    "five_family_disjoint_folds": true,
+    "null_fpr_recomputes": true,
+    "minimum_power_recomputes": true,
+    "status_recomputes": true,
+    "no_real_phenotype_access": true,
+    "no_encoder_or_grassmann": true
+  }
+}

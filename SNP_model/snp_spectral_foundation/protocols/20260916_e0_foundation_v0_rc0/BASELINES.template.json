@@ -1,0 +1,54 @@
+{
+  "classification": "PRE_TEST_BASELINE_TEMPLATE",
+  "shared_rules": {
+    "target": "diploid_biallelic_ALT_dosage_class",
+    "metric": "masked_genotype_cross_entropy",
+    "mask_manifest_identity_required": true,
+    "train_family_only_fitting": true,
+    "test_individual_information_exchange_allowed": false,
+    "validation_only_hyperparameter_selection": true
+  },
+  "m0a_empirical": {
+    "definition": "per_variant_train_family_genotype_class_frequency",
+    "dirichlet_smoothing_per_class": 0.5,
+    "locus_specific_train_statistics_allowed": true
+  },
+  "m0b_hwe": {
+    "definition": "HWE_genotype_probabilities_from_train_family_ALT_AF",
+    "probabilities": ["(1-AF)^2", "2*AF*(1-AF)", "AF^2"]
+  },
+  "m1a_local_multinomial": {
+    "definition": "per_target_regularized_multinomial_logistic_from_masked_local_dosage_context",
+    "flanking_markers_each_side": 32,
+    "missing_or_masked_fill": "2_times_train_ALT_AF",
+    "missingness_indicators": true,
+    "covariates": ["train_fitted_PC1_to_PC10"],
+    "regularization_C_grid": [0.01, 0.1, 1.0],
+    "training_masks_per_sample": 5,
+    "selection": "validation_CE",
+    "scope": "frozen_stratified_block_subset_if_genomewide_cost_is_prohibitive"
+  },
+  "m1b_haplotype_hmm": {
+    "software": "Beagle_5.5",
+    "version": "27Feb25.75f",
+    "official_url": "https://faculty.washington.edu/browning/beagle/beagle.html",
+    "jar_sha256": "7319f4af9638be05c18dcc1bfb8fb41a58a09293507ebf0d54617d0e40df5a70",
+    "java_version": null,
+    "reference": "phased_nonmissing_train_families_only",
+    "target_execution_unit": "one_heldout_individual_per_run",
+    "genetic_map": "same_frozen_build_matched_map_as_block_manifest",
+    "ap": true,
+    "gp": true,
+    "seed": null,
+    "nthreads": 1,
+    "parameter_policy": "documented_defaults_except_explicit_fields_above",
+    "probability_contract_validated": false,
+    "scope": "frozen_stratified_block_subset_if_genomewide_cost_is_prohibitive"
+  },
+  "strongest_baseline_selection": {
+    "eligible": ["m0a_empirical", "m0b_hwe", "m1a_local_multinomial", "m1b_haplotype_hmm"],
+    "criterion": "lowest_validation_CE",
+    "selected_b_star": null,
+    "test_block_specific_selection_allowed": false
+  }
+}

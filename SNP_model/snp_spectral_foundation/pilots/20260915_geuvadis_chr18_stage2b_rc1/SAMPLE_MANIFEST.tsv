@@ -1,0 +1,446 @@
+sample_id	family	pop	super_pop	sex	primary_role	development_role
+HG00096	HG00096	GBR	EUR	1	bridge_test	
+HG00097	HG00097	GBR	EUR	2	bridge_test	
+HG00099	HG00099	GBR	EUR	2	bridge_test	
+HG00100	HG00100	GBR	EUR	2	bridge_test	
+HG00101	HG00101	GBR	EUR	1	bridge_test	
+HG00102	HG00102	GBR	EUR	2	bridge_test	
+HG00103	HG00103	GBR	EUR	1	bridge_test	
+HG00105	HG00105	GBR	EUR	1	bridge_test	
+HG00106	HG00106	GBR	EUR	2	bridge_test	
+HG00108	HG00108	GBR	EUR	1	bridge_test	
+HG00109	HG00109	GBR	EUR	1	bridge_test	
+HG00110	HG00110	GBR	EUR	2	bridge_test	
+HG00111	HG00111	GBR	EUR	2	bridge_test	
+HG00112	HG00112	GBR	EUR	1	bridge_test	
+HG00114	HG00114	GBR	EUR	1	bridge_test	
+HG00115	HG00115	GBR	EUR	1	development	dev_train
+HG00116	HG00116	GBR	EUR	1	bridge_test	
+HG00117	HG00117	GBR	EUR	1	development	dev_train
+HG00118	HG00118	GBR	EUR	2	bridge_test	
+HG00119	HG00119	GBR	EUR	1	development	dev_train
+HG00120	HG00120	GBR	EUR	2	bridge_test	
+HG00121	HG00121	GBR	EUR	2	development	dev_train
+HG00122	HG00122	GBR	EUR	2	bridge_test	
+HG00123	HG00123	GBR	EUR	2	development	dev_train
+HG00125	HG00125	GBR	EUR	2	bridge_test	
+HG00126	HG00126	GBR	EUR	1	development	dev_train
+HG00127	HG00127	GBR	EUR	2	bridge_test	
+HG00128	HG00128	GBR	EUR	2	development	dev_train
+HG00129	HG00129	GBR	EUR	1	bridge_test	
+HG00130	HG00130	GBR	EUR	2	development	dev_train
+HG00131	HG00131	GBR	EUR	1	bridge_test	
+HG00132	HG00132	GBR	EUR	2	development	dev_train
+HG00133	HG00133	GBR	EUR	2	bridge_test	
+HG00136	HG00136	GBR	EUR	1	development	dev_train
+HG00137	HG00137	GBR	EUR	2	bridge_test	
+HG00138	HG00138	GBR	EUR	1	development	dev_train
+HG00139	HG00139	GBR	EUR	1	bridge_test	
+HG00141	HG00141	GBR	EUR	1	development	dev_train
+HG00142	HG00142	GBR	EUR	1	bridge_test	
+HG00143	HG00143	GBR	EUR	1	development	dev_train
+HG00145	HG00145	GBR	EUR	1	bridge_test	
+HG00146	GBR002	GBR	EUR	2	bridge_test	
+HG00148	HG00148	GBR	EUR	1	development	dev_train
+HG00149	HG00149	GBR	EUR	1	bridge_test	
+HG00150	HG00150	GBR	EUR	2	development	dev_train
+HG00151	HG00151	GBR	EUR	1	bridge_test	
+HG00154	HG00154	GBR	EUR	2	development	dev_train
+HG00155	GBR001	GBR	EUR	1	bridge_test	
+HG00157	HG00157	GBR	EUR	1	bridge_test	
+HG00158	GBR003	GBR	EUR	2	bridge_test	
+HG00159	HG00159	GBR	EUR	1	development	dev_train
+HG00160	HG00160	GBR	EUR	1	bridge_test	
+HG00171	HG00171	FIN	EUR	2	bridge_test	
+HG00173	HG00173	FIN	EUR	2	bridge_test	
+HG00174	HG00174	FIN	EUR	2	bridge_test	
+HG00176	HG00176	FIN	EUR	2	bridge_test	
+HG00177	HG00177	FIN	EUR	2	bridge_test	
+HG00178	HG00178	FIN	EUR	2	bridge_test	
+HG00179	HG00179	FIN	EUR	2	bridge_test	
+HG00180	HG00180	FIN	EUR	2	bridge_test	
+HG00181	HG00181	FIN	EUR	1	bridge_test	
+HG00182	HG00182	FIN	EUR	1	bridge_test	
+HG00183	HG00183	FIN	EUR	1	bridge_test	
+HG00185	HG00185	FIN	EUR	1	bridge_test	
+HG00186	HG00186	FIN	EUR	1	bridge_test	
+HG00187	HG00187	FIN	EUR	1	bridge_test	
+HG00188	HG00188	FIN	EUR	1	bridge_test	
+HG00189	HG00189	FIN	EUR	1	bridge_test	
+HG00231	HG00231	GBR	EUR	2	development	dev_train
+HG00232	HG00232	GBR	EUR	2	bridge_test	
+HG00233	HG00233	GBR	EUR	2	development	dev_train
+HG00234	HG00234	GBR	EUR	1	bridge_test	
+HG00235	HG00235	GBR	EUR	2	development	dev_train
+HG00236	HG00236	GBR	EUR	2	bridge_test	
+HG00238	HG00238	GBR	EUR	2	development	dev_validation
+HG00239	HG00239	GBR	EUR	2	bridge_test	
+HG00240	HG00240	GBR	EUR	2	development	dev_train
+HG00242	HG00242	GBR	EUR	1	task_gate	
+HG00243	HG00243	GBR	EUR	1	bridge_test	
+HG00244	HG00244	GBR	EUR	1	development	dev_validation
+HG00245	HG00245	GBR	EUR	2	task_gate	
+HG00246	HG00246	GBR	EUR	1	bridge_test	
+HG00250	HG00250	GBR	EUR	2	development	dev_train
+HG00251	HG00251	GBR	EUR	1	task_gate	
+HG00252	HG00252	GBR	EUR	1	bridge_test	
+HG00253	HG00253	GBR	EUR	2	development	dev_validation
+HG00255	HG00255	GBR	EUR	2	task_gate	
+HG00256	HG00256	GBR	EUR	1	bridge_test	
+HG00257	HG00257	GBR	EUR	2	development	dev_train
+HG00258	HG00258	GBR	EUR	2	task_gate	
+HG00259	HG00259	GBR	EUR	2	bridge_test	
+HG00260	HG00260	GBR	EUR	1	development	dev_validation
+HG00261	HG00261	GBR	EUR	2	task_gate	
+HG00262	HG00262	GBR	EUR	2	bridge_test	
+HG00263	HG00263	GBR	EUR	2	development	dev_train
+HG00264	HG00264	GBR	EUR	1	task_gate	
+HG00265	HG00265	GBR	EUR	1	bridge_test	
+HG00266	HG00266	FIN	EUR	2	bridge_test	
+HG00267	HG00267	FIN	EUR	1	bridge_test	
+HG00268	HG00268	FIN	EUR	2	bridge_test	
+HG00269	HG00269	FIN	EUR	2	bridge_test	
+HG00271	HG00271	FIN	EUR	1	development	dev_train
+HG00272	HG00272	FIN	EUR	2	bridge_test	
+HG00273	HG00273	FIN	EUR	1	development	dev_train
+HG00274	HG00274	FIN	EUR	2	bridge_test	
+HG00275	HG00275	FIN	EUR	2	development	dev_train
+HG00276	HG00276	FIN	EUR	2	bridge_test	
+HG00277	HG00277	FIN	EUR	1	development	dev_train
+HG00278	HG00278	FIN	EUR	1	bridge_test	
+HG00280	HG00280	FIN	EUR	1	development	dev_train
+HG00281	HG00281	FIN	EUR	2	bridge_test	
+HG00282	HG00282	FIN	EUR	2	development	dev_train
+HG00284	HG00284	FIN	EUR	1	bridge_test	
+HG00285	HG00285	FIN	EUR	2	development	dev_train
+HG00306	HG00306	FIN	EUR	2	bridge_test	
+HG00308	HG00308	FIN	EUR	1	development	dev_train
+HG00309	HG00309	FIN	EUR	2	bridge_test	
+HG00310	HG00310	FIN	EUR	1	development	dev_train
+HG00311	HG00311	FIN	EUR	1	bridge_test	
+HG00313	HG00313	FIN	EUR	2	development	dev_train
+HG00315	HG00315	FIN	EUR	2	bridge_test	
+HG00319	HG00319	FIN	EUR	2	development	dev_train
+HG00320	HG00320	FIN	EUR	2	bridge_test	
+HG00321	HG00321	FIN	EUR	1	development	dev_train
+HG00323	HG00323	FIN	EUR	2	bridge_test	
+HG00324	HG00324	FIN	EUR	2	development	dev_train
+HG00325	HG00325	FIN	EUR	1	bridge_test	
+HG00326	HG00326	FIN	EUR	2	development	dev_train
+HG00327	HG00327	FIN	EUR	2	bridge_test	
+HG00328	HG00328	FIN	EUR	2	development	dev_train
+HG00329	HG00329	FIN	EUR	1	bridge_test	
+HG00330	HG00330	FIN	EUR	2	development	dev_train
+HG00331	HG00331	FIN	EUR	2	bridge_test	
+HG00332	HG00332	FIN	EUR	2	development	dev_train
+HG00334	HG00334	FIN	EUR	2	bridge_test	
+HG00335	HG00335	FIN	EUR	1	development	dev_train
+HG00336	HG00336	FIN	EUR	1	bridge_test	
+HG00337	HG00337	FIN	EUR	2	development	dev_train
+HG00338	HG00338	FIN	EUR	1	bridge_test	
+HG00339	HG00339	FIN	EUR	2	development	dev_train
+HG00341	HG00341	FIN	EUR	1	bridge_test	
+HG00342	HG00342	FIN	EUR	1	development	dev_train
+HG00343	HG00343	FIN	EUR	2	bridge_test	
+HG00344	HG00344	FIN	EUR	2	development	dev_train
+HG00345	HG00345	FIN	EUR	1	bridge_test	
+HG00346	HG00346	FIN	EUR	2	development	dev_validation
+HG00349	HG00349	FIN	EUR	2	bridge_test	
+HG00350	HG00350	FIN	EUR	2	development	dev_train
+HG00351	HG00351	FIN	EUR	1	task_gate	
+HG00353	HG00353	FIN	EUR	2	bridge_test	
+HG00355	HG00355	FIN	EUR	2	development	dev_validation
+HG00356	HG00356	FIN	EUR	2	task_gate	
+HG00358	HG00358	FIN	EUR	1	bridge_test	
+HG00360	HG00360	FIN	EUR	1	development	dev_train
+HG00361	HG00361	FIN	EUR	2	task_gate	
+HG00362	HG00362	FIN	EUR	2	bridge_test	
+HG00364	HG00364	FIN	EUR	2	development	dev_validation
+HG00365	HG00365	FIN	EUR	2	task_gate	
+HG00366	HG00366	FIN	EUR	1	bridge_test	
+HG00367	HG00367	FIN	EUR	2	development	dev_train
+HG00369	HG00369	FIN	EUR	1	task_gate	
+HG00371	HG00371	FIN	EUR	1	bridge_test	
+HG00372	HG00372	FIN	EUR	1	development	dev_validation
+HG00373	HG00373	FIN	EUR	2	task_gate	
+HG00375	HG00375	FIN	EUR	1	bridge_test	
+HG00376	HG00376	FIN	EUR	2	development	dev_train
+HG00378	HG00378	FIN	EUR	2	task_gate	
+HG00379	HG00379	FIN	EUR	2	bridge_test	
+HG00380	HG00380	FIN	EUR	2	development	dev_validation
+HG00381	HG00381	FIN	EUR	2	task_gate	
+HG00382	HG00382	FIN	EUR	1	bridge_test	
+HG00383	HG00383	FIN	EUR	2	development	dev_train
+HG00384	HG00384	FIN	EUR	2	task_gate	
+HG01334	HG01334	GBR	EUR	1	development	dev_validation
+HG01789	HG01789	GBR	EUR	1	task_gate	
+HG01790	HG01790	GBR	EUR	2	bridge_test	
+HG01791	HG01791	GBR	EUR	1	development	dev_train
+HG02215	HG02215	GBR	EUR	2	task_gate	
+NA06984	1328	CEU	EUR	1	bridge_test	
+NA06985	1341	CEU	EUR	2	development	dev_validation
+NA06986	13291	CEU	EUR	1	bridge_test	
+NA06989	1328	CEU	EUR	2	bridge_test	
+NA06994	1340	CEU	EUR	1	task_gate	
+NA07037	13291	CEU	EUR	2	bridge_test	
+NA07048	1341	CEU	EUR	1	development	dev_validation
+NA07051	13292	CEU	EUR	1	task_gate	
+NA07056	1340	CEU	EUR	2	task_gate	
+NA07347	1345	CEU	EUR	1	task_gate	
+NA07357	1345	CEU	EUR	1	task_gate	
+NA10847	1334	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA10851	1344	CEU	EUR	1	bridge_test	
+NA11829	1350	CEU	EUR	1	bridge_test	
+NA11830	1350	CEU	EUR	2	bridge_test	
+NA11831	1350	CEU	EUR	1	bridge_test	
+NA11832	1350	CEU	EUR	2	bridge_test	
+NA11840	1349	CEU	EUR	2	development	dev_train
+NA11843	1349	CEU	EUR	1	development	dev_train
+NA11881	1347	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA11892	1377	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA11893	1377	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA11894	1377	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA11918	1423	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA11920	1423	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA11930	1424	CEU	EUR	1	task_gate	
+NA11931	1424	CEU	EUR	2	task_gate	
+NA11992	1362	CEU	EUR	1	bridge_test	
+NA11994	1362	CEU	EUR	1	bridge_test	
+NA11995	1362	CEU	EUR	2	bridge_test	
+NA12004	1420	CEU	EUR	2	task_gate	
+NA12005	1420	CEU	EUR	1	task_gate	
+NA12006	1420	CEU	EUR	2	task_gate	
+NA12043	1346	CEU	EUR	1	development	dev_train
+NA12044	1346	CEU	EUR	2	development	dev_train
+NA12045	1346	CEU	EUR	1	development	dev_train
+NA12058	1344	CEU	EUR	2	bridge_test	
+NA12144	1334	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA12154	1408	CEU	EUR	1	development	dev_train
+NA12155	1408	CEU	EUR	1	development	dev_train
+NA12156	1408	CEU	EUR	2	development	dev_train
+NA12234	1375	CEU	EUR	2	development	dev_validation
+NA12249	1416	CEU	EUR	2	task_gate	
+NA12272	1418	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA12273	1418	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA12275	1418	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA12282	1421a	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA12283	1421a	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA12286	1421	CEU	EUR	1	EXCLUDED_RC2_TEST	
+NA12287	1421	CEU	EUR	2	EXCLUDED_RC2_TEST	
+NA12340	1330	CEU	EUR	1	bridge_test	
+NA12341	1330	CEU	EUR	2	bridge_test	
+NA12342	1330	CEU	EUR	1	bridge_test	
+NA12347	13281	CEU	EUR	1	development	dev_train
+NA12348	13281	CEU	EUR	2	development	dev_train
+NA12383	1353	CEU	EUR	2	bridge_test	
+NA12399	1354	CEU	EUR	1	bridge_test	
+NA12400	1354	CEU	EUR	2	bridge_test	
+NA12413	1355	CEU	EUR	1	task_gate	
+NA12489	1353	CEU	EUR	2	bridge_test	
+NA12546	1353	CEU	EUR	1	bridge_test	
+NA12716	1358	CEU	EUR	1	development	dev_train
+NA12717	1358	CEU	EUR	2	development	dev_train
+NA12718	1358	CEU	EUR	2	development	dev_train
+NA12749	1444	CEU	EUR	2	bridge_test	
+NA12750	1444	CEU	EUR	1	bridge_test	
+NA12751	1444	CEU	EUR	2	bridge_test	
+NA12760	1447	CEU	EUR	1	bridge_test	
+NA12761	1447	CEU	EUR	2	bridge_test	
+NA12762	1447	CEU	EUR	1	bridge_test	
+NA12763	1447	CEU	EUR	2	bridge_test	
+NA12775	1451	CEU	EUR	1	bridge_test	
+NA12776	1451	CEU	EUR	2	bridge_test	
+NA12777	1451	CEU	EUR	1	bridge_test	
+NA12778	1451	CEU	EUR	2	bridge_test	
+NA12812	1454	CEU	EUR	1	development	dev_train
+NA12813	1454	CEU	EUR	2	development	dev_train
+NA12814	1454	CEU	EUR	1	development	dev_train
+NA12815	1454	CEU	EUR	2	development	dev_train
+NA12827	1456	CEU	EUR	1	development	dev_validation
+NA12829	1456	CEU	EUR	1	development	dev_validation
+NA12830	1456	CEU	EUR	2	development	dev_validation
+NA12842	1458	CEU	EUR	1	development	dev_validation
+NA12843	1458	CEU	EUR	2	development	dev_validation
+NA12872	1459	CEU	EUR	1	task_gate	
+NA12873	1459	CEU	EUR	2	task_gate	
+NA12874	1459	CEU	EUR	1	task_gate	
+NA12889	1463	CEU	EUR	1	bridge_test	
+NA12890	1463	CEU	EUR	2	bridge_test	
+NA18486	Y001	YRI	AFR	1	bridge_test	
+NA18488	Y001	YRI	AFR	2	bridge_test	
+NA18489	Y002	YRI	AFR	2	task_gate	
+NA18498	Y003	YRI	AFR	1	bridge_test	
+NA18499	Y003	YRI	AFR	2	bridge_test	
+NA18502	Y004	YRI	AFR	2	development	dev_validation
+NA18505	Y005	YRI	AFR	2	development	dev_validation
+NA18508	Y009	YRI	AFR	2	development	dev_train
+NA18510	Y010a	YRI	AFR	1	bridge_test	
+NA18511	Y010	YRI	AFR	2	development	dev_train
+NA18517	Y013	YRI	AFR	2	bridge_test	
+NA18519	Y014	YRI	AFR	1	bridge_test	
+NA18520	Y014	YRI	AFR	2	bridge_test	
+NA18858	Y012	YRI	AFR	2	development	dev_train
+NA18861	Y024	YRI	AFR	2	development	dev_train
+NA18867	Y007	YRI	AFR	2	bridge_test	
+NA18868	Y007	YRI	AFR	1	bridge_test	
+NA18870	Y017	YRI	AFR	2	development	dev_train
+NA18873	Y019	YRI	AFR	2	bridge_test	
+NA18907	Y025	YRI	AFR	2	bridge_test	
+NA18908	Y025a	YRI	AFR	1	development	dev_train
+NA18909	Y027	YRI	AFR	2	bridge_test	
+NA18910	Y027	YRI	AFR	1	bridge_test	
+NA18912	Y028	YRI	AFR	2	bridge_test	
+NA18916	Y030	YRI	AFR	2	bridge_test	
+NA18917	Y030	YRI	AFR	1	bridge_test	
+NA18923	Y033	YRI	AFR	1	development	dev_train
+NA18933	Y036	YRI	AFR	2	bridge_test	
+NA18934	Y036	YRI	AFR	1	bridge_test	
+NA19092	Y040	YRI	AFR	1	bridge_test	
+NA19093	Y040	YRI	AFR	2	bridge_test	
+NA19095	Y041	YRI	AFR	2	development	dev_train
+NA19096	Y041	YRI	AFR	1	development	dev_train
+NA19098	Y105	YRI	AFR	1	task_gate	
+NA19099	Y105	YRI	AFR	2	task_gate	
+NA19102	Y042	YRI	AFR	2	bridge_test	
+NA19107	Y006	YRI	AFR	1	bridge_test	
+NA19108	Y006	YRI	AFR	2	bridge_test	
+NA19113	Y079	YRI	AFR	1	development	dev_validation
+NA19114	Y079	YRI	AFR	2	development	dev_validation
+NA19116	Y060	YRI	AFR	2	development	dev_train
+NA19117	Y100	YRI	AFR	1	bridge_test	
+NA19118	Y100	YRI	AFR	2	bridge_test	
+NA19119	Y060	YRI	AFR	1	development	dev_train
+NA19121	Y061	YRI	AFR	1	bridge_test	
+NA19129	Y077	YRI	AFR	2	bridge_test	
+NA19130	Y101	YRI	AFR	1	development	dev_train
+NA19131	Y101	YRI	AFR	2	development	dev_train
+NA19137	Y043	YRI	AFR	2	bridge_test	
+NA19138	Y043	YRI	AFR	1	bridge_test	
+NA19141	Y071	YRI	AFR	1	bridge_test	
+NA19143	Y074	YRI	AFR	2	development	dev_train
+NA19144	Y074	YRI	AFR	1	development	dev_train
+NA19146	Y075	YRI	AFR	1	bridge_test	
+NA19147	Y075	YRI	AFR	2	bridge_test	
+NA19149	Y073	YRI	AFR	2	bridge_test	
+NA19152	Y072	YRI	AFR	2	bridge_test	
+NA19153	Y072	YRI	AFR	1	bridge_test	
+NA19159	Y056	YRI	AFR	2	development	dev_train
+NA19160	Y056	YRI	AFR	1	development	dev_train
+NA19171	Y047	YRI	AFR	1	bridge_test	
+NA19172	Y047	YRI	AFR	2	bridge_test	
+NA19175	Y044	YRI	AFR	1	bridge_test	
+NA19184	Y039	YRI	AFR	1	development	dev_train
+NA19185	Y039	YRI	AFR	2	development	dev_train
+NA19189	Y111	YRI	AFR	1	development	dev_validation
+NA19190	Y111	YRI	AFR	2	development	dev_validation
+NA19197	Y035	YRI	AFR	2	development	dev_train
+NA19198	Y035	YRI	AFR	1	development	dev_train
+NA19200	Y045	YRI	AFR	1	development	dev_train
+NA19201	Y045	YRI	AFR	2	development	dev_train
+NA19204	Y048	YRI	AFR	2	bridge_test	
+NA19206	Y051	YRI	AFR	2	bridge_test	
+NA19207	Y051	YRI	AFR	1	bridge_test	
+NA19209	Y050	YRI	AFR	2	development	dev_train
+NA19210	Y050	YRI	AFR	1	development	dev_train
+NA19213	Y110	YRI	AFR	1	bridge_test	
+NA19214	Y110	YRI	AFR	2	bridge_test	
+NA19222	Y058	YRI	AFR	2	bridge_test	
+NA19223	Y058	YRI	AFR	1	bridge_test	
+NA19225	Y057	YRI	AFR	2	bridge_test	
+NA19235	Y116	YRI	AFR	2	task_gate	
+NA19236	Y116	YRI	AFR	1	task_gate	
+NA19247	Y120	YRI	AFR	2	bridge_test	
+NA19248	Y120	YRI	AFR	1	bridge_test	
+NA19256	Y092	YRI	AFR	1	task_gate	
+NA19257	Y092	YRI	AFR	2	task_gate	
+NA20502	NA20502	TSI	EUR	2	bridge_test	
+NA20503	NA20503	TSI	EUR	2	bridge_test	
+NA20504	NA20504	TSI	EUR	2	bridge_test	
+NA20505	NA20505	TSI	EUR	2	bridge_test	
+NA20506	NA20506	TSI	EUR	2	bridge_test	
+NA20507	NA20507	TSI	EUR	2	bridge_test	
+NA20508	NA20508	TSI	EUR	2	bridge_test	
+NA20509	NA20509	TSI	EUR	1	bridge_test	
+NA20510	NA20510	TSI	EUR	1	bridge_test	
+NA20512	NA20512	TSI	EUR	1	bridge_test	
+NA20513	NA20513	TSI	EUR	1	bridge_test	
+NA20514	NA20514	TSI	EUR	2	bridge_test	
+NA20515	NA20515	TSI	EUR	1	bridge_test	
+NA20516	NA20516	TSI	EUR	1	bridge_test	
+NA20517	NA20517	TSI	EUR	2	bridge_test	
+NA20518	NA20518	TSI	EUR	1	bridge_test	
+NA20519	NA20519	TSI	EUR	1	bridge_test	
+NA20520	NA20520	TSI	EUR	1	bridge_test	
+NA20521	NA20521	TSI	EUR	1	development	dev_train
+NA20524	NA20524	TSI	EUR	1	bridge_test	
+NA20525	NA20525	TSI	EUR	1	development	dev_train
+NA20527	NA20527	TSI	EUR	1	bridge_test	
+NA20528	NA20528	TSI	EUR	1	development	dev_train
+NA20529	NA20529	TSI	EUR	2	bridge_test	
+NA20530	NA20530	TSI	EUR	2	development	dev_train
+NA20531	NA20531	TSI	EUR	2	bridge_test	
+NA20532	NA20532	TSI	EUR	1	development	dev_train
+NA20534	NA20534	TSI	EUR	1	bridge_test	
+NA20535	NA20535	TSI	EUR	2	development	dev_train
+NA20536	NA20536	TSI	EUR	1	bridge_test	
+NA20538	NA20538	TSI	EUR	1	development	dev_train
+NA20539	NA20539	TSI	EUR	1	bridge_test	
+NA20540	NA20540	TSI	EUR	2	development	dev_train
+NA20541	NA20541	TSI	EUR	2	bridge_test	
+NA20542	NA20542	TSI	EUR	2	development	dev_train
+NA20543	NA20543	TSI	EUR	1	bridge_test	
+NA20544	NA20544	TSI	EUR	1	development	dev_train
+NA20581	NA20581	TSI	EUR	1	bridge_test	
+NA20582	NA20582	TSI	EUR	2	development	dev_train
+NA20585	NA20585	TSI	EUR	2	bridge_test	
+NA20586	NA20586	TSI	EUR	1	development	dev_train
+NA20588	NA20588	TSI	EUR	1	bridge_test	
+NA20589	NA20589	TSI	EUR	2	development	dev_train
+NA20752	NA20752	TSI	EUR	1	bridge_test	
+NA20754	NA20754	TSI	EUR	1	development	dev_train
+NA20756	NA20756	TSI	EUR	2	bridge_test	
+NA20757	NA20757	TSI	EUR	2	development	dev_train
+NA20758	NA20758	TSI	EUR	1	bridge_test	
+NA20759	NA20759	TSI	EUR	1	development	dev_train
+NA20760	NA20760	TSI	EUR	2	bridge_test	
+NA20761	NA20761	TSI	EUR	2	development	dev_train
+NA20765	NA20765	TSI	EUR	1	bridge_test	
+NA20766	NA20766	TSI	EUR	2	development	dev_train
+NA20768	NA20768	TSI	EUR	2	bridge_test	
+NA20769	NA20769	TSI	EUR	2	development	dev_train
+NA20770	NA20770	TSI	EUR	1	bridge_test	
+NA20771	NA20771	TSI	EUR	2	development	dev_train
+NA20772	NA20772	TSI	EUR	2	bridge_test	
+NA20773	NA20773	TSI	EUR	2	development	dev_validation
+NA20774	NA20774	TSI	EUR	2	bridge_test	
+NA20778	NA20778	TSI	EUR	1	development	dev_train
+NA20783	NA20783	TSI	EUR	1	task_gate	
+NA20785	NA20785	TSI	EUR	1	bridge_test	
+NA20786	NA20786	TSI	EUR	2	development	dev_validation
+NA20787	NA20787	TSI	EUR	1	task_gate	
+NA20790	NA20790	TSI	EUR	2	bridge_test	
+NA20792	NA20792	TSI	EUR	1	development	dev_train
+NA20795	NA20795	TSI	EUR	2	task_gate	
+NA20796	NA20796	TSI	EUR	1	bridge_test	
+NA20797	NA20797	TSI	EUR	2	development	dev_validation
+NA20798	NA20798	TSI	EUR	1	task_gate	
+NA20799	NA20799	TSI	EUR	2	bridge_test	
+NA20800	NA20800	TSI	EUR	2	development	dev_train
+NA20801	NA20801	TSI	EUR	1	task_gate	
+NA20802	NA20802	TSI	EUR	2	bridge_test	
+NA20803	NA20803	TSI	EUR	1	development	dev_validation
+NA20804	NA20804	TSI	EUR	2	task_gate	
+NA20805	NA20805	TSI	EUR	1	bridge_test	
+NA20806	NA20806	TSI	EUR	1	development	dev_train
+NA20807	NA20807	TSI	EUR	2	task_gate	
+NA20808	NA20808	TSI	EUR	2	bridge_test	
+NA20809	NA20809	TSI	EUR	1	development	dev_validation
+NA20810	NA20810	TSI	EUR	1	task_gate	
+NA20811	NA20811	TSI	EUR	1	bridge_test	
+NA20812	NA20812	TSI	EUR	1	development	dev_train
+NA20813	NA20813	TSI	EUR	2	task_gate	
+NA20814	NA20814	TSI	EUR	1	bridge_test	
+NA20815	NA20815	TSI	EUR	1	development	dev_validation
+NA20819	NA20819	TSI	EUR	2	task_gate	
+NA20826	NA20826	TSI	EUR	2	bridge_test	
+NA20828	NA20828	TSI	EUR	2	development	dev_train

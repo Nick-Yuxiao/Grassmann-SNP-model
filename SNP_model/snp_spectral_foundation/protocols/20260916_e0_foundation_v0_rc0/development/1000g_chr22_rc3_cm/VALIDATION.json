@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "identifiers_included": false,
+  "family": {
+    "sample_count": 2504,
+    "component_count": 2504,
+    "component_overlap_count": 0,
+    "sample_split_counts": {
+      "test": 375,
+      "train": 1753,
+      "validation": 376
+    },
+    "max_component_size": 1
+  },
+  "blocks": {
+    "block_count": 147,
+    "block_split_counts": {
+      "buffer_test": 5,
+      "buffer_validation": 5,
+      "test": 22,
+      "train": 93,
+      "validation": 22
+    },
+    "chromosome_count": 1,
+    "coordinate_conversion_errors": 0,
+    "cross_split_guard_overlap_count": 0
+  },
+  "manifest_sha256": {
+    "family": "1731a4aad4abab33b3ddd3b56f30b7bd10f96647a09e47fe3f70064af542d556",
+    "blocks": "1c5d8755569c03d0a0d91704fcbfc6b95180864302b9aff90d71d65417348231"
+  }
+}

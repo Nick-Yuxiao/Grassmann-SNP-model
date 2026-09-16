@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "pass": true,
+  "n_individuals": 280,
+  "n_families": 230,
+  "panels": [
+    {
+      "gene_id": "ENSG00000263753.7",
+      "checkpoint_sha256": "d662a1fd7a56df1c0b50c6ffc144816a7eba0cd86698d7fcccba12e15c6afb49",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 254.8607142857143,
+      "empirical_ce": 0.8371781652557578,
+      "real_ce": 0.29665092463450526,
+      "donor_ce": 1.732653983889978,
+      "empirical_acc": 0.6023282426079076,
+      "real_acc": 0.8902886028713535,
+      "donor_acc": 0.5143833961829101,
+      "ce_empirical_minus_real": 0.5405272406212526,
+      "ce_donor_minus_real": 1.4360030592554727
+    },
+    {
+      "gene_id": "ENSG00000242550.5",
+      "checkpoint_sha256": "0aef242210a5f4727388d495f52efbbf99ff5ec75df0a1c204ad29be17f40e93",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 256.41785714285714,
+      "empirical_ce": 0.9003812236374634,
+      "real_ce": 0.15579856155820504,
+      "donor_ce": 2.5911108930853435,
+      "empirical_acc": 0.5569833556462064,
+      "real_acc": 0.9344961541778878,
+      "donor_acc": 0.46812306258756625,
+      "ce_empirical_minus_real": 0.7445826620792585,
+      "ce_donor_minus_real": 2.4353123315271383
+    },
+    {
+      "gene_id": "ENSG00000263006.6",
+      "checkpoint_sha256": "09c16340e009624ccc3a721d1a46f5e50c38871a6d595f76f4b8b439fad374ec",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 255.68214285714285,
+      "empirical_ce": 0.8958277571040234,
+      "real_ce": 0.22959998864211975,
+      "donor_ce": 2.085960796565523,
+      "empirical_acc": 0.5683178137383861,
+      "real_acc": 0.9187846058292654,
+      "donor_acc": 0.47594625687410214,
+      "ce_empirical_minus_real": 0.6662277684619038,
+      "ce_donor_minus_real": 1.8563608079234029
+    },
+    {
+      "gene_id": "ENSG00000270112.3",
+      "checkpoint_sha256": "3d6dc74d96c17a5b332a152a6e5943247a28dc0d3bd6b22ea30ba7ac22dc5660",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 256.88214285714287,
+      "empirical_ce": 0.9892209052098709,
+      "real_ce": 0.3151723063921596,
+      "donor_ce": 2.0866423452471303,
+      "empirical_acc": 0.5272131771217436,
+      "real_acc": 0.8802521511497888,
+      "donor_acc": 0.4368779941321542,
+      "ce_empirical_minus_real": 0.6740485988177113,
+      "ce_donor_minus_real": 1.7714700388549713
+    },
+    {
+      "gene_id": "ENSG00000141384.12",
+      "checkpoint_sha256": "d39c0caa567f9f1e5f931532dc75e77d038df8c3c8981b315637a28a66a0adca",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 255.77142857142857,
+      "empirical_ce": 0.7471515018517132,
+      "real_ce": 0.1994085693592497,
+      "donor_ce": 1.1943882666566172,
+      "empirical_acc": 0.7112235724976754,
+      "real_acc": 0.9280404683549713,
+      "donor_acc": 0.6842389637695533,
+      "ce_empirical_minus_real": 0.5477429324924634,
+      "ce_donor_minus_real": 0.9949796972973675
+    },
+    {
+      "gene_id": "ENSG00000179981.10",
+      "checkpoint_sha256": "a5c304a5883ed122562468ae91080c256042cc464ac59ec3ca6b313eca9cce23",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 258.37142857142857,
+      "empirical_ce": 0.7343227810874331,
+      "real_ce": 0.24600666091813755,
+      "donor_ce": 1.1811173444181011,
+      "empirical_acc": 0.6724258396880808,
+      "real_acc": 0.9069012102749878,
+      "donor_acc": 0.6692683597835759,
+      "ce_empirical_minus_real": 0.4883161201692954,
+      "ce_donor_minus_real": 0.9351106834999635
+    },
+    {
+      "gene_id": "ENSG00000198796.6",
+      "checkpoint_sha256": "3efe42015abfbf61db8b0de931538c5b35e30e4175ad490ba710207cb00ba750",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 255.93571428571428,
+      "empirical_ce": 0.6302576622584978,
+      "real_ce": 0.24784213377501654,
+      "donor_ce": 0.9969181826424789,
+      "empirical_acc": 0.741025960434267,
+      "real_acc": 0.9103534152805908,
+      "donor_acc": 0.7102496813804129,
+      "ce_empirical_minus_real": 0.3824155284834813,
+      "ce_donor_minus_real": 0.7490760488674625
+    },
+    {
+      "gene_id": "ENSG00000266850.1",
+      "checkpoint_sha256": "43ab4f597544433750e3fc53b694a437738454434cac12cd3e2059e625d5db21",
+      "n_individuals": 280,
+      "mean_masked_targets_per_individual": 255.23928571428573,
+      "empirical_ce": 1.0430684998395585,
+      "real_ce": 0.24441605734712205,
+      "donor_ce": 1.9395523048912964,
+      "empirical_acc": 0.3987592314845511,
+      "real_acc": 0.9175375700032953,
+      "donor_acc": 0.5208934661064885,
+      "ce_empirical_minus_real": 0.7986524424924365,
+      "ce_donor_minus_real": 1.6951362475441742
+    }
+  ],
+  "macro": {
+    "empirical_ce": 0.8471760620305397,
+    "real_context_ce": 0.24186190032831445,
+    "donor_context_ce": 1.7260430146745585,
+    "empirical_accuracy": 0.5972846491523522,
+    "real_context_accuracy": 0.9108317722427676,
+    "donor_context_accuracy": 0.5599976476020954
+  },
+  "co_primary": {
+    "ce_empirical_minus_real": {
+      "point": 0.6053141617022254,
+      "family_cluster_ci95": [
+        0.5933484459608,
+        0.6176443248134963
+      ]
+    },
+    "ce_donor_minus_real": {
+      "point": 1.484181114346244,
+      "family_cluster_ci95": [
+        1.426117886574056,
+        1.5432233882695658
+      ]
+    }
+  },
+  "claim_boundary": "current eight local encoders and frozen locus panels only; not genome-wide or phenotype evidence"
+}

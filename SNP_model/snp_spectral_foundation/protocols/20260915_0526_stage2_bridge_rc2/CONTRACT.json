@@ -1,0 +1,55 @@
+{
+  "analysis_id": "0526-stage2-geuvadis-development-pilot-rc2",
+  "created_local_date": "2026-09-15",
+  "status": "FROZEN_PILOT_STARTED",
+  "run_authorized": true,
+  "claim_class": "real_molecular_phenotype_development_pilot_not_external_replication",
+  "primary_question": "Does frozen genotype-pretrained H improve held-out predictive R2 over the same-panel additive dosage ridge?",
+  "dataset": {
+    "package": "GeuvadisTranscriptExpr",
+    "version": "1.40.0",
+    "bioconductor_release": "3.23",
+    "population": "CEU",
+    "chromosome": "19",
+    "source_sha256": null
+  },
+  "split": {
+    "unit": "individual",
+    "fractions": [0.70, 0.15, 0.15],
+    "seed": 5262026,
+    "test_open_once": true
+  },
+  "trait_selection": "largest_train_only_finite_expression_variance_then_lexicographic_transcript_id_tie_break",
+  "encoder": {
+    "objective": "masked_genotype_prediction_train_individuals_only",
+    "seed": 5262026,
+    "frozen_before_H_extraction": true,
+    "checkpoint_sha256": null
+  },
+  "arms": {
+    "A": "train_fitted_genotype_PCs_and_available_fixed_sample_covariates",
+    "B": "A_plus_same_panel_additive_ALT_dosage",
+    "C": "A_plus_full_coordinate_aligned_H",
+    "D": "A_plus_train_fitted_low_rank_aligned_H",
+    "E": "A_plus_blockwise_H_subspace_projector_upper_triangle_and_spectrum"
+  },
+  "primary_contrast": "C-B",
+  "secondary_contrasts": ["B-A", "D-B", "E-B", "E-D"],
+  "metric": "test_predictive_r2_1_minus_sse_over_sst_around_train_mean",
+  "decoder": {
+    "family": "ridge",
+    "alpha_grid": [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100, 1000, 10000, 100000, 1000000],
+    "selection": "minimum_validation_mse",
+    "tie_break": "largest_alpha"
+  },
+  "uncertainty": {
+    "method": "paired_individual_bootstrap_on_locked_test_predictions",
+    "replicates": 5000,
+    "seed": 5263026
+  },
+  "primary_support_rule": "delta_r2_C_minus_B_gt_0_and_paired_ci95_low_gt_0",
+  "arbitrary_sesoi": null,
+  "multiplicity_gate": null,
+  "B_minus_A_prerequisite": false,
+  "biology_prior_or_dynamic_weighting_allowed": false
+}

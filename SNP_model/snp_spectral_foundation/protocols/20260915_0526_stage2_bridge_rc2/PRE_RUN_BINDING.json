@@ -1,0 +1,31 @@
+{
+  "binding_time": "before_H_decoder_or_test_access",
+  "split_unit": "pedigree_family_or_singleton_if_missing",
+  "trait_transform": "log1p_expected_transcript_count",
+  "trait_candidate_genes": "package_gene_id_subset.txt",
+  "trait_train_nonzero_fraction_min": 0.8,
+  "sample_covariates": ["sex_train_mean_imputed", "sex_missing_indicator"],
+  "genotype_pc_count": 10,
+  "candidate_snps": "package_snp_id_subset.txt",
+  "train_missingness_max": 0.1,
+  "train_maf_min": 0.05,
+  "panel_max_snps": 1280,
+  "panel_min_snps": 256,
+  "panel_selection": "coordinate_sorted_evenly_spaced_then_complete_32_snp_blocks",
+  "coordinate_contract": "GRCh37_chr19_1_based_position_start_equals_end",
+  "encoder": {
+    "d_model": 16,
+    "local_layers": 2,
+    "n_heads": 4,
+    "local_ff_dim": 64,
+    "epochs": 40,
+    "batch_size": 16,
+    "mask_probability": 0.2,
+    "optimizer": "AdamW",
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001
+  },
+  "rank": 4,
+  "D": "train_fitted_hidden_channel_PCA_aligned_scores",
+  "E": "per_person_block_hidden_covariance_projector_upper_triangle_plus_normalized_log1p_eigenvalues"
+}

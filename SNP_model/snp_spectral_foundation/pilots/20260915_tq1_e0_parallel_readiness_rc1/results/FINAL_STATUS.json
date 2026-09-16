@@ -1,0 +1,10 @@
+{
+  "analysis_id": "tq1-e0-parallel-readiness-rc1",
+  "status": "NOT_READY_TASK",
+  "tq1_status": "TASK-INELIGIBLE",
+  "e0_status": "PASS",
+  "old_geuvadis_bridge_pool": "CONSUMED_BY_TQ1_PROHIBITED_FOR_CDE_BRIDGE",
+  "new_bridge_authorized": false,
+  "new_bridge_requirement": "fresh phenotype individuals/cohort and a separately frozen contract",
+  "grassmann_evaluated": false
+}

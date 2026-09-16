@@ -1,0 +1,15 @@
+{
+  "analysis_id": "tq1-e0-parallel-readiness-rc1",
+  "source_stage2b": "../20260915_geuvadis_chr18_stage2b_rc1",
+  "seed": 5264026,
+  "bootstrap_seed": 5265026,
+  "bootstrap_replicates": 5000,
+  "e0_mask_replicates": 5,
+  "e0_mask_probability": 0.2,
+  "e0_empirical_smoothing": 0.5,
+  "tq1_primary_rule": "macro_B_minus_A_gt_0_and_individual_paired_bootstrap_ci95_low_gt_0",
+  "e0_primary_rule": "both_macro_CE_empirical_minus_real_and_CE_donor_minus_real_gt_0_with_family_cluster_ci95_low_gt_0",
+  "tq1_consumes_original_bridge_pool": true,
+  "grassmann_or_hidden_outcome_access": false
+}
+

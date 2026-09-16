@@ -1,0 +1,309 @@
+{
+  "analysis_id": "0526-stage2-geuvadis-development-pilot-rc2",
+  "pilot_id": "20260915_geuvadis_chr19_development_rc1",
+  "status": "VALID_COMPLETE",
+  "claim_class": "real_molecular_phenotype_development_pilot_not_external_replication",
+  "split": {
+    "seed": 5262026,
+    "unit": "pedigree_family_or_singleton",
+    "n_total": 91,
+    "n_train": 63,
+    "n_validation": 13,
+    "n_test": 15,
+    "train_sample_ids": [
+      "NA06984",
+      "NA06985",
+      "NA06986",
+      "NA06989",
+      "NA06994",
+      "NA07037",
+      "NA07051",
+      "NA07056",
+      "NA07346",
+      "NA07347",
+      "NA07357",
+      "NA10851",
+      "NA11840",
+      "NA11843",
+      "NA11992",
+      "NA11993",
+      "NA11994",
+      "NA11995",
+      "NA12004",
+      "NA12005",
+      "NA12006",
+      "NA12154",
+      "NA12155",
+      "NA12156",
+      "NA12234",
+      "NA12249",
+      "NA12340",
+      "NA12341",
+      "NA12342",
+      "NA12383",
+      "NA12399",
+      "NA12400",
+      "NA12413",
+      "NA12489",
+      "NA12546",
+      "NA12716",
+      "NA12717",
+      "NA12718",
+      "NA12749",
+      "NA12750",
+      "NA12751",
+      "NA12760",
+      "NA12761",
+      "NA12762",
+      "NA12763",
+      "NA12775",
+      "NA12776",
+      "NA12777",
+      "NA12778",
+      "NA12812",
+      "NA12813",
+      "NA12814",
+      "NA12815",
+      "NA12827",
+      "NA12829",
+      "NA12830",
+      "NA12842",
+      "NA12843",
+      "NA12872",
+      "NA12873",
+      "NA12874",
+      "NA12889",
+      "NA12890"
+    ],
+    "validation_sample_ids": [
+      "NA07048",
+      "NA11829",
+      "NA11830",
+      "NA11831",
+      "NA11832",
+      "NA11930",
+      "NA11931",
+      "NA12043",
+      "NA12044",
+      "NA12045",
+      "NA12058",
+      "NA12347",
+      "NA12348"
+    ],
+    "test_sample_ids": [
+      "NA10847",
+      "NA11881",
+      "NA11892",
+      "NA11893",
+      "NA11894",
+      "NA11918",
+      "NA11920",
+      "NA12144",
+      "NA12272",
+      "NA12273",
+      "NA12275",
+      "NA12282",
+      "NA12283",
+      "NA12286",
+      "NA12287"
+    ],
+    "train_family_count": 28,
+    "validation_family_count": 6,
+    "test_family_count": 6
+  },
+  "trait": {
+    "target_id": "ENST00000450764.1",
+    "gene_id": "ENSG00000105576.9",
+    "transform": "log1p_expected_transcript_count",
+    "train_variance": 5.566596448463918,
+    "train_nonzero_fraction": 0.8888888888888888,
+    "candidate_transcripts": 208,
+    "qc_passing_transcripts": 116,
+    "selection_data_scope": "train_only"
+  },
+  "panel": {
+    "candidate_snps": 1330,
+    "eligible_snps": 662,
+    "selected_snps": 640,
+    "blocks": 20,
+    "filter_scope": "train_only",
+    "missingness_max": 0.1,
+    "maf_min": 0.05
+  },
+  "covariates": {
+    "genotype_pc_count": 10,
+    "train_pc_explained_variance_ratio": [
+      0.08371093985499971,
+      0.07214087540351018,
+      0.0673229473393935,
+      0.052860970996283056,
+      0.05044370115120277,
+      0.045877132505498984,
+      0.04421873820320722,
+      0.03710852147921607,
+      0.03556836194859207,
+      0.03145924871879298
+    ],
+    "sex_coding": "female=1_male=0",
+    "sex_observed": 86,
+    "sex_missing": 5,
+    "sex_train_mean_imputation": 0.48333333333333334
+  },
+  "encoder": {
+    "config": {
+      "max_blocks": 20,
+      "snps_per_block": 32,
+      "d_model": 16,
+      "n_heads": 4,
+      "local_layers": 2,
+      "local_ff_dim": 64,
+      "spectral_rank": 4,
+      "spectral_oversample": 4,
+      "spectral_power_iterations": 1,
+      "grassmann_probes": 24,
+      "memory_dim": 128,
+      "global_slots": 64,
+      "global_layers": 4,
+      "num_traits": 256,
+      "trait_dim": 64,
+      "effect_dim": 64,
+      "output_dim": 1,
+      "dropout": 0.0,
+      "spectral_jitter": 1e-05
+    },
+    "epochs": 40,
+    "mask_probability": 0.2,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "validation_metrics": {
+      "model_accuracy": 0.7923958897590637,
+      "marginal_accuracy": 0.6898008584976196,
+      "contextual_lift": 0.10259503126144409,
+      "n_masked": 1657,
+      "masked_cross_entropy": 0.5153930187225342
+    },
+    "checkpoint_sha256": "cbd821d751ba087ad0206a551e94214f03c8395c424fac8fedb50a4d7bc27128",
+    "phenotype_seen_during_pretraining": false
+  },
+  "D_aligned_control": {
+    "rank": 4,
+    "train_hidden_channel_eigenvalues": [
+      4.870202188992175,
+      1.6870301777491112,
+      1.5310280262768823,
+      0.8243188892755059
+    ],
+    "fit_scope": "train_only"
+  },
+  "E_grassmann": {
+    "rank": 4,
+    "feature": "projector_upper_triangle_plus_normalized_log1p_eigenvalues",
+    "basis_invariant": true
+  },
+  "decoders": {
+    "A": {
+      "input_features": 12,
+      "nonconstant_train_features": 12,
+      "selected_alpha": 1000000.0,
+      "validation_mse": 3.826999597532428,
+      "fit_scope": "train_only_alpha_on_validation"
+    },
+    "B": {
+      "input_features": 652,
+      "nonconstant_train_features": 652,
+      "selected_alpha": 10000.0,
+      "validation_mse": 3.8038476443212326,
+      "fit_scope": "train_only_alpha_on_validation"
+    },
+    "C": {
+      "input_features": 10252,
+      "nonconstant_train_features": 10252,
+      "selected_alpha": 100000.0,
+      "validation_mse": 3.478068262156529,
+      "fit_scope": "train_only_alpha_on_validation"
+    },
+    "D": {
+      "input_features": 2572,
+      "nonconstant_train_features": 2572,
+      "selected_alpha": 10000.0,
+      "validation_mse": 3.3525236187785,
+      "fit_scope": "train_only_alpha_on_validation"
+    },
+    "E": {
+      "input_features": 2812,
+      "nonconstant_train_features": 2812,
+      "selected_alpha": 10000.0,
+      "validation_mse": 3.6041387103913554,
+      "fit_scope": "train_only_alpha_on_validation"
+    }
+  },
+  "arms": {
+    "A": {
+      "r2": 3.417783730919055e-06,
+      "ci95_low": -8.616055235100006e-06,
+      "ci95_high": 1.619179507836298e-05
+    },
+    "B": {
+      "r2": 0.022519307100001162,
+      "ci95_low": -0.0013483735535405271,
+      "ci95_high": 0.044659067897780194
+    },
+    "C": {
+      "r2": 0.01571597192861829,
+      "ci95_low": -0.04753055475948329,
+      "ci95_high": 0.07239654917119633
+    },
+    "D": {
+      "r2": 0.033765300273078225,
+      "ci95_low": -0.1007804554637827,
+      "ci95_high": 0.1474382305201586
+    },
+    "E": {
+      "r2": 0.01718311750100754,
+      "ci95_low": -0.10883205346134159,
+      "ci95_high": 0.10182591415454412
+    }
+  },
+  "contrasts": {
+    "C-B": {
+      "delta_r2": -0.006803335171382874,
+      "ci95_low": -0.05918504250670764,
+      "ci95_high": 0.04437338200593633
+    },
+    "B-A": {
+      "delta_r2": 0.022515889316270243,
+      "ci95_low": -0.00134402764949304,
+      "ci95_high": 0.044644248518030415
+    },
+    "D-B": {
+      "delta_r2": 0.011245993173077062,
+      "ci95_low": -0.11133718192497154,
+      "ci95_high": 0.11656509636189953
+    },
+    "E-B": {
+      "delta_r2": -0.005336189598993624,
+      "ci95_low": -0.11884854840655516,
+      "ci95_high": 0.0754857605292078
+    },
+    "E-D": {
+      "delta_r2": -0.016582182772070686,
+      "ci95_low": -0.14296952967414125,
+      "ci95_high": 0.0837643726570548
+    }
+  },
+  "primary_contrast": "C-B",
+  "primary_support_rule": "delta_r2_gt_0_and_paired_ci95_low_gt_0",
+  "primary_support": false,
+  "bootstrap_replicates": 5000,
+  "bootstrap_seed": 5263026,
+  "test_open_count": 1,
+  "interpretation_limits": [
+    "not_external_replication",
+    "not_clinical_prediction",
+    "not_genome_wide_validation",
+    "not_causal_evidence",
+    "E_does_not_gate_primary_C_minus_B"
+  ]
+}

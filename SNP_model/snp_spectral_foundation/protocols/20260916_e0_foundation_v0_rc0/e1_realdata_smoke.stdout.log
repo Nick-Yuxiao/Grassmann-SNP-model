@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "classification": "DEVELOPMENT_ONLY_NON_EVIDENCE",
+  "formal_use_allowed": false,
+  "checkpoint_written": false,
+  "data_scope": "train_families_x_train_block_only",
+  "train_sample_count_for_AF": 1753,
+  "smoke_sample_count": 4,
+  "block_id": "DEV_CM_22_0000",
+  "variant_count": 256,
+  "position1_min": 16051432,
+  "position1_max": 16057608,
+  "updates": 2,
+  "history": [
+    {
+      "update": 1,
+      "loss": 1.104499101638794,
+      "gradient_norm_before_clip": 12.611350059509277,
+      "masked_targets": 209
+    },
+    {
+      "update": 2,
+      "loss": 0.3029964864253998,
+      "gradient_norm_before_clip": 3.9431285858154297,
+      "masked_targets": 224
+    }
+  ],
+  "elapsed_seconds": 0.6955958590000364,
+  "model": {
+    "recipe_id": "E1_PRIMARY_LOCAL_TRANSFORMER",
+    "parameter_count": 828291,
+    "local_position_mode": "relative_continuous",
+    "use_local_block_embedding": false
+  },
+  "inputs": {
+    "vcf_sha256": "5d52145d6e3be132dc19ff525af2ae2e792511e60c49c148cb8eee669f114c2c",
+    "family_manifest_sha256": "1731a4aad4abab33b3ddd3b56f30b7bd10f96647a09e47fe3f70064af542d556",
+    "block_manifest_sha256": "1c5d8755569c03d0a0d91704fcbfc6b95180864302b9aff90d71d65417348231"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "analysis_id": "tq2-ab-empirical-power-calibration-rc1",
+  "status": "AB_DESIGN_UNDERPOWERED",
+  "null_false_positive_rate": 0.37,
+  "power_at_minimum_increment": 0.39,
+  "minimum_increment": 0.02,
+  "required_power": 0.8,
+  "maximum_null_false_positive_rate": 0.05,
+  "real_phenotype_accessed": false,
+  "encoder_or_grassmann_used": false,
+  "binding": {
+    "config_sha256": "d2ef23b48bd09ccde47cafdde19d5ca1020cd9cc54a2a1d24ffe1040141c50e8",
+    "protocol_sha256": "dd40eb3724f3308c52bf85f18f99ad512367925a83f2991c68270babac3b14bf",
+    "source_trait_panel_sha256": "91fb614d5b395c428de76d957c0c37717d4bd7c617ed14b6ceb861d261bd5820",
+    "source_manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6",
+    "source_stage_config_sha256": "9d40c47c2cbf8532a9af12a284e28f9f917c2a2b1a764c21fb4bf96525448f49"
+  }
+}

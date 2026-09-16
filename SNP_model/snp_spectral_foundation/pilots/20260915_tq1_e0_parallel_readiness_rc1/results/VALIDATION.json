@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checks": {
+    "config_hash_matches": true,
+    "protocol_hash_matches": true,
+    "source_final_hash_matches": true,
+    "source_panel_hash_matches": true,
+    "tq1_is_ab_only": true,
+    "tq1_n_is_230": true,
+    "tq1_decision_recomputes": true,
+    "tq1_pool_consumed": true,
+    "e0_has_eight_panels": true,
+    "e0_n_is_280": true,
+    "e0_checkpoint_hashes_match": true,
+    "e0_decision_recomputes": true,
+    "no_bridge_result_file": true,
+    "grassmann_not_evaluated": true,
+    "combined_status_recomputes": true,
+    "new_bridge_not_authorized": true
+  }
+}

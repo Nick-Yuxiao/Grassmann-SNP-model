@@ -1,0 +1,26 @@
+{
+  "source_archive": "snp_spectral_foundation\\pilot_assets\\geuvadis\\GeuvadisTranscriptExpr_1.40.0.tar.gz",
+  "source_archive_sha256": "619bf74ac7d9f226ffd8ccde218bb40bd32889f66336294ce91ac5fb9b845d6d",
+  "extracted_input_sha256": {
+    "snp_spectral_foundation\\pilot_assets\\geuvadis\\GeuvadisTranscriptExpr\\inst\\extdata\\genotypes_CEU_chr19.tsv": "de5cce537f44957c193bbbc61625e679402df975a079353b71877218cb925b5a",
+    "snp_spectral_foundation\\pilot_assets\\geuvadis\\GeuvadisTranscriptExpr\\inst\\extdata\\TrQuantCount_CEU_chr19.tsv": "247a9588503cb131a405cafe8f02f00e74647f0a943c862f7e421962016f2155",
+    "snp_spectral_foundation\\pilot_assets\\geuvadis\\GeuvadisTranscriptExpr\\inst\\extdata\\snp_id_subset.txt": "6021e1ca7e0801c1e6642e954791b39fb2b325165a659a393c2e7be7a450b356",
+    "snp_spectral_foundation\\pilot_assets\\geuvadis\\GeuvadisTranscriptExpr\\inst\\extdata\\gene_id_subset.txt": "1d70f553668e45c7f7c4f8ee2ffe5e2f2dcdcaac2d0408fb9f9b787092a99838",
+    "data\\raw\\relationships_w_pops_041510.txt": "9997d226b64d965cae4499e6e6158ec14b62f82dd62a6be9ed80be1bca44bbba"
+  },
+  "protocol_sha256": {
+    "AMENDMENTS.md": "4d500c7ed43c9639228e3a28d788b6b96de2babfe05a35c9a681d988f0dc59e2",
+    "CONTRACT.json": "4513ef850233cf0a65956b84b0c8fd317aa780ca8d420e07b1627777a1bbc51f",
+    "PRE_RUN_BINDING.json": "5125ddd3fd55bf34f0f811b82a9789f6bd59493cef66c074f5d26c779558a4e3",
+    "PROTOCOL.zh-CN.md": "1323a44d55fc2192a53baf07c284e70dc984ce18f45f4ce3068a4edab0528d4f"
+  },
+  "runtime": {
+    "python": "3.13.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.7.2",
+    "torch": "2.9.1+cpu",
+    "cuda_available": false,
+    "torch_threads": 4
+  }
+}

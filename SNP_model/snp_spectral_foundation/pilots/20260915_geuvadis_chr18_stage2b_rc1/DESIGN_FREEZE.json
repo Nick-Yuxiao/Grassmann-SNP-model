@@ -1,0 +1,77 @@
+{
+  "design_id": "0526-stage2b-geuvadis-chr18-rc1",
+  "seed": 5262026,
+  "sample_counts": {
+    "bridge_test": 230,
+    "development": 150,
+    "task_gate": 50,
+    "EXCLUDED_RC2_TEST": 15
+  },
+  "development_counts": {
+    "dev_train": 120,
+    "dev_validation": 30
+  },
+  "population_by_role": {
+    "CEU": {
+      "bridge_test": 34,
+      "development": 25,
+      "task_gate": 15,
+      "EXCLUDED_RC2_TEST": 15
+    },
+    "FIN": {
+      "bridge_test": 51,
+      "development": 32,
+      "task_gate": 9
+    },
+    "GBR": {
+      "bridge_test": 47,
+      "development": 30,
+      "task_gate": 9
+    },
+    "TSI": {
+      "bridge_test": 49,
+      "development": 32,
+      "task_gate": 10
+    },
+    "YRI": {
+      "bridge_test": 49,
+      "task_gate": 7,
+      "development": 31
+    }
+  },
+  "family_counts_by_role": {
+    "development": 124,
+    "task_gate": 40,
+    "bridge_test": 190,
+    "EXCLUDED_RC2_TEST": 7
+  },
+  "rc2_test_ids_excluded": [
+    "NA10847",
+    "NA11881",
+    "NA11892",
+    "NA11893",
+    "NA11894",
+    "NA11918",
+    "NA11920",
+    "NA12144",
+    "NA12272",
+    "NA12273",
+    "NA12275",
+    "NA12282",
+    "NA12283",
+    "NA12286",
+    "NA12287"
+  ],
+  "family_overlap_checks": {
+    "development_task": false,
+    "development_bridge": false,
+    "task_bridge": false
+  },
+  "source_sha256": {
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.psam": "e8e757f42399bd7ee7065f365a4b3e7c5134170b71219ad5280331efb3bc14a4",
+    "integrated_call_samples_v3.20130502.ALL.panel": "b4023dc6ee2d62ee89c8d4d347db4d348e65518d66d346574cdae7a4bbd76858",
+    "integrated_call_samples_v3.20250704.ALL.ped": "02c5f7a2a706fe944bb46642f73f0cd99fb8cb22e35ae717589c3317efd50e57",
+    "RESULTS.json": "10e0624fba7820e93bb03c0740ad5e6eb0a2695d82b6462149845b070df879ff"
+  },
+  "manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6"
+}

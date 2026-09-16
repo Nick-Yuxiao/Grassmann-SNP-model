@@ -1,0 +1,338 @@
+[
+  {
+    "gene_id": "ENSG00000263753.7",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.4046010470215172,
+        0.2622000285152586,
+        0.100007846863427,
+        0.07324743836299401,
+        0.030739797111716618,
+        0.021657296895175128,
+        0.014485494910458141,
+        0.011952786173644534,
+        0.010763649011003434,
+        0.008678787396255435
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1e-06,
+        "validation_mse": 0.5453186458496405,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": 0.07145228320385552
+      },
+      "B": {
+        "alpha": 100.0,
+        "validation_mse": 0.5784669779766616,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": 0.07145228320385552
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000242550.5",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.7825855953694606,
+        0.08380318213939723,
+        0.0521864163566745,
+        0.02452486985047325,
+        0.020304238201244194,
+        0.009208233845313654,
+        0.005477338152124168,
+        0.004774619158115831,
+        0.0036454698569191825,
+        0.002648504258203613
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1e-06,
+        "validation_mse": 0.5892850060078616,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": -0.0027030146744203083
+      },
+      "B": {
+        "alpha": 10.0,
+        "validation_mse": 0.6947304011612511,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": -0.0027030146744203083
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000263006.6",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.6527696389368592,
+        0.09410945434805902,
+        0.05186230774864182,
+        0.034496742259580056,
+        0.01964699868252028,
+        0.016280428594991708,
+        0.012431915682205022,
+        0.011660902801739767,
+        0.010050421808770617,
+        0.008616573660365178
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1e-06,
+        "validation_mse": 0.5752888345930758,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": -0.0891142260066322
+      },
+      "B": {
+        "alpha": 1000.0,
+        "validation_mse": 0.4908187485816188,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": -0.0891142260066322
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000270112.3",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.6542599864908388,
+        0.09078992037968038,
+        0.039930935914416314,
+        0.0337297115179834,
+        0.0327868802930997,
+        0.02476374963947334,
+        0.022551038737846068,
+        0.01583162222370615,
+        0.009104051324339602,
+        0.008368435610548383
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1e-06,
+        "validation_mse": 0.7491580569152946,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": -0.03643763436804442
+      },
+      "B": {
+        "alpha": 1000.0,
+        "validation_mse": 0.800840011034196,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": -0.03643763436804442
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000141384.12",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.6820951291513639,
+        0.07752748784395636,
+        0.06029826298514302,
+        0.0401133825024156,
+        0.022966085099620864,
+        0.01596913588565584,
+        0.014685025155423756,
+        0.013072107161894731,
+        0.009908418910041078,
+        0.0073118944521096945
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1.0,
+        "validation_mse": 0.6276092755489777,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": 0.15721265922927652
+      },
+      "B": {
+        "alpha": 100.0,
+        "validation_mse": 0.6849603263990222,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": 0.15721265922927652
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000179981.10",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.4447370731482243,
+        0.08129721063394434,
+        0.06371399648153059,
+        0.04937662181156848,
+        0.03844973769094504,
+        0.02955283190880279,
+        0.027075752257268503,
+        0.02333354983792138,
+        0.02203751493570425,
+        0.020872767650844403
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 10.0,
+        "validation_mse": 0.3057079895066647,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": 0.025227222674656727
+      },
+      "B": {
+        "alpha": 100.0,
+        "validation_mse": 0.29948284782012746,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": 0.025227222674656727
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000198796.6",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.42289450846731197,
+        0.10509173123418247,
+        0.06682430715827732,
+        0.04932562896599561,
+        0.04494759501519167,
+        0.02973445144242344,
+        0.026415503689348037,
+        0.02474558706699575,
+        0.02155084931109542,
+        0.020243441830274957
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 1e-06,
+        "validation_mse": 1.1444176343487082,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": -0.11904734042847373
+      },
+      "B": {
+        "alpha": 100.0,
+        "validation_mse": 1.139037272878113,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": -0.11904734042847373
+      }
+    }
+  },
+  {
+    "gene_id": "ENSG00000266850.1",
+    "covariates": {
+      "sex_columns": 1,
+      "population_columns": [
+        "FIN",
+        "GBR",
+        "TSI",
+        "YRI"
+      ],
+      "genotype_pc_count": 10,
+      "pc_fit_scope": "dev_train_only",
+      "pc_explained_variance_ratio": [
+        0.751325322169657,
+        0.08517162156783782,
+        0.07303386190543182,
+        0.018555707744772106,
+        0.01575965904011366,
+        0.009288430491783675,
+        0.00854887558860749,
+        0.005601643818651322,
+        0.003219251954610446,
+        0.0025883477273573943
+      ]
+    },
+    "decoders": {
+      "A": {
+        "alpha": 10.0,
+        "validation_mse": 0.4700176121391726,
+        "input_features": 15,
+        "nonconstant_features": 15,
+        "train_mean": 0.20848699828287728
+      },
+      "B": {
+        "alpha": 100.0,
+        "validation_mse": 0.3998599056882947,
+        "input_features": 271,
+        "nonconstant_features": 271,
+        "train_mean": 0.20848699828287728
+      }
+    }
+  }
+]

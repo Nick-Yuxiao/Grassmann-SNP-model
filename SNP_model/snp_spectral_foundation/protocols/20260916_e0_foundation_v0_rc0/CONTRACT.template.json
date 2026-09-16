@@ -1,0 +1,100 @@
+{
+  "protocol_id": "20260916_e0_foundation_v0_rc0",
+  "status": "ASSET_BINDING_REQUIRED",
+  "scientific_scope": {
+    "objective": "genotype_foundation_and_representation_audit",
+    "positive_task": "masked_local_genotype_prediction",
+    "phenotype_used": false,
+    "grassmann_primary": false
+  },
+  "data": {
+    "cohort_id": null,
+    "authorization_id": null,
+    "genome_build": null,
+    "genotype_format": null,
+    "phasing_status": null,
+    "sample_manifest_sha256": null,
+    "variant_manifest_sha256": null,
+    "kinship_source": null,
+    "kinship_version": null,
+    "kinship_threshold": 0.0442,
+    "genetic_map_source": null,
+    "genetic_map_sha256": null
+  },
+  "split": {
+    "seed": null,
+    "family_ratio": [0.70, 0.15, 0.15],
+    "block_ratio": [0.70, 0.15, 0.15],
+    "block_assignment_unit": "contiguous_heldout_run",
+    "heldout_run_strata": ["chromosome", "genomic_position", "block_size", "maf", "ld_density"],
+    "minimum_blocks_per_run": null,
+    "validation_runs_per_chromosome": null,
+    "test_runs_per_chromosome": null,
+    "guard_applied_at": "heldout_run_outer_boundary",
+    "family_manifest_sha256": null,
+    "block_manifest_sha256": null,
+    "family_overlap_count": null,
+    "family_component_cross_split_count": null,
+    "core_or_guard_overlap_count": null,
+    "initial_guard_min_cM": 1.0,
+    "cross_guard_r2_threshold": 0.1,
+    "long_range_ld_policy": "atomic_superblock_or_primary_exclusion"
+  },
+  "mask": {
+    "primary_type": "random_callable_snp",
+    "primary_rate": 0.20,
+    "seeds": [],
+    "contiguous_lengths": [5, 10, 20],
+    "mask_manifest_sha256": null
+  },
+  "baselines": {
+    "baseline_template": "BASELINES.template.json",
+    "baseline_template_sha256": "d1991c5770b17e49bb5643b7cea513e43e4b730d1f25836b151128984503d5e0",
+    "m0a_empirical": null,
+    "m0b_hwe": null,
+    "m1a_local_predictor": null,
+    "m1b_haplotype_hmm": null,
+    "m1b_benchmark_subset_sha256": null,
+    "selected_b_star": null,
+    "selection_metric": "validation_cross_entropy"
+  },
+  "encoder": {
+    "recipe_count_cap": 3,
+    "training_seeds_per_recipe_cap": 3,
+    "recipe_template": "MODEL_RECIPES.template.json",
+    "recipe_template_sha256": "f284619f89cf5e348a60646126bf581ec0624d47bfce70bda4012a1e0758e555",
+    "primary_recipe": "E1_PRIMARY_LOCAL_TRANSFORMER",
+    "selected_recipe": null,
+    "model_manifest_sha256": null,
+    "learned_global_block_id_allowed": false,
+    "variant_id_lookup_allowed": false,
+    "local_position_mode": "relative_continuous",
+    "use_local_block_embedding": false
+  },
+  "resources": {
+    "large_artifact_root": "F_drive_binding_required",
+    "cuda_runtime_verified": false,
+    "micro_batch_windows": null,
+    "gradient_accumulation_steps": null,
+    "precision": null
+  },
+  "analysis": {
+    "primary_metric": "masked_genotype_cross_entropy",
+    "primary_estimands": ["delta_S_relative_CE", "delta_X_relative_CE"],
+    "minimum_meaningful_relative_CE_gain": 0.01,
+    "bootstrap_replicates": 5000,
+    "bootstrap_clusters": ["family_component", "genomic_block"],
+    "pass_requires_ci95_lower_gt_zero": true,
+    "test_open_count_cap": 1
+  },
+  "authorization": {
+    "all_required_fields_bound": false,
+    "all_hashes_verified": false,
+    "leakage_validator_name": "validate_manifests.py",
+    "leakage_validator_sha256": "b0244eeffb10f4b739037d353944e50b4726e3b5fa328a72c82040282f62475c",
+    "leakage_validator_passed": false,
+    "baselines_frozen": false,
+    "model_frozen": false,
+    "run_authorized": false
+  }
+}

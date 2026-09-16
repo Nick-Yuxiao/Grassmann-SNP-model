@@ -1,0 +1,20 @@
+{
+  "analysis_id": "tq2-ab-empirical-power-calibration-rc2",
+  "source_rc1": "../20260915_tq2_ab_empirical_power_calibration_rc1",
+  "source_stage2b": "../20260915_geuvadis_chr18_stage2b_rc1",
+  "seed": 5268026,
+  "bootstrap_seed": 5269026,
+  "outer_folds": 5,
+  "simulation_seeds": 100,
+  "bootstrap_replicates": 1000,
+  "trait_count": 8,
+  "causal_snps_per_trait": 4,
+  "covariate_variance_fraction": 0.20,
+  "genetic_increment_grid": [0.0, 0.01, 0.02, 0.05, 0.10],
+  "minimum_scientific_increment": 0.02,
+  "maximum_null_false_positive_rate": 0.05,
+  "minimum_power": 0.80,
+  "real_phenotype_accessed": false,
+  "encoder_or_grassmann_used": false
+}
+

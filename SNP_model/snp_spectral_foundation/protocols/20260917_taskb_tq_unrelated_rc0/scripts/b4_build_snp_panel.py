@@ -17,6 +17,7 @@ import argparse
 import csv
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -73,30 +74,46 @@ def in_exclusion(chrom: str, position: int, regions: list[tuple[str, int, int]])
     return any(key == region[0] and region[1] <= position <= region[2] for region in regions)
 
 
-def thin_variants(
+def build_windows(
     variants: list[dict[str, object]],
     thin_bp: int,
     max_per_chrom: int | None,
     regions: list[tuple[str, int, int]],
-) -> list[dict[str, object]]:
-    selected: list[dict[str, object]] = []
-    per_chrom: dict[str, int] = {}
-    last_kept: dict[str, int] = {}
-    for variant in sorted(variants, key=lambda v: (str(v["chrom"]), int(v["pos"]))):
+    seed: int,
+    max_tries: int,
+) -> list[list[dict[str, object]]]:
+    """Group biallelic SNPs into fixed-width windows, one kept variant per window.
+
+    Taking the first variant in each window is wrong on an imputed panel: the vast
+    majority of imputation v3 sites are rare, so the leftmost variant in a window
+    fails the MAF filter roughly nine times out of ten and the window is lost. The
+    caller instead walks each window's candidates until one passes QC, so window
+    spacing is preserved and the panel actually fills.
+
+    Candidate order inside a window is a seeded hash rather than position, so the
+    kept variants are not systematically clustered at window starts.
+    """
+    grouped: dict[tuple[str, int], list[dict[str, object]]] = defaultdict(list)
+    for variant in variants:
         chrom, position = str(variant["chrom"]), int(variant["pos"])
         if len(str(variant["a1"])) != 1 or len(str(variant["a2"])) != 1:
             continue
         if in_exclusion(chrom, position, regions):
             continue
-        previous = last_kept.get(chrom)
-        if previous is not None and position - previous < thin_bp:
-            continue
+        grouped[(chrom, position // thin_bp)].append(variant)
+
+    windows: list[list[dict[str, object]]] = []
+    per_chrom: dict[str, int] = {}
+    for (chrom, index) in sorted(grouped, key=lambda key: (key[0], key[1])):
         if max_per_chrom is not None and per_chrom.get(chrom, 0) >= max_per_chrom:
             continue
-        selected.append(variant)
-        last_kept[chrom] = position
+        candidates = sorted(
+            grouped[(chrom, index)],
+            key=lambda v: stable_hex(seed, chrom, index, v["index"]),
+        )
+        windows.append(candidates[:max_tries])
         per_chrom[chrom] = per_chrom.get(chrom, 0) + 1
-    return selected
+    return windows
 
 
 def choose_samples(
@@ -136,6 +153,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--max-samples", type=int, default=None,
                         help="Subsample participants, preserving split proportions.")
     parser.add_argument("--maf-min", type=float, default=0.01)
+    parser.add_argument("--max-tries-per-window", type=int, default=24,
+                        help="Variants read per window before giving that window up. "
+                             "Imputed panels are mostly rare variants, so more than one "
+                             "candidate per window is normally needed.")
     parser.add_argument("--missing-max", type=float, default=0.05)
     parser.add_argument("--train-split-label", default="train",
                         help="Split whose participants fit MAF and missingness.")
@@ -174,61 +195,74 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     regions = [] if args.keep_long_range_ld else DEFAULT_EXCLUSIONS
-    candidates: list[tuple[Path, dict[str, object]]] = []
+    windows: list[tuple[Path, list[dict[str, object]]]] = []
     for bed in beds:
         variants = read_bim(bed.with_suffix(".bim"))
-        for variant in thin_variants(variants, args.thin_bp, args.max_snps_per_chrom, regions):
-            candidates.append((bed, variant))
-    if not candidates:
+        for candidates in build_windows(
+            variants, args.thin_bp, args.max_snps_per_chrom, regions,
+            args.seed, args.max_tries_per_window,
+        ):
+            windows.append((bed, candidates))
+    if not windows:
         raise SystemExit("Thinning removed every variant; loosen --thin-bp")
 
     table = dosage_lookup()
     scratch = np.lib.format.open_memmap(
         out_dir / "panel.tmp.npy", mode="w+", dtype=np.int8,
-        shape=(len(candidates), len(samples)),
+        shape=(len(windows), len(samples)),
     )
 
     kept_rows: list[dict[str, object]] = []
     handles: dict[Path, object] = {}
     dropped = {"maf": 0, "missing": 0, "monomorphic": 0}
+    variant_reads = 0
+    windows_unfilled = 0
     try:
-        for bed, variant in candidates:
+        for bed, candidates in windows:
             handle = handles.get(bed)
             if handle is None:
                 handle = bed.open("rb")
                 if handle.read(3) != b"\x6c\x1b\x01":
                     raise SystemExit(f"{bed.name} is not a SNP-major PLINK 1 .bed")
                 handles[bed] = handle
-            handle.seek(3 + int(variant["index"]) * bytes_per_variant)
-            buffer = handle.read(bytes_per_variant)
-            if len(buffer) != bytes_per_variant:
-                raise SystemExit(f"Truncated .bed while reading {variant['variant_id']}")
-            decoded = table[np.frombuffer(buffer, dtype=np.uint8)].reshape(-1)[:total_samples]
-            dosage = decoded[rows]
 
-            train = dosage[is_train]
-            observed = train[train >= 0]
-            missing_rate = 1.0 - observed.size / max(train.size, 1)
-            if missing_rate > args.missing_max:
-                dropped["missing"] += 1
-                continue
-            if observed.size == 0:
-                dropped["monomorphic"] += 1
-                continue
-            a1_frequency = float(observed.sum()) / (2.0 * observed.size)
-            maf = min(a1_frequency, 1.0 - a1_frequency)
-            if maf < args.maf_min:
-                dropped["maf"] += 1
-                continue
+            filled = False
+            for variant in candidates:
+                handle.seek(3 + int(variant["index"]) * bytes_per_variant)
+                buffer = handle.read(bytes_per_variant)
+                if len(buffer) != bytes_per_variant:
+                    raise SystemExit(f"Truncated .bed while reading {variant['variant_id']}")
+                variant_reads += 1
+                decoded = table[np.frombuffer(buffer, dtype=np.uint8)].reshape(-1)[:total_samples]
+                dosage = decoded[rows]
 
-            scratch[len(kept_rows), :] = dosage
-            kept_rows.append({
-                **variant,
-                "bed": bed.name,
-                "train_a1_frequency": round(a1_frequency, 6),
-                "train_maf": round(maf, 6),
-                "train_missing_rate": round(missing_rate, 6),
-            })
+                train = dosage[is_train]
+                observed = train[train >= 0]
+                missing_rate = 1.0 - observed.size / max(train.size, 1)
+                if missing_rate > args.missing_max:
+                    dropped["missing"] += 1
+                    continue
+                if observed.size == 0:
+                    dropped["monomorphic"] += 1
+                    continue
+                a1_frequency = float(observed.sum()) / (2.0 * observed.size)
+                maf = min(a1_frequency, 1.0 - a1_frequency)
+                if maf < args.maf_min:
+                    dropped["maf"] += 1
+                    continue
+
+                scratch[len(kept_rows), :] = dosage
+                kept_rows.append({
+                    **variant,
+                    "bed": bed.name,
+                    "train_a1_frequency": round(a1_frequency, 6),
+                    "train_maf": round(maf, 6),
+                    "train_missing_rate": round(missing_rate, 6),
+                })
+                filled = True
+                break
+            if not filled:
+                windows_unfilled += 1
     finally:
         for handle in handles.values():
             handle.close()
@@ -274,13 +308,18 @@ def main(argv: list[str] | None = None) -> int:
         "layout": "variant_major_int8_missing_as_minus_one",
         "shape": {"variants": len(kept_rows), "samples": len(samples)},
         "fam_sample_count": total_samples,
-        "candidates_considered": len(candidates),
+        "windows_considered": len(windows),
+        "windows_filled": len(kept_rows),
+        "windows_unfilled": windows_unfilled,
+        "variant_reads": variant_reads,
+        "reads_per_kept_variant": round(variant_reads / max(len(kept_rows), 1), 2),
         "dropped": dropped,
         "filters": {
             "thin_bp": args.thin_bp,
             "maf_min": args.maf_min,
             "missing_max": args.missing_max,
             "max_snps_per_chrom": args.max_snps_per_chrom,
+            "max_tries_per_window": args.max_tries_per_window,
             "long_range_ld_excluded": not args.keep_long_range_ld,
             "exclusion_regions_grch37": [] if args.keep_long_range_ld else DEFAULT_EXCLUSIONS,
         },
@@ -304,6 +343,9 @@ def main(argv: list[str] | None = None) -> int:
         "status": "OK",
         "variants_kept": len(kept_rows),
         "samples": len(samples),
+        "windows_considered": len(windows),
+        "windows_unfilled": windows_unfilled,
+        "reads_per_kept_variant": round(variant_reads / max(len(kept_rows), 1), 2),
         "dropped": dropped,
         "panel": str(panel_path),
     }, ensure_ascii=False, indent=2))

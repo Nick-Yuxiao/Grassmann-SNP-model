@@ -346,5 +346,89 @@ class TaskBChain(unittest.TestCase):
             self.qualification("n_30020_0_0", "tq_once")
 
 
+class RareVariantPanelTests(unittest.TestCase):
+    """An imputed panel is mostly rare variants; windows must still fill."""
+
+    WINDOWS = 20
+    PER_WINDOW = 10
+    SAMPLES = 2000
+    WINDOW_BP = 100_000
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        base = Path(self.temporary.name)
+        self.base = base
+        rng = np.random.default_rng(4242)
+
+        n_variants = self.WINDOWS * self.PER_WINDOW
+        dosage = np.zeros((n_variants, self.SAMPLES), dtype=np.int8)
+        positions = []
+        chroms = []
+        self.common_rows = set()
+        for window in range(self.WINDOWS):
+            # Exactly one common variant per window, never the first candidate.
+            common_slot = 3 + window % (self.PER_WINDOW - 3)
+            for slot in range(self.PER_WINDOW):
+                row = window * self.PER_WINDOW + slot
+                positions.append(window * self.WINDOW_BP + slot * 5_000 + 1_000)
+                chroms.append("1")
+                if slot == common_slot:
+                    dosage[row] = rng.binomial(2, 0.3, self.SAMPLES)
+                    self.common_rows.add(row)
+                else:
+                    carriers = rng.choice(self.SAMPLES, 2, replace=False)
+                    dosage[row, carriers] = 1
+
+        self.data = base / "data"
+        self.data.mkdir()
+        write_plink(self.data, "rare", dosage, chroms, positions)
+
+        self.manifest = base / "split.tsv"
+        with self.manifest.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
+            writer.writerow(["sample_id", "eid", "split"])
+            for index in range(self.SAMPLES):
+                writer.writerow([f"IID{index}", f"E{index}",
+                                 "train" if index % 4 else "tq_test"])
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_every_window_fills_by_retrying(self) -> None:
+        result = run_json(b4_build_snp_panel.main, [
+            "--bed", str(self.data / "rare.bed"),
+            "--split-manifest", str(self.manifest),
+            "--out-dir", str(self.base / "panel"),
+            "--thin-bp", str(self.WINDOW_BP),
+            "--maf-min", "0.01",
+        ])["stdout"]
+        # One kept variant per window, and it is the common one, not the leftmost.
+        self.assertEqual(result["variants_kept"], self.WINDOWS)
+        self.assertEqual(result["windows_unfilled"], 0)
+        self.assertGreater(result["reads_per_kept_variant"], 1.0)
+        self.assertGreater(result["dropped"]["maf"], 0)
+
+        with (self.base / "panel" / "panel_variants.tsv").open(encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(len(rows), self.WINDOWS)
+        for row in rows:
+            self.assertGreaterEqual(float(row["train_maf"]), 0.01)
+        self.assertEqual(
+            {int(row["bim_index"]) for row in rows}, self.common_rows
+        )
+
+    def test_windows_go_unfilled_when_retries_are_capped(self) -> None:
+        result = run_json(b4_build_snp_panel.main, [
+            "--bed", str(self.data / "rare.bed"),
+            "--split-manifest", str(self.manifest),
+            "--out-dir", str(self.base / "panel_capped"),
+            "--thin-bp", str(self.WINDOW_BP),
+            "--maf-min", "0.01",
+            "--max-tries-per-window", "1",
+        ])["stdout"]
+        self.assertLess(result["variants_kept"], self.WINDOWS)
+        self.assertGreater(result["windows_unfilled"], 0)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

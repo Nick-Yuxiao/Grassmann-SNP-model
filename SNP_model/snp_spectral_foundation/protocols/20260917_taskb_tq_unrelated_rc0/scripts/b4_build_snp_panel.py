@@ -15,10 +15,12 @@ from __future__ import annotations
 
 import argparse
 import csv
+import heapq
 import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Iterator
 
 import numpy as np
 
@@ -45,8 +47,15 @@ def dosage_lookup() -> np.ndarray:
     return table
 
 
-def read_bim(path: Path) -> list[dict[str, object]]:
-    variants: list[dict[str, object]] = []
+def stream_bim(path: Path) -> Iterator[dict[str, object]]:
+    """Yield variants one at a time.
+
+    An imputed .bim holds millions of rows per chromosome and about 96 million
+    across the genome. Materialising them as dictionaries costs tens of gigabytes
+    before a single genotype is read, so this streams and lets the caller keep
+    only the candidates it can actually use.
+    """
+    seen = False
     with open_text(path) as handle:
         for index, line in enumerate(handle):
             fields = line.split()
@@ -56,17 +65,17 @@ def read_bim(path: Path) -> list[dict[str, object]]:
                 position = int(fields[3])
             except ValueError:
                 continue
-            variants.append({
+            seen = True
+            yield {
                 "index": index,
                 "chrom": fields[0],
                 "variant_id": fields[1],
                 "pos": position,
                 "a1": fields[4],
                 "a2": fields[5],
-            })
-    if not variants:
+            }
+    if not seen:
         raise ValueError(f"No variants parsed from {path}")
-    return variants
 
 
 def in_exclusion(chrom: str, position: int, regions: list[tuple[str, int, int]]) -> bool:
@@ -75,7 +84,7 @@ def in_exclusion(chrom: str, position: int, regions: list[tuple[str, int, int]])
 
 
 def build_windows(
-    variants: list[dict[str, object]],
+    variants: Iterator[dict[str, object]],
     thin_bp: int,
     max_per_chrom: int | None,
     regions: list[tuple[str, int, int]],
@@ -91,29 +100,46 @@ def build_windows(
     spacing is preserved and the panel actually fills.
 
     Candidate order inside a window is a seeded hash rather than position, so the
-    kept variants are not systematically clustered at window starts.
+    kept variants are not systematically clustered at window starts. Each window
+    retains only the `max_tries` candidates it could ever read, which bounds memory
+    at windows x max_tries entries instead of the whole variant table.
     """
-    grouped: dict[tuple[str, int], list[dict[str, object]]] = defaultdict(list)
+    # Per window: a max-heap on the seeded hash, capped at max_tries. Popping the
+    # largest keeps exactly the max_tries smallest hashes, the same set a full
+    # sort would have taken, so the result does not depend on input order.
+    grouped: dict[tuple[str, int], list[tuple[str, int, dict[str, object]]]] = defaultdict(list)
     for variant in variants:
         chrom, position = str(variant["chrom"]), int(variant["pos"])
         if len(str(variant["a1"])) != 1 or len(str(variant["a2"])) != 1:
             continue
         if in_exclusion(chrom, position, regions):
             continue
-        grouped[(chrom, position // thin_bp)].append(variant)
+        window = position // thin_bp
+        key = (chrom, window)
+        digest = stable_hex(seed, chrom, window, variant["index"])
+        heap = grouped[key]
+        # heapq is a min-heap, so negate the ordering by pushing the inverted key.
+        entry = (_inverted(digest), int(variant["index"]), variant)
+        if len(heap) < max_tries:
+            heapq.heappush(heap, entry)
+        elif entry > heap[0]:
+            heapq.heapreplace(heap, entry)
 
     windows: list[list[dict[str, object]]] = []
     per_chrom: dict[str, int] = {}
-    for (chrom, index) in sorted(grouped, key=lambda key: (key[0], key[1])):
+    for key in sorted(grouped):
+        chrom = key[0]
         if max_per_chrom is not None and per_chrom.get(chrom, 0) >= max_per_chrom:
             continue
-        candidates = sorted(
-            grouped[(chrom, index)],
-            key=lambda v: stable_hex(seed, chrom, index, v["index"]),
-        )
-        windows.append(candidates[:max_tries])
+        ordered = sorted(grouped[key], key=lambda item: item[0], reverse=True)
+        windows.append([item[2] for item in ordered])
         per_chrom[chrom] = per_chrom.get(chrom, 0) + 1
     return windows
+
+
+def _inverted(digest: str) -> str:
+    """Map a hex digest to its order-reversing complement, so a min-heap drops the largest."""
+    return "".join("0123456789abcdef"[15 - int(character, 16)] for character in digest)
 
 
 def choose_samples(
@@ -160,6 +186,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--missing-max", type=float, default=0.05)
     parser.add_argument("--train-split-label", default="train",
                         help="Split whose participants fit MAF and missingness.")
+    parser.add_argument("--progress-every", type=int, default=500,
+                        help="Write a progress line to stderr every N windows; 0 disables it.")
     parser.add_argument("--seed", type=int, default=20260917)
     parser.add_argument("--keep-long-range-ld", action="store_true",
                         help="Do not exclude MHC and the default inversion regions.")
@@ -197,12 +225,13 @@ def main(argv: list[str] | None = None) -> int:
     regions = [] if args.keep_long_range_ld else DEFAULT_EXCLUSIONS
     windows: list[tuple[Path, list[dict[str, object]]]] = []
     for bed in beds:
-        variants = read_bim(bed.with_suffix(".bim"))
         for candidates in build_windows(
-            variants, args.thin_bp, args.max_snps_per_chrom, regions,
-            args.seed, args.max_tries_per_window,
+            stream_bim(bed.with_suffix(".bim")), args.thin_bp, args.max_snps_per_chrom,
+            regions, args.seed, args.max_tries_per_window,
         ):
             windows.append((bed, candidates))
+        print(f"[windows] {bed.name}: {len(windows)} windows so far",
+              file=sys.stderr, flush=True)
     if not windows:
         raise SystemExit("Thinning removed every variant; loosen --thin-bp")
 
@@ -218,7 +247,7 @@ def main(argv: list[str] | None = None) -> int:
     variant_reads = 0
     windows_unfilled = 0
     try:
-        for bed, candidates in windows:
+        for window_number, (bed, candidates) in enumerate(windows, start=1):
             handle = handles.get(bed)
             if handle is None:
                 handle = bed.open("rb")
@@ -226,6 +255,12 @@ def main(argv: list[str] | None = None) -> int:
                     raise SystemExit(f"{bed.name} is not a SNP-major PLINK 1 .bed")
                 handles[bed] = handle
 
+            if args.progress_every and window_number % args.progress_every == 0:
+                print(
+                    f"[panel] window {window_number}/{len(windows)} "
+                    f"kept={len(kept_rows)} reads={variant_reads}",
+                    file=sys.stderr, flush=True,
+                )
             filled = False
             for variant in candidates:
                 handle.seek(3 + int(variant["index"]) * bytes_per_variant)

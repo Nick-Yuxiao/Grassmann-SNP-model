@@ -1,6 +1,9 @@
 # TQ-G1：annotation-free Gene-layer Readout Pilot rc0（待冻结）
 
-_起草：2026-09-17｜状态：`DRAFT_AWAITING_FREEZE`｜执行前必须先冻结本文件与 `CONFIG_FROZEN.json` 的哈希_
+_起草：2026-09-17｜冻结：2026-09-17｜状态：`FROZEN_AWAITING_RUN`_
+
+> 冻结发生在任何 chr18 outcome 被读取之前。被冻结文件的 SHA-256 见同目录 `FREEZE.sha256`；运行器会把实际使用的 protocol/config/core 哈希写进 `results/RUN_BINDING.json`，两者必须一致。
+> 冻结之后不得修改本文件、`CONFIG_FROZEN.json` 或任何分析代码。需要改动就开 rc1，不覆盖 rc0。
 
 ## 唯一主问题
 

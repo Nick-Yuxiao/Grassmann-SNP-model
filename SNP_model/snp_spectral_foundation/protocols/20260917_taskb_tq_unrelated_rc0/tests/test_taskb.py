@@ -417,6 +417,26 @@ class RareVariantPanelTests(unittest.TestCase):
             {int(row["bim_index"]) for row in rows}, self.common_rows
         )
 
+    def test_truncated_bed_is_refused_before_any_genotype_read(self) -> None:
+        # This cohort keeps duplicate copies of some chromosomes and at least one is
+        # incomplete. Catching it up front costs a bim line count; catching it late
+        # costs an hour of genotype reading.
+        bed = self.data / "rare.bed"
+        with bed.open("r+b") as handle:
+            handle.truncate(bed.stat().st_size - 500)
+        out_dir = self.base / "panel_truncated"
+        with self.assertRaises(SystemExit) as caught:
+            run_json(b4_build_snp_panel.main, [
+                "--bed", str(bed),
+                "--split-manifest", str(self.manifest),
+                "--out-dir", str(out_dir),
+                "--thin-bp", str(self.WINDOW_BP),
+            ])
+        message = str(caught.exception)
+        self.assertIn("incomplete", message)
+        self.assertIn("rare.bed", message)
+        self.assertFalse((out_dir / "panel.tmp.npy").exists())
+
     def test_windows_go_unfilled_when_retries_are_capped(self) -> None:
         result = run_json(b4_build_snp_panel.main, [
             "--bed", str(self.data / "rare.bed"),

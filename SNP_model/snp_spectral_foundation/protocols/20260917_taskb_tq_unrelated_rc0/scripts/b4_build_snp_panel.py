@@ -47,6 +47,15 @@ def dosage_lookup() -> np.ndarray:
     return table
 
 
+def count_bim_rows(path: Path) -> int:
+    rows = 0
+    with open_text(path) as handle:
+        for line in handle:
+            if len(line.split()) >= 6:
+                rows += 1
+    return rows
+
+
 def stream_bim(path: Path) -> Iterator[dict[str, object]]:
     """Yield variants one at a time.
 
@@ -222,6 +231,27 @@ def main(argv: list[str] | None = None) -> int:
             "MAF cannot be fitted train-only"
         )
 
+    # Validate every fileset before reading a single genotype. This cohort keeps
+    # duplicate copies of some chromosomes and at least one of them is truncated,
+    # which otherwise surfaces as a failure an hour into the genotype pass.
+    damaged: list[str] = []
+    variant_counts: dict[Path, int] = {}
+    for bed in beds:
+        variant_counts[bed] = count_bim_rows(bed.with_suffix(".bim"))
+        expected = 3 + bytes_per_variant * variant_counts[bed]
+        actual = bed.stat().st_size
+        if actual != expected:
+            damaged.append(
+                f"{bed}: {actual} bytes, expected {3} + {bytes_per_variant} x "
+                f"{variant_counts[bed]} = {expected} (difference {actual - expected})"
+            )
+    if damaged:
+        raise SystemExit(
+            "These .bed files do not match their .bim and .fam, so they are incomplete "
+            "copies. Point --bed at an intact copy of each:\n  " + "\n  ".join(damaged)
+        )
+    print(f"[validate] {len(beds)} filesets match their bim and fam", file=sys.stderr, flush=True)
+
     regions = [] if args.keep_long_range_ld else DEFAULT_EXCLUSIONS
     windows: list[tuple[Path, list[dict[str, object]]]] = []
     for bed in beds:
@@ -343,6 +373,11 @@ def main(argv: list[str] | None = None) -> int:
         "layout": "variant_major_int8_missing_as_minus_one",
         "shape": {"variants": len(kept_rows), "samples": len(samples)},
         "fam_sample_count": total_samples,
+        "filesets": [
+            {"bed": str(bed), "variants_in_bim": variant_counts[bed],
+             "size_bytes": bed.stat().st_size}
+            for bed in beds
+        ],
         "windows_considered": len(windows),
         "windows_filled": len(kept_rows),
         "windows_unfilled": windows_unfilled,

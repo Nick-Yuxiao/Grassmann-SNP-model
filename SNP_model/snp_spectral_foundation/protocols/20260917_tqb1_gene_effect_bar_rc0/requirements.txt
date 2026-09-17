@@ -1,0 +1,2 @@
+# TQ-B1 needs nothing but numpy. No torch, no GPU, no compiled genetics library.
+numpy>=1.24

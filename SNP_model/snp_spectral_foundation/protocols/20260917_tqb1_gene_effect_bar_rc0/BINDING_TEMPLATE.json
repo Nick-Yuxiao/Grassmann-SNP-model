@@ -1,0 +1,38 @@
+{
+  "_instructions": [
+    "Copy this to BINDING.json and fill in every path. bind_assets.py then fills the hashes.",
+    "Every input is a plain TSV except the genotype triple, so nothing here needs a compiled reader.",
+    "Leave burden_path null to run the detectability gate only; the bar needs it."
+  ],
+
+  "genotype": {
+    "bed": null,
+    "bim": null,
+    "fam": null,
+    "dosage_allele": "A1",
+    "_note": "PLINK 1 SNP-major .bed. Convert with: plink2 --make-bed --out <stem>"
+  },
+
+  "samples_path": null,
+  "_samples_schema": "TSV: sample_id [group] [split]. group = kinship/family component, one row per analysed individual. split is optional; if absent it is derived deterministically from the seed and the group column.",
+
+  "covariates_path": null,
+  "_covariates_schema": "TSV: sample_id then numeric columns (age, sex, genotype PCs, assessment centre dummies, batch dummies). No missing values.",
+
+  "phenotypes_path": null,
+  "_phenotypes_schema": "TSV: sample_id then one column per trait, already inverse-normalised or otherwise pre-adjusted as your analysis plan states.",
+
+  "genes_path": null,
+  "_genes_schema": "TSV: gene_id, chrom, tss (1-based). chrom must match the .bim naming exactly.",
+
+  "burden_path": null,
+  "_burden_schema": "TSV: gene_id, trait, beta, se. One row per gene x trait. Must come from an independent WES analysis, never from the array data used here.",
+
+  "traits": [],
+  "_traits_note": "Column names in phenotypes_path to analyse, e.g. [\"RBC\", \"HGB\", \"MCV\"].",
+
+  "chromosomes": [],
+  "_chromosomes_note": "Restrict the run, e.g. [\"1\",\"2\"]. Empty means every chromosome present in genes_path.",
+
+  "expected_sha256": {}
+}

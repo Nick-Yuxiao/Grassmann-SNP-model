@@ -1,0 +1,62 @@
+{
+  "analysis_id": "tqb1-gene-effect-bar-rc0",
+  "claim_class": "additive_baseline_bar_for_a_future_foundation_model_comparison",
+
+  "seed": 5262026,
+  "bootstrap_seed": 5263026,
+  "permutation_seed": 5264026,
+  "bootstrap_replicates": 2000,
+  "permutation_replicates": 2000,
+
+  "split_fractions": {"train": 0.70, "validation": 0.15, "evaluation": 0.15},
+  "split_unit": "group_column_then_sample_id",
+
+  "cis_radius_bp": 1000000,
+  "snps_per_gene": 256,
+  "maf_min": 0.01,
+  "missingness_max": 0.05,
+  "cis_snp_selection_rule": "position_ordered_uniform_thinning",
+  "cis_snp_selection_uses_phenotype": false,
+
+  "gene_selection_rule": "all_eligible_then_deterministic_hash_cap",
+  "gene_selection_salt": "tqb1-rc0",
+  "gene_selection_uses_phenotype": false,
+  "max_genes": 1500,
+  "min_genes_required": 200,
+
+  "ridge_alphas": [1e-4, 1e-2, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000],
+
+  "arms": {
+    "A": "covariates only",
+    "B": "covariates + additive cis dosage"
+  },
+
+  "detectability_gate": {
+    "statistic": "macro over genes of R2(B) - R2(A) on the validation split",
+    "rule": "macro_delta_r2_gt_0_and_paired_ci95_low_gt_0",
+    "enforced_before_evaluation_split_is_opened": true,
+    "note": "rc0 of TQ-G1 failed because this gate was demoted to a secondary contrast. It is a hard gate here."
+  },
+
+  "perturbation": {
+    "B": "cis dosage columns replaced by the training-split mean dosage",
+    "score": "s_g = sd over evaluation individuals of (prediction - perturbed prediction)",
+    "covariates_are_never_perturbed": true
+  },
+
+  "bar": {
+    "target": "absolute WES burden effect |beta_g| for the same trait",
+    "statistic": "spearman(s_g, |beta_g|)",
+    "matched_null_strata": ["cis_snp_count_decile", "mean_maf_decile", "burden_se_decile"],
+    "interpretation": "this Spearman IS the bar; a later foundation-model score must beat it"
+  },
+
+  "output_precision": "repr",
+  "interpretation_limits": [
+    "this_is_an_additive_baseline_measurement_not_a_foundation_model_test",
+    "burden_effects_are_supplied_externally_and_are_not_recomputed_here",
+    "s_g_is_a_magnitude_not_a_signed_effect",
+    "relatedness_is_handled_only_through_the_supplied_group_column",
+    "no_causal_claim"
+  ]
+}

@@ -81,6 +81,25 @@ modelling、E0 masked-genotype gate,也不构成 `bridge_test` 的任何结论�
 
 ## 已知缺陷
 
+### 事故 02：协变量与基因型共用惩罚（影响 `B−A` 的解释）
+
+见 `../IMPLEMENTATION_INCIDENT_02.md`。本轮所有臂把协变量与新增特征放进同一个
+受同一 alpha 惩罚的 ridge。新增特征越多,被迫选到的 alpha 越大,协变量系数被压
+得越扁——而协变量是 `A` 唯一的预测源。因此 `B` 会**结构性地**劣于 `A`,与有无
+遗传信号无关。
+
+上表的数字不作修改,但解释必须收紧:
+
+- `B − A = −0.0144` **不能**再被读作"加性 dosage 没有信号"。
+- `TASK-INELIGIBLE` 的判定**仍然成立**,只是不可解释的理由多了一条。
+- `C_gene − C_full = −0.0232` 与惩罚效应方向一致,应当作废。
+- `C_gene − B` 的方向可能仍为真,但数值不可信。
+
+修复已在 `../../protocols/20260917_tqb1_gene_effect_bar_rc0/` 实现并由回归测试锁住;
+任何 rc1 必须带上。
+
+### 事故 01：输出精度
+
 见 `../IMPLEMENTATION_INCIDENT_01.md`：`GENE_TABLE.tsv` 的浮点精度不足以让独立
 validator 逐位重现两个 Spearman（偏差 `1.3e-4` / `3.0e-5`）。不影响 primary
 estimand 与任何结论,修复进入 rc1。

@@ -1,0 +1,60 @@
+{
+  "protocol_id": "20260917_taskb_tq_unrelated_rc0",
+  "status": "PRE_REGISTRATION_DRAFT",
+  "question": "does raw additive dosage add out-of-sample phenotype information over covariates",
+  "relatedness_axis": {
+    "source": null,
+    "source_options": ["ukb_field_22021_unrelated_subset", "official_pairwise_kinship", "self_built_king"],
+    "field_22021_kept_values": ["0"],
+    "kinship_file_sha256": null,
+    "claim_scope": "new unrelated individual, not new family"
+  },
+  "cohort": {
+    "application_id": "44430",
+    "genome_build": "GRCh37",
+    "genotype_source": "imputation_v3_hardcall_plink_conversion",
+    "allele_orientation": "bim_A1_count_ref_alt_unverified",
+    "fam_sha256": null,
+    "covariates_sha256": null,
+    "withdrawal_list_supplied": false
+  },
+  "split": {
+    "seed": 20260917,
+    "ratios": [0.70, 0.15, 0.15],
+    "strata_columns": ["n_22001_0_0", "n_22006_0_0"],
+    "batch_column": "n_22000_0_0",
+    "manifest_sha256": null
+  },
+  "panel": {
+    "thin_bp": 50000,
+    "maf_min": 0.01,
+    "missing_max": 0.05,
+    "long_range_ld_excluded": true,
+    "max_samples": null,
+    "panel_sha256": null
+  },
+  "arms": {
+    "A": ["intercept", "genetic_sex", "age", "age_squared", "array", "assessment_centre", "PC1_to_PC40"],
+    "B": "A plus train-fitted marginal-effect score over the frozen panel"
+  },
+  "traits": {
+    "cap": 3,
+    "selected": [],
+    "candidates": ["n_30020_0_0", "n_30010_0_0", "n_30040_0_0", "n_30780_0_0", "n_30760_0_0", "n_30870_0_0"],
+    "transform": "zscore"
+  },
+  "analysis": {
+    "primary_metric": "out_of_sample_incremental_R2",
+    "p_threshold_grid": [1.0, 0.5, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.00001, 0.000001],
+    "threshold_selected_on": "validation",
+    "sesoi_delta_r2": 0.005,
+    "bootstrap_replicates": 2000,
+    "bootstrap_unit": "individual",
+    "negative_control": "permute the train-fitted score within test"
+  },
+  "firewall": {
+    "test_open_count_cap_per_trait": 1,
+    "test_opened": false,
+    "phenotype_visible_to_e0": false
+  }
+}

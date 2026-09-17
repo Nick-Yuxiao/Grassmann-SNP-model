@@ -95,18 +95,40 @@ def load_tsv(path: Path) -> list[dict[str, str]]:
 # ---------------------------------------------------------------------------
 
 
-def resolve_assets(binding: dict[str, object]) -> dict[str, Path]:
-    raw = binding.get("asset_dir")
+def resolve_assets(binding: dict[str, object], override: str | None = None) -> dict[str, Path]:
+    """Find the asset directory.
+
+    ``asset_dir`` may be one path or a list of candidates, so the same frozen
+    binding works from Windows and from WSL. The first candidate that exists
+    wins, and the resolved directory is recorded in RUN_BINDING.json. Every
+    file is hash-checked afterwards, so a wrong candidate cannot pass silently.
+    """
+    raw = override or os.environ.get("TQG1_ASSET_DIR") or binding.get("asset_dir")
     if not raw:
         raise SystemExit(
             "PRE_RUN_BINDING.json: asset_dir is unset. Point it at the directory holding the "
             "six chr18 GEUVADIS assets, then rerun."
         )
-    asset_dir = Path(str(raw)).expanduser()
-    if not asset_dir.is_absolute():
-        asset_dir = (PILOT_DIR / asset_dir).resolve()
-    if not asset_dir.is_dir():
-        raise SystemExit(f"asset_dir does not exist: {asset_dir}")
+    candidates = [raw] if isinstance(raw, str) else list(raw)
+    tried: list[str] = []
+    asset_dir: Path | None = None
+    for candidate in candidates:
+        text = str(candidate)
+        path = Path(text).expanduser()
+        # A "C:/..." candidate is absolute on Windows but not on POSIX; never
+        # glue a foreign-platform path onto the pilot directory.
+        foreign_absolute = len(text) > 1 and text[1] == ":" and text[0].isalpha()
+        if not path.is_absolute() and not foreign_absolute:
+            path = (PILOT_DIR / path).resolve()
+        tried.append(str(path))
+        if path.is_dir():
+            asset_dir = path
+            break
+    if asset_dir is None:
+        raise SystemExit(
+            "no asset_dir candidate exists. Tried:\n  " + "\n  ".join(tried)
+            + "\nPass --asset-dir or set TQG1_ASSET_DIR to override."
+        )
     names = binding["assets"]
     assert isinstance(names, dict)
     paths = {key: asset_dir / str(name) for key, name in names.items()}
@@ -727,6 +749,11 @@ def main() -> None:
         action="store_true",
         help="Open a sealed role. Requires OPEN_AUTHORIZATION.json and burns the asset.",
     )
+    parser.add_argument(
+        "--asset-dir",
+        default=None,
+        help="Override the bound asset directory. Hashes are still enforced.",
+    )
     args = parser.parse_args()
 
     if (RESULT_DIR / "FINAL_STATUS.json").exists():
@@ -748,7 +775,7 @@ def main() -> None:
         if not AUTHORIZATION_PATH.exists():
             raise SystemExit("--open-sealed-test requires OPEN_AUTHORIZATION.json next to this script")
 
-    paths = resolve_assets(binding)
+    paths = resolve_assets(binding, args.asset_dir)
     asset_audit = audit_assets(paths, binding)
     print(f"asset audit passed for {len(asset_audit)} files", flush=True)
 

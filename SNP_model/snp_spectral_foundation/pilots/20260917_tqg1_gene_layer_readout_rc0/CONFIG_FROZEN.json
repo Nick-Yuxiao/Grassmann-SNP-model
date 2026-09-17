@@ -1,0 +1,116 @@
+{
+  "analysis_id": "tqg1-gene-layer-readout-chr18-rc0",
+  "pilot_id": "20260917_tqg1_gene_layer_readout_rc0",
+  "claim_class": "annotation_free_gene_unit_premise_test_not_burden_validation",
+  "seed": 5262026,
+  "bootstrap_seed": 5263026,
+  "permutation_seed": 5264026,
+  "bootstrap_replicates": 5000,
+  "permutation_replicates": 5000,
+  "chromosome": "chr18",
+  "assembly": "GRCh38",
+  "coordinate_contract": {
+    "pvar": "1-based POS",
+    "expression_bed": "0-based half-open TSS point",
+    "tss_conversion": "TSS_1based=start+1"
+  },
+  "evaluation_role": "task_gate",
+  "sealed_roles": [
+    "bridge_test"
+  ],
+  "previously_opened_roles": [
+    "task_gate"
+  ],
+  "cis_radius_bp": 1000000,
+  "snps_per_gene": 256,
+  "block_size": 32,
+  "maf_min": 0.05,
+  "missingness_max": 0.1,
+  "genotype_pc_count": 10,
+  "pc_panel_snps": 20000,
+  "pc_panel_rule": "chr18_wide_uniform_thinning_of_qc_variants_fit_on_dev_train",
+  "gene_selection_rule": "all_eligible_then_deterministic_hash_cap",
+  "gene_selection_salt": "tqg1-rc0",
+  "gene_selection_uses_phenotype_signal": false,
+  "max_genes": 200,
+  "min_genes_required": 60,
+  "min_tss_separation_bp": 0,
+  "cis_snp_selection_rule": "position_ordered_uniform_thinning_within_cis_window",
+  "cis_snp_selection_uses_phenotype": false,
+  "d_model": 16,
+  "n_heads": 4,
+  "local_layers": 2,
+  "local_ff_dim": 64,
+  "dropout": 0.0,
+  "local_position_mode": "relative_continuous",
+  "use_local_block_embedding": false,
+  "shared_encoder_across_genes": true,
+  "pretrain_blocks": 512,
+  "pretrain_epochs": 40,
+  "mask_probability": 0.2,
+  "batch_size": 16,
+  "learning_rate": 0.002,
+  "weight_decay": 0.0001,
+  "gene_pool_kernel_bp": 100000,
+  "gene_pool_features": [
+    "uniform_mean",
+    "tss_distance_kernel_mean",
+    "block_mean_concat"
+  ],
+  "ridge_alphas": [
+    1e-06,
+    1e-05,
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000,
+    1000000
+  ],
+  "arms": {
+    "A": "sex + population one-hot + 10 dev_train-fitted genotype PCs",
+    "B": "A + additive cis dosage",
+    "C_gene": "A + annotation-free gene-pooled readout of the frozen shared encoder",
+    "C_full": "A + full coordinate-aligned cis hidden state (rc1 reference arm)"
+  },
+  "primary_contrast": "C_gene-B",
+  "primary_pass_rule": "macro_delta_r2_gt_0_and_two_way_clustered_ci95_low_gt_0",
+  "secondary_contrasts": [
+    "C_full-B",
+    "C_gene-C_full",
+    "B-A"
+  ],
+  "perturbation": {
+    "B": "cis dosage columns replaced by dev_train mean dosage (2*AF)",
+    "C_gene": "cis genotype tokens replaced by the encoder MASK token before re-encoding",
+    "C_full": "cis genotype tokens replaced by the encoder MASK token before re-encoding",
+    "score": "s_g = sd over evaluation individuals of (prediction - perturbed prediction)",
+    "interventions_are_not_identical": true
+  },
+  "gene_effect_rehearsal": {
+    "target": "T_g = dev_validation held-out R2 of arm B for gene g",
+    "statistic": "spearman(s_g, T_g)",
+    "primary_rehearsal_contrast": "spearman_model minus spearman_linear",
+    "matched_null_strata": [
+      "cis_snp_count_decile",
+      "mean_maf_decile",
+      "dev_expression_variance_decile"
+    ],
+    "is_burden_test": false
+  },
+  "interpretation_limits": [
+    "not_a_burden_test",
+    "not_external_replication",
+    "not_clinical_prediction",
+    "not_genome_wide_validation",
+    "not_causal_evidence",
+    "annotation_free_routing_only",
+    "task_gate_individuals_were_opened_by_stage2b_rc1_and_are_not_virgin",
+    "supplied_expression_was_normalized_on_the_full_445_cohort"
+  ]
+}

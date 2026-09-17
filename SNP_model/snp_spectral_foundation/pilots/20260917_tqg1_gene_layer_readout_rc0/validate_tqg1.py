@@ -61,10 +61,10 @@ def main() -> int:
             print(f"FAIL: missing artifact {path.name}")
             return 1
 
-    results = json.loads(results_path.read_text(encoding="utf-8"))
-    binding = json.loads(binding_path.read_text(encoding="utf-8")) if binding_path.exists() else {}
+    results = json.loads(results_path.read_text(encoding="utf-8-sig"))
+    binding = json.loads(binding_path.read_text(encoding="utf-8-sig")) if binding_path.exists() else {}
     status = (
-        json.loads(status_path.read_text(encoding="utf-8"))
+        json.loads(status_path.read_text(encoding="utf-8-sig"))
         if status_path.exists()
         else {
             "status": "SUPPORTED" if results["primary"]["pass"] else "NOT-SUPPORTED",
@@ -72,11 +72,11 @@ def main() -> int:
             "sealed_roles_still_sealed": sorted(
                 set(results["interpretation_limits"]) & set()
             )
-            or sorted(set(json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text())["sealed_roles"])
+            or sorted(set(json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text(encoding="utf-8-sig"))["sealed_roles"])
                       - set(results.get("sealed_roles_opened") or [])),
         }
     )
-    config = json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text(encoding="utf-8"))
+    config = json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text(encoding="utf-8-sig"))
 
     with table_path.open("r", encoding="utf-8", newline="") as handle:
         rows = list(csv.DictReader(handle, delimiter="\t"))

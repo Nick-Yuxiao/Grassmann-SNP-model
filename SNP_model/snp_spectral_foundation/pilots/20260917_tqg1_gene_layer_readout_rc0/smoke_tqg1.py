@@ -32,7 +32,7 @@ POPULATIONS = ["CEU", "FIN", "GBR", "TSI", "YRI"]
 
 
 def smoke_config() -> dict[str, object]:
-    config = json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text(encoding="utf-8"))
+    config = json.loads((PILOT_DIR / "CONFIG_FROZEN.json").read_text(encoding="utf-8-sig"))
     config.update(
         {
             "snps_per_gene": 64,

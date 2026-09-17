@@ -86,7 +86,7 @@ def set_reproducibility(seed: int) -> None:
 
 
 def load_tsv(path: Path) -> list[dict[str, str]]:
-    with path.open("r", encoding="utf-8", newline="") as handle:
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
 
 
@@ -733,8 +733,8 @@ def main() -> None:
         raise SystemExit("this Pilot already has a final status and cannot be rerun")
     RESULT_DIR.mkdir(parents=True, exist_ok=True)
 
-    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    binding = json.loads(BINDING_PATH.read_text(encoding="utf-8"))
+    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+    binding = json.loads(BINDING_PATH.read_text(encoding="utf-8-sig"))
     set_reproducibility(int(config["seed"]))
 
     evaluation_role = str(config["evaluation_role"])

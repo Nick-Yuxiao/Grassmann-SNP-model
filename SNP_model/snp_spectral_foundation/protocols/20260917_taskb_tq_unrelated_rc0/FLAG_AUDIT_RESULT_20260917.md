@@ -59,3 +59,37 @@ keep  ⟺  n_22021_0_0 == 0
 ## ⚠️ 仍未核对的一项
 
 上表的取值含义取自本包 `FIELD_22021_CODING.zh-CN.md` 中待核对的编码表。观测分布与之完全自洽（五个取值、比例吻合官方统计），但**与 UKB Showcase data-coding 页面的逐条核对尚未由人完成**。在正式报告中引用这些含义前需补上该核对。
+
+---
+
+## 🚨 撤回同意名单缺失（2026-09-17 确认）
+
+冻结的过滤条件包含「不在撤回同意名单中」这一条，但**该条件目前无法验证**。
+
+在 `/data3` 与 `/home/tyuxiao` 的 6 层深度内搜索 `*44430*`、`w[0-9]*.csv`、`*withdraw*`、`*exclus*`、`*.ukbkey`，**全部无匹配**。`/data3/ukb_all/logs/` 只有迁移脚本与 rsync 日志；`/data3/ukb_all` 下的 csv 全是前一位研究者的分析输出。因此 `b3` 运行时 `explicit_exclusions_supplied = 0`。
+
+### 当前的部分覆盖及其边界
+
+`b3` 剔除了 111 个负号标识（`dropped_negative_identifier`）。负号 ID 是 UKB 在刷新数据中标记撤回参与者的惯例写法，因此这是真实的部分覆盖。
+
+但存在时间差：genotype 来自 **2020 年 1 月**的 bgen 转换（见 `ukb_imp_chr1_v3.log` 的时间戳）。**2020 年之后撤回的参与者不会体现在那批负号 ID 中。** 这 111 人因此不能当作完整的撤回处理。
+
+### 建议的处置顺序
+
+不阻断 validation 那一跑——该跑不产生正式判定，只确认实现与数值稳定性。
+
+**但应在打开 `tq_test` 之前解决。** 理由既是合规也是工程：若撤回名单后续到位并改变样本集合，`b3` 必须重跑，split 哈希随之变化，已经开过的 `tq_test` 就落在一个被取代的划分上。test 是一次性的，不应花在可能重做的 split 上。
+
+### `CONFIG.json` 中必须如实记录
+
+```json
+"withdrawal_list_supplied": false,
+"withdrawal_partial_coverage": "111 negative-sign identifiers dropped by b3",
+"withdrawal_coverage_gap": "genotype converted 2020-01; post-2020 withdrawals are not reflected in those identifiers",
+"withdrawal_resolution_required_before": "tq_test opening"
+```
+
+### 待向数据管理方确认
+
+1. 是否存在最新的参与者撤回名单（通常为 `w44430_<日期>.csv`）
+2. genotype 自 2020 年 1 月转换以来是否有过刷新

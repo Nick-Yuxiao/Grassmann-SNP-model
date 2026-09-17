@@ -31,13 +31,38 @@ def format_value(value: object) -> str:
     return "" if text.lower() in {"nan", "none"} else text
 
 
-def iter_chunks(path: Path, columns: list[str], chunk_size: int, row_limit: int | None):
+def iter_chunks(
+    path: Path,
+    columns: list[str],
+    chunk_size: int,
+    row_limit: int | None,
+    read_mode: str = "single",
+):
+    """Yield (rows, column_names) batches from a SAS file.
+
+    read_mode "single" issues one read_sas7bdat call. That is the default because
+    pyreadstat's chunked reader re-parses the file from the start for every chunk,
+    including a metadata pass and an out-of-range probe past the last chunk. On a
+    52 GB UKB basket that turns a ~15 minute job into hours while producing no
+    output at all until the end. With usecols the whole result is only a handful
+    of columns, so a single read stays small in memory.
+    """
     try:
         import pyreadstat  # type: ignore
     except ImportError:
         pyreadstat = None  # type: ignore
 
     if pyreadstat is not None:
+        if read_mode == "single":
+            kwargs: dict[str, object] = {"usecols": columns}
+            if row_limit is not None:
+                kwargs["row_limit"] = row_limit
+            frame, _ = pyreadstat.read_sas7bdat(str(path), **kwargs)
+            yield (
+                [list(record) for record in frame.itertuples(index=False, name=None)],
+                list(frame.columns),
+            )
+            return
         reader = pyreadstat.read_file_in_chunks(
             pyreadstat.read_sas7bdat, str(path), chunksize=chunk_size, usecols=columns
         )
@@ -78,7 +103,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--column", action="append", required=True,
                         help="Exact SAS column name; repeatable. Include the identifier column.")
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--chunk-size", type=int, default=100_000)
+    parser.add_argument("--read-mode", default="single", choices=["single", "chunked"],
+                        help="single issues one read call; chunked re-parses the file per "
+                             "chunk and is only useful when memory forces it.")
+    parser.add_argument("--chunk-size", type=int, default=100_000,
+                        help="Rows per chunk in chunked mode; ignored in single mode.")
     parser.add_argument("--row-limit", type=int, default=None,
                         help="Stop after this many rows; use for a smoke run.")
     parser.add_argument("--overwrite", action="store_true")
@@ -96,7 +125,9 @@ def main(argv: list[str] | None = None) -> int:
     header_written = False
     with args.out.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
-        for rows, frame_columns in iter_chunks(args.sas, columns, args.chunk_size, args.row_limit):
+        for rows, frame_columns in iter_chunks(
+            args.sas, columns, args.chunk_size, args.row_limit, args.read_mode
+        ):
             if not header_written:
                 writer.writerow(frame_columns)
                 header_written = True
@@ -113,6 +144,7 @@ def main(argv: list[str] | None = None) -> int:
         "identifiers_included": True,
         "source": str(args.sas),
         "columns": columns,
+        "read_mode": args.read_mode,
         "rows_written": written,
         "output": str(args.out),
         "output_sha256": sha256_file(args.out),

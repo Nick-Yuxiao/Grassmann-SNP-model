@@ -50,7 +50,9 @@ python3 scripts/b2_extract_sas_columns.py --sas "$SAS/ukb5.sas7bdat" \
 head -3 "$OUT/taskb_extract/traits_smoke.tsv"
 ```
 
-确认后跑全量，两个并行后台：
+确认后跑全量。**串行跑，不要并行**——两个进程抢同一块盘会互相拖慢，而且列名万一写错，大文件那一遍就白读了。
+
+`b2` 默认 `--read-mode single`（一次读完）。不要用 `chunked`：pyreadstat 的分块接口对每个 chunk 都从文件开头重新解析，还额外有一次元数据扫描和一次越界探测，在 52 GB 的 basket 上实测会反复扫描且中途不产出任何输出。
 
 ```bash
 nohup python3 scripts/b2_extract_sas_columns.py --sas "$SAS/ukb5.sas7bdat" \

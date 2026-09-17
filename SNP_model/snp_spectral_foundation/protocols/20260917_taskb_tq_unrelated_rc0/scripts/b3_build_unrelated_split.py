@@ -22,8 +22,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib_split import (  # noqa: E402
+    BRIDGE_RESERVED_RATIOS,
     SPLIT_RATIOS,
     assign_splits,
+    parse_ratio_arguments,
     open_text,
     read_fam_ids,
     read_id_set,
@@ -33,6 +35,16 @@ from lib_split import (  # noqa: E402
 
 DEFAULT_KINSHIP_COLUMN = "n_22021_0_0"
 DEFAULT_ID_COLUMN = "eid"
+
+# UKB data-coding for field 22021. Verify against the showcase before freezing;
+# the observed histogram in the summary is what actually justifies the filter.
+FLAG_CODING_REFERENCE = {
+    "0": "no kinship found -> keep",
+    "1": "at least one relative identified -> drop",
+    "10": "ten or more third-degree relatives identified -> drop",
+    "-1": "participant excluded from the kinship inference process -> drop, relatedness UNKNOWN",
+    "": "value absent -> drop, relatedness UNKNOWN",
+}
 
 
 def array_from_batch(value: str) -> str:
@@ -70,6 +82,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Covariate column used for stratification; repeatable.")
     parser.add_argument("--batch-column", default="n_22000_0_0",
                         help="Batch column turned into an array label and used as a stratum.")
+    parser.add_argument("--split", action="append", default=[], metavar="NAME=FRACTION",
+                        help="Split name and fraction; repeatable. Fractions must sum to 1.")
+    parser.add_argument("--reserve-bridge-holdout", action="store_true",
+                        help="Shorthand for train=0.55 validation=0.15 tq_test=0.15 "
+                             "bridge_holdout=0.15, keeping a Bridge test the qualification "
+                             "never opens.")
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--overwrite", action="store_true")
@@ -85,6 +103,15 @@ def main(argv: list[str] | None = None) -> int:
     for path in (manifest_path, summary_path):
         if path.exists() and not args.overwrite:
             raise SystemExit(f"Refusing to overwrite: {path}")
+
+    if args.split and args.reserve_bridge_holdout:
+        raise SystemExit("Pass either --split or --reserve-bridge-holdout, not both")
+    if args.split:
+        ratios = parse_ratio_arguments(args.split)
+    elif args.reserve_bridge_holdout:
+        ratios = dict(BRIDGE_RESERVED_RATIOS)
+    else:
+        ratios = dict(SPLIT_RATIOS)
 
     keep_values = {value.strip() for value in args.keep_flag_value}
     flag_of: dict[str, str] = {}
@@ -108,6 +135,8 @@ def main(argv: list[str] | None = None) -> int:
     excluded = read_id_set(args.exclude)
 
     counters = Counter()
+    flag_histogram: Counter[str] = Counter()
+    dropped_by_flag_value: Counter[str] = Counter()
     kept: dict[str, dict[str, str]] = {}
     for row in read_tsv(args.covariates):
         counters["covariate_rows"] += 1
@@ -128,9 +157,12 @@ def main(argv: list[str] | None = None) -> int:
         flag = flag_of.get(identifier)
         if flag is None:
             counters["dropped_no_kinship_flag"] += 1
+            flag_histogram["<absent from flag file>"] += 1
             continue
+        flag_histogram[flag if flag != "" else "<blank>"] += 1
         if flag not in keep_values:
             counters["dropped_related_or_unassessed"] += 1
+            dropped_by_flag_value[flag if flag != "" else "<blank>"] += 1
             continue
         failed_qc = False
         for name in args.qc_flag:
@@ -162,7 +194,7 @@ def main(argv: list[str] | None = None) -> int:
         strata_of[genotype_id] = "|".join(parts) if parts else "ALL"
 
     units = {genotype_id: 1 for genotype_id in kept}
-    assignments = assign_splits(units, strata_of, args.seed)
+    assignments = assign_splits(units, strata_of, args.seed, ratios)
 
     with manifest_path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
@@ -194,6 +226,10 @@ def main(argv: list[str] | None = None) -> int:
         "relatedness_axis": {
             "source": "UKB field 22021 (genetic kinship to other participants)",
             "kept_values": sorted(keep_values),
+            "observed_value_counts": dict(sorted(flag_histogram.items())),
+            "dropped_by_value": dict(sorted(dropped_by_flag_value.items())),
+            "coding_reference": FLAG_CODING_REFERENCE,
+            "unknown_relatedness_is_dropped_not_kept": True,
             "pairwise_edges_available": False,
             "claim_scope": "new unrelated individual, not new family",
             "caveat": (
@@ -216,7 +252,7 @@ def main(argv: list[str] | None = None) -> int:
             "seed": args.seed,
             "sample_counts": dict(sorted(overall.items())),
             "sample_fractions": {k: round(v / total, 6) for k, v in sorted(overall.items())},
-            "target_fractions": SPLIT_RATIOS,
+            "target_fractions": ratios,
             "strata_columns": strata_columns + ([args.batch_column] if args.batch_column else []),
             "strata_count": len(per_stratum),
             "per_stratum_sample_counts": {

@@ -4,10 +4,25 @@
   "question": "does raw additive dosage add out-of-sample phenotype information over covariates",
   "relatedness_axis": {
     "source": null,
-    "source_options": ["ukb_field_22021_unrelated_subset", "official_pairwise_kinship", "self_built_king"],
-    "field_22021_kept_values": ["0"],
+    "source_options": [
+      "ukb_field_22021_unrelated_subset",
+      "official_pairwise_kinship",
+      "self_built_king"
+    ],
+    "field_22021_kept_values": [
+      "0"
+    ],
     "kinship_file_sha256": null,
-    "claim_scope": "new unrelated individual, not new family"
+    "claim_scope": "new unrelated individual, not new family",
+    "field_22021_coding_verified_against_showcase": false,
+    "observed_value_counts": null,
+    "unknown_values_dropped": [
+      "-1",
+      "<blank>",
+      "<undocumented>"
+    ],
+    "flag_source_file": null,
+    "flag_audit_sha256": null
   },
   "cohort": {
     "application_id": "44430",
@@ -20,10 +35,20 @@
   },
   "split": {
     "seed": 20260917,
-    "ratios": [0.70, 0.15, 0.15],
-    "strata_columns": ["n_22001_0_0", "n_22006_0_0"],
+    "ratios": {
+      "train": 0.55,
+      "validation": 0.15,
+      "tq_test": 0.15,
+      "bridge_holdout": 0.15
+    },
+    "strata_columns": [
+      "n_22001_0_0",
+      "n_22006_0_0"
+    ],
     "batch_column": "n_22000_0_0",
-    "manifest_sha256": null
+    "manifest_sha256": null,
+    "scheme": "train=0.55 validation=0.15 tq_test=0.15 bridge_holdout=0.15",
+    "bridge_holdout_opened": false
   },
   "panel": {
     "thin_bp": 50000,
@@ -34,27 +59,73 @@
     "panel_sha256": null
   },
   "arms": {
-    "A": ["intercept", "genetic_sex", "age", "age_squared", "array", "assessment_centre", "PC1_to_PC40"],
+    "A": [
+      "intercept",
+      "genetic_sex",
+      "age",
+      "age_squared",
+      "array",
+      "assessment_centre",
+      "PC1_to_PC40"
+    ],
     "B": "A plus train-fitted marginal-effect score over the frozen panel"
   },
   "traits": {
     "cap": 3,
     "selected": [],
-    "candidates": ["n_30020_0_0", "n_30010_0_0", "n_30040_0_0", "n_30780_0_0", "n_30760_0_0", "n_30870_0_0"],
-    "transform": "zscore"
+    "candidates": [
+      "n_30020_0_0",
+      "n_30010_0_0",
+      "n_30040_0_0",
+      "n_30780_0_0",
+      "n_30760_0_0",
+      "n_30870_0_0"
+    ],
+    "transform": "zscore",
+    "preflight": {
+      "splits_read": [
+        "train",
+        "validation"
+      ],
+      "min_effective_n": 50000,
+      "max_missing_rate": 0.3,
+      "min_distinct_values": 50,
+      "max_single_value_share": 0.05,
+      "max_covariate_r2": 0.5,
+      "preflight_report_sha256": null,
+      "frozen_before_test_opened": false
+    }
   },
   "analysis": {
     "primary_metric": "out_of_sample_incremental_R2",
-    "p_threshold_grid": [1.0, 0.5, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.00001, 0.000001],
+    "p_threshold_grid": [
+      1.0,
+      0.5,
+      0.1,
+      0.05,
+      0.01,
+      0.001,
+      0.0001,
+      1e-05,
+      1e-06
+    ],
     "threshold_selected_on": "validation",
     "sesoi_delta_r2": 0.005,
     "bootstrap_replicates": 2000,
     "bootstrap_unit": "individual",
-    "negative_control": "permute the train-fitted score within test"
+    "negative_control": "permute the train-fitted score within test",
+    "eligibility_rule": "delta_r2 > 0 and paired 95% CI lower bound > 0",
+    "sesoi_is_separate_from_eligibility": true
   },
   "firewall": {
     "test_open_count_cap_per_trait": 1,
     "test_opened": false,
     "phenotype_visible_to_e0": false
-  }
+  },
+  "scope_exclusions": [
+    "no C/D/E arm",
+    "no representation training and no checkpoint loading",
+    "no phenotype-driven back-selection of model, layer, rank, seed or panel",
+    "bridge holdout stays closed for the whole of Task B"
+  ]
 }

@@ -29,11 +29,22 @@ Task B 的预测目标是 **phenotype**，genotype 只作为**输入**。imputed
 
 Task B 真正的前提只有三条：**可靠 relatedness 轴、phenotype 字段确认、A/B 独立资格检验**。
 
+## 🚫 本轮明确不做什么
+
+- 不碰 C / D / E 任何一臂
+- 不训练任何新 representation，不加载任何已有 checkpoint
+- 不用 phenotype 结果反向挑模型、层数、rank、seed 或 panel
+- 不开 Bridge。Bridge 的 holdout 在本轮全程关闭
+
+Task B 这一轮的全部产出就是：每个候选 trait 一个 `eligible` 布尔值，加上支撑它的 `ΔR²` 与区间。
+
 ## 👥 Relatedness 轴
 
 ### 首选：UKB field 22021
 
 保留 `22021 == 0` 的参与者，即 UKB 自身的 KING 推断未发现三度以内亲属者。每个保留个体因此是一个 singleton relatedness component，**个体级划分即 relatedness-disjoint**。
+
+`-1`（未参与 kinship 推断）、空值与任何未记载取值一律**剔除而非并入无亲缘**——把「不知道有没有亲属」当成「没有亲属」，正是本设计要排除的那类泄漏。编码语义的核对流程见 [`FIELD_22021_CODING.zh-CN.md`](FIELD_22021_CODING.zh-CN.md)，冻结依据是 `b2b` 打印的实测直方图，不是记忆中的编码表。
 
 必须同时承认代价：
 
@@ -50,6 +61,19 @@ Task B 真正的前提只有三条：**可靠 relatedness 轴、phenotype 字段
 
 **不得用随机个体划分开 bridge。** UKB 中约三成参与者有三度以内亲属；随机划分会让跨 split 的亲缘对把 genotype→phenotype 的家系共享成分泄漏进 test，测到的是泄漏而不是泛化。
 
+## 🔪 Split 方案
+
+Bridge 若要在 Task B 之后进行，其 test 不能是 Task B 已经打开过的那一份。因此默认采用四路划分：
+
+| split | 比例 | 用途 |
+| --- | --- | --- |
+| `train` | 0.55 | 拟合 covariate 系数、SNP 效应、AF 与缺失填补 |
+| `validation` | 0.15 | trait preflight、选 p 值阈值 |
+| `tq_test` | 0.15 | 本轮资格检验，每个 trait 只开一次 |
+| `bridge_holdout` | 0.15 | **本轮全程关闭**，留给 Bridge |
+
+`b3 --reserve-bridge-holdout` 生成该方案；`b5 --test-split tq_test` 只打开 `tq_test`，并在结果中记录 `never_touched` 列表。
+
 ## 📊 Trait 选择
 
 优先连续、测量稳定、遗传信号强的表型，按此顺序：
@@ -64,6 +88,17 @@ Task B 真正的前提只有三条：**可靠 relatedness 轴、phenotype 字段
 | 6 | `30870` | triglycerides |
 
 本轮最多评估 **3 个 trait**，在开 test 前写入 `CONFIG.json`。每个 trait 的 test 只开一次。
+
+### Trait preflight 是冻结前的必经步骤
+
+`b6_trait_preflight.py` **只读 train 与 validation**，`tq_test` 与 `bridge_holdout` 保持关闭，因此按 preflight 结果挑 trait 不构成对答案的偷看。它报告：
+
+- 有效 N、缺失率、可用 genotype 人数（按 split）
+- 分布（均值、SD、分位数、偏度、峰度）、唯一值数、众数占比、超 5 SD 个数
+- sentinel 嫌疑：在中位数为正的 trait 中反复出现的负整数取值
+- 非局部协变量已解释的 `R²`，以及绝对 t 值最大的若干项
+
+筛选是**数据质量筛选，不是效应量筛选**：默认门槛为有效 N ≥ 50,000、缺失率 ≤ 0.30、唯一值 ≥ 50、单一取值占比 ≤ 0.05、协变量 `R² ≤ 0.50`。
 
 ## ⚙️ 两个臂
 
@@ -86,13 +121,21 @@ B 臂中 dosage 通过一个**只在 train 上拟合**的线性预测子进入�
 
 其中 \(R^2 = 1 - \sum (y-\hat y)^2 / \sum (y-\bar y_{train})^2\)，`train` 均值作参照以避免泄漏。
 
-| 结果 | 判定 |
-| --- | --- |
-| `ΔR² ≥ 0.005` 且 bootstrap 95% CI 下界 `> 0` | `QUALIFIED` |
-| CI 下界 `> 0` 但 `ΔR² < 0.005` | `STATISTICALLY_POSITIVE_PRACTICALLY_TIED` |
-| 其余 | `NOT_QUALIFIED` |
+**Eligibility 是本轮的判定门槛**：
 
-`0.005` 是本轮预注册的最小有意义增量。2,000 次个体级 bootstrap；因为设计上全部为 unrelated singleton，个体即独立重采样单位。
+\[
+\Delta R^2 > 0 \quad\text{且}\quad \text{paired 95\% CI 下界} > 0.
+\]
+
+SESOI 是另一层更严的实际意义标记，不改变 eligibility：
+
+| 结果 | `eligible` | 判定 |
+| --- | --- | --- |
+| `ΔR² ≥ 0.005` 且 CI 下界 `> 0` | ✅ | `QUALIFIED` |
+| `ΔR² > 0`、CI 下界 `> 0`、但 `ΔR² < 0.005` | ✅ | `ELIGIBLE_PRACTICALLY_TIED` |
+| 其余 | ❌ | `NOT_ELIGIBLE` |
+
+`0.005` 是本轮预注册的最小有意义增量。2,000 次 bootstrap，**每次重复对两臂使用同一组重采样个体**，因此区间是 paired 的；设计上全部为 unrelated singleton，个体即独立重采样单位。
 
 **负对照**：把 train 拟合的分数在 test 内打乱后重算。真实信号会让该值明显为负；若它接近或超过 `ΔR²`，说明分数与结局错位，该次运行作废。
 

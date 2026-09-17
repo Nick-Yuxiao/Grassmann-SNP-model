@@ -137,6 +137,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Subsample participants, preserving split proportions.")
     parser.add_argument("--maf-min", type=float, default=0.01)
     parser.add_argument("--missing-max", type=float, default=0.05)
+    parser.add_argument("--train-split-label", default="train",
+                        help="Split whose participants fit MAF and missingness.")
     parser.add_argument("--seed", type=int, default=20260917)
     parser.add_argument("--keep-long-range-ld", action="store_true",
                         help="Do not exclude MHC and the default inversion regions.")
@@ -162,9 +164,14 @@ def main(argv: list[str] | None = None) -> int:
 
     samples = choose_samples(args.split_manifest, fam_ids, args.max_samples, args.seed)
     rows = np.array([int(row["fam_row"]) for row in samples], dtype=np.int64)
-    is_train = np.array([row["split"] == "train" for row in samples], dtype=bool)
+    is_train = np.array(
+        [row["split"] == args.train_split_label for row in samples], dtype=bool
+    )
     if not is_train.any():
-        raise SystemExit("No train participants selected; MAF cannot be fitted train-only")
+        raise SystemExit(
+            f"No {args.train_split_label} participants selected; "
+            "MAF cannot be fitted train-only"
+        )
 
     regions = [] if args.keep_long_range_ld else DEFAULT_EXCLUSIONS
     candidates: list[tuple[Path, dict[str, object]]] = []
@@ -281,7 +288,7 @@ def main(argv: list[str] | None = None) -> int:
             split: sum(1 for row in samples if row["split"] == split)
             for split in sorted({row["split"] for row in samples})
         },
-        "statistics_fitted_on": "train split only",
+        "statistics_fitted_on": f"{args.train_split_label} split only",
         "outputs": {
             "panel": str(panel_path),
             "panel_sha256": sha256_file(panel_path),

@@ -141,6 +141,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--trait-column", required=True)
     parser.add_argument("--phenotype-transform", default="zscore",
                         choices=["none", "zscore", "rint"])
+    parser.add_argument("--train-split", default="train")
+    parser.add_argument("--validation-split", default="validation")
+    parser.add_argument("--test-split", default="test",
+                        help="Split opened by --allow-test. Any other split in the "
+                             "manifest, such as a bridge holdout, is never touched.")
     parser.add_argument("--sesoi-delta-r2", type=float, default=0.005,
                         help="Pre-registered smallest incremental out-of-sample R2 of interest.")
     parser.add_argument("--bootstrap", type=int, default=2000)
@@ -203,11 +208,16 @@ def main(argv: list[str] | None = None) -> int:
 
     columns = np.array(usable, dtype=np.int64)
     split_labels = np.array([panel_samples[index]["split"] for index in usable])
-    train_mask = split_labels == "train"
-    validation_mask = split_labels == "validation"
-    test_mask = split_labels == "test"
+    train_mask = split_labels == args.train_split
+    validation_mask = split_labels == args.validation_split
+    test_mask = split_labels == args.test_split
     if not train_mask.any() or not validation_mask.any():
-        raise SystemExit("Train and validation participants are both required")
+        raise SystemExit(
+            f"Both {args.train_split} and {args.validation_split} participants are required"
+        )
+    untouched = sorted(
+        set(split_labels.tolist()) - {args.train_split, args.validation_split, args.test_split}
+    )
 
     y = transform_phenotype(np.array(values, dtype=np.float64), train_mask,
                             args.phenotype_transform)
@@ -321,6 +331,12 @@ def main(argv: list[str] | None = None) -> int:
             "anything about Grassmann geometry",
         ],
         "trait_column": args.trait_column,
+        "splits": {
+            "train": args.train_split,
+            "validation": args.validation_split,
+            "test": args.test_split,
+            "never_touched": untouched,
+        },
         "phenotype_transform": args.phenotype_transform,
         "panel": {
             "variants": int(n_variants),
@@ -362,13 +378,20 @@ def main(argv: list[str] | None = None) -> int:
         _, r2_negative, _ = evaluate(test_mask, permuted)
         negative_delta = r2_negative - r2_a
 
-        passed = bool(delta >= args.sesoi_delta_r2 and low > 0)
+        # Eligibility is the gate: a positive point estimate whose paired 95% CI lower
+        # bound clears zero. The SESOI is a separate, stricter practical-significance mark.
+        eligible = bool(delta > 0 and low > 0)
+        meets_sesoi = bool(delta >= args.sesoi_delta_r2)
         report["test"] = {
             "r2_A_covariates_only": round(r2_a, 6),
             "r2_B_covariates_plus_dosage": round(r2_b, 6),
             "delta_r2": round(delta, 6),
             "delta_r2_ci95": [round(float(low), 6), round(float(high), 6)],
             "bootstrap_replicates": args.bootstrap,
+            "bootstrap_unit": "individual, resampled once per replicate for both arms",
+            "eligible": eligible,
+            "meets_sesoi": meets_sesoi,
+            "ci_is_paired": True,
             "negative_control_permuted_score_delta_r2": round(negative_delta, 6),
             "negative_control_reading": (
                 "the train-fitted score is scrambled against test outcomes; a real signal "
@@ -377,9 +400,9 @@ def main(argv: list[str] | None = None) -> int:
             ),
         }
         report["verdict"] = (
-            "QUALIFIED" if passed
-            else "STATISTICALLY_POSITIVE_PRACTICALLY_TIED" if low > 0
-            else "NOT_QUALIFIED"
+            "QUALIFIED" if eligible and meets_sesoi
+            else "ELIGIBLE_PRACTICALLY_TIED" if eligible
+            else "NOT_ELIGIBLE"
         )
         marker_path.write_text(
             json.dumps({"trait": args.trait_column, "panel": str(panel_dir)}, ensure_ascii=False)

@@ -17,6 +17,15 @@ from typing import Iterable, Iterator
 
 SPLIT_RATIOS = {"train": 0.70, "validation": 0.15, "test": 0.15}
 
+# Recommended when a Bridge follows the qualification: the bridge holdout is never
+# opened during Task B, so the qualification cannot contaminate the Bridge's test.
+BRIDGE_RESERVED_RATIOS = {
+    "train": 0.55,
+    "validation": 0.15,
+    "tq_test": 0.15,
+    "bridge_holdout": 0.15,
+}
+
 
 def stable_hex(*parts: object) -> str:
     payload = "\x1f".join(str(part) for part in parts).encode("utf-8")
@@ -70,14 +79,23 @@ def read_fam_ids(path: Path) -> list[str]:
     return ids
 
 
-def assign_splits(units: dict[str, int], strata_of: dict[str, str], seed: int) -> dict[str, str]:
-    """Assign indivisible units to train/validation/test inside each stratum.
+def assign_splits(
+    units: dict[str, int],
+    strata_of: dict[str, str],
+    seed: int,
+    ratios: dict[str, float] | None = None,
+) -> dict[str, str]:
+    """Assign indivisible units to the named splits inside each stratum.
 
     `units` maps unit id to its size in individuals. The rule is greedy in a
     deterministic order: larger units first, ties broken by a seeded hash, each
     unit going to whichever split minimises the squared deviation from the target
     counts. Identical inputs always give identical output.
     """
+    ratios = dict(ratios or SPLIT_RATIOS)
+    total_ratio = sum(ratios.values())
+    if not ratios or abs(total_ratio - 1.0) > 1e-6:
+        raise ValueError(f"Split ratios must be non-empty and sum to 1.0, got {ratios}")
     by_stratum: dict[str, list[tuple[str, int]]] = defaultdict(list)
     for unit_id, size in units.items():
         by_stratum[strata_of[unit_id]].append((unit_id, size))
@@ -85,18 +103,18 @@ def assign_splits(units: dict[str, int], strata_of: dict[str, str], seed: int) -
     assignments: dict[str, str] = {}
     for stratum, items in sorted(by_stratum.items()):
         total = sum(size for _, size in items)
-        target = {name: ratio * total for name, ratio in SPLIT_RATIOS.items()}
-        current = {name: 0 for name in SPLIT_RATIOS}
+        target = {name: ratio * total for name, ratio in ratios.items()}
+        current = {name: 0 for name in ratios}
         ordered = sorted(items, key=lambda item: (-item[1], stable_hex(seed, stratum, item[0])))
         for unit_id, size in ordered:
 
             def squared_error(candidate: str) -> tuple[float, str]:
                 after = dict(current)
                 after[candidate] += size
-                error = sum((after[name] - target[name]) ** 2 for name in SPLIT_RATIOS)
+                error = sum((after[name] - target[name]) ** 2 for name in ratios)
                 return error, stable_hex(seed, stratum, unit_id, candidate)
 
-            chosen = min(SPLIT_RATIOS, key=squared_error)
+            chosen = min(ratios, key=squared_error)
             assignments[unit_id] = chosen
             current[chosen] += size
     return assignments
@@ -107,3 +125,19 @@ def split_counts(assignments: dict[str, str], units: dict[str, int]) -> dict[str
     for unit_id, split in assignments.items():
         counts[split] += units[unit_id]
     return dict(sorted(counts.items()))
+
+
+def parse_ratio_arguments(values: list[str]) -> dict[str, float]:
+    """Turn ["train=0.55", "validation=0.15", ...] into a ratio dictionary."""
+    ratios: dict[str, float] = {}
+    for item in values:
+        if "=" not in item:
+            raise ValueError(f"Expected NAME=FRACTION, got {item!r}")
+        name, _, fraction = item.partition("=")
+        name = name.strip()
+        if not name:
+            raise ValueError(f"Empty split name in {item!r}")
+        if name in ratios:
+            raise ValueError(f"Split named twice: {name}")
+        ratios[name] = float(fraction)
+    return ratios

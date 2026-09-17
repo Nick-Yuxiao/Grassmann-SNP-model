@@ -22,14 +22,28 @@ import numpy as np
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+import b2b_audit_flag_coding  # noqa: E402
 import b3_build_unrelated_split  # noqa: E402
 import b4_build_snp_panel  # noqa: E402
 import b5_task_qualification  # noqa: E402
+import b6_trait_preflight  # noqa: E402
 
 N_SAMPLES = 4000
 N_VARIANTS = 600
 N_CAUSAL = 40
-RELATED_FRACTION = 0.1
+
+
+def kinship_flag_value(index: int) -> str:
+    """Every documented value of field 22021 plus a blank, at known counts."""
+    if index % 10 == 1:
+        return "1"            # at least one relative
+    if index % 10 == 2:
+        return "10"           # ten or more third-degree relatives
+    if index % 20 == 3:
+        return "-1"           # excluded from kinship inference: relatedness UNKNOWN
+    if index % 20 == 7:
+        return ""             # blank: relatedness UNKNOWN
+    return "0"
 
 
 def write_plink(directory: Path, stem: str, dosage: np.ndarray, chroms, positions) -> None:
@@ -94,8 +108,10 @@ class TaskBChain(unittest.TestCase):
         signal_trait = covariate_part + 1.2 * genetic + rng.normal(0, 1.0, N_SAMPLES)
         noise_trait = covariate_part + rng.normal(0, 1.0, N_SAMPLES)
 
-        related = rng.random(N_SAMPLES) < RELATED_FRACTION
-        cls.related_count = int(related.sum())
+        flags = [kinship_flag_value(index) for index in range(N_SAMPLES)]
+        cls.flag_counts = {value: flags.count(value) for value in {"0", "1", "10", "-1", ""}}
+        cls.unrelated_count = cls.flag_counts["0"]
+        cls.dropped_flag_count = N_SAMPLES - cls.unrelated_count
 
         cls.covariates = base / "covariates.tsv"
         with cls.covariates.open("w", encoding="utf-8", newline="") as handle:
@@ -111,15 +127,17 @@ class TaskBChain(unittest.TestCase):
             writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
             writer.writerow(["eid", "n_22021_0_0", "n_22027_0_0"])
             for index in range(N_SAMPLES):
-                writer.writerow([f"E{index}", 1 if related[index] else 0, ""])
+                writer.writerow([f"E{index}", flags[index], ""])
 
         cls.phenotype = base / "phenotype.tsv"
         with cls.phenotype.open("w", encoding="utf-8", newline="") as handle:
             writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
-            writer.writerow(["eid", "n_30020_0_0", "n_99999_0_0"])
+            writer.writerow(["eid", "n_30020_0_0", "n_99999_0_0", "n_88888_0_0"])
             for index in range(N_SAMPLES):
+                # n_88888 is deliberately degenerate: sentinel codes and heavy rounding.
+                degenerate = -3 if index % 4 == 0 else round(float(signal_trait[index]))
                 writer.writerow([f"E{index}", round(float(signal_trait[index]), 6),
-                                 round(float(noise_trait[index]), 6)])
+                                 round(float(noise_trait[index]), 6), degenerate])
 
         cls.split_dir = base / "split"
         cls.split_result = run_json(b3_build_unrelated_split.main, [
@@ -167,10 +185,122 @@ class TaskBChain(unittest.TestCase):
 
     def test_related_participants_are_dropped(self) -> None:
         summary = json.loads((self.split_dir / "SPLIT_SUMMARY.json").read_text(encoding="utf-8"))
-        self.assertEqual(summary["filtering"]["dropped_related_or_unassessed"], self.related_count)
-        self.assertEqual(summary["components"] if "components" in summary else 0, 0)
-        self.assertEqual(self.split_result["stdout"]["retained"], N_SAMPLES - self.related_count)
+        self.assertEqual(
+            summary["filtering"]["dropped_related_or_unassessed"], self.dropped_flag_count
+        )
+        self.assertEqual(self.split_result["stdout"]["retained"], self.unrelated_count)
         self.assertFalse(summary["relatedness_axis"]["pairwise_edges_available"])
+
+    def test_unknown_relatedness_is_dropped_not_kept(self) -> None:
+        axis = json.loads(
+            (self.split_dir / "SPLIT_SUMMARY.json").read_text(encoding="utf-8")
+        )["relatedness_axis"]
+        self.assertEqual(axis["kept_values"], ["0"])
+        self.assertTrue(axis["unknown_relatedness_is_dropped_not_kept"])
+        observed = axis["observed_value_counts"]
+        self.assertEqual(observed["0"], self.flag_counts["0"])
+        self.assertEqual(observed["<blank>"], self.flag_counts[""])
+        # -1 means relatedness was never assessed; it must be dropped, not read as unrelated.
+        self.assertEqual(axis["dropped_by_value"]["-1"], self.flag_counts["-1"])
+        self.assertEqual(axis["dropped_by_value"]["<blank>"], self.flag_counts[""])
+        self.assertEqual(axis["dropped_by_value"]["10"], self.flag_counts["10"])
+
+    def test_flag_audit_separates_unknown_from_related(self) -> None:
+        result = run_json(b2b_audit_flag_coding.main, [
+            "--table", str(self.kinship),
+            "--id-column", "eid",
+            "--column", "n_22021_0_0",
+            "--cross-reference", str(self.covariates),
+            "--cross-id-column", "eid",
+            "--out-dir", str(self.base / "flag_audit"),
+        ])
+        summary = result["stdout"]["n_22021_0_0"]
+        self.assertEqual(summary["keep_known_unrelated"], self.flag_counts["0"])
+        self.assertEqual(
+            summary["drop_known_related"], self.flag_counts["1"] + self.flag_counts["10"]
+        )
+        self.assertEqual(
+            summary["drop_relatedness_unknown"], self.flag_counts["-1"] + self.flag_counts[""]
+        )
+        self.assertEqual(summary["undocumented_values_present"], [])
+        self.assertEqual(result["stdout"]["participant_overlap"]["in_both"], N_SAMPLES)
+
+    def test_bridge_holdout_split_stays_reserved(self) -> None:
+        result = run_json(b3_build_unrelated_split.main, [
+            "--covariates", str(self.covariates),
+            "--covariate-id-column", "eid",
+            "--genotype-id-column", "iid",
+            "--fam", str(self.data / "chrsim.fam"),
+            "--kinship-flag", str(self.kinship),
+            "--strata-column", "n_22001_0_0",
+            "--reserve-bridge-holdout",
+            "--seed", "20260917",
+            "--out-dir", str(self.base / "split4"),
+        ])
+        counts = result["stdout"]["split_sample_counts"]
+        self.assertEqual(
+            sorted(counts), ["bridge_holdout", "tq_test", "train", "validation"]
+        )
+        total = sum(counts.values())
+        self.assertAlmostEqual(counts["train"] / total, 0.55, delta=0.02)
+        self.assertAlmostEqual(counts["bridge_holdout"] / total, 0.15, delta=0.02)
+
+    def test_qualification_never_touches_the_bridge_holdout(self) -> None:
+        panel_dir = self.base / "panel4"
+        run_json(b4_build_snp_panel.main, [
+            "--bed", str(self.data / "chrsim.bed"),
+            "--split-manifest", str(self.base / "split4" / "tq_split_manifest.tsv"),
+            "--out-dir", str(panel_dir), "--thin-bp", "1000",
+        ])
+        report = run_json(b5_task_qualification.main, [
+            "--panel-dir", str(panel_dir),
+            "--covariates", str(self.covariates),
+            "--covariate-column", "n_22009_0_1",
+            "--categorical-column", "n_22001_0_0",
+            "--phenotype", str(self.phenotype),
+            "--trait-column", "n_30020_0_0",
+            "--test-split", "tq_test",
+            "--bootstrap", "100",
+            "--allow-test",
+            "--out-dir", str(self.base / "tq4"),
+        ])["stdout"]
+        full = json.loads((self.base / "tq4" / "TQ_RESULTS.json").read_text(encoding="utf-8"))
+        self.assertEqual(full["splits"]["never_touched"], ["bridge_holdout"])
+        self.assertEqual(full["splits"]["test"], "tq_test")
+        self.assertEqual(report["verdict"], "QUALIFIED")
+
+    def test_preflight_screens_traits_and_keeps_test_closed(self) -> None:
+        result = run_json(b6_trait_preflight.main, [
+            "--phenotype", str(self.phenotype),
+            "--phenotype-id-column", "eid",
+            "--trait-column", "n_30020_0_0",
+            "--trait-column", "n_88888_0_0",
+            "--covariates", str(self.covariates),
+            "--covariate-id-column", "eid",
+            "--covariate-column", "n_22009_0_1",
+            "--categorical-column", "n_22001_0_0",
+            "--split-manifest", str(self.split_dir / "tq_split_manifest.tsv"),
+            "--min-effective-n", "500",
+            "--out-dir", str(self.base / "preflight"),
+        ])["stdout"]
+        self.assertEqual(result["splits_read"], ["train", "validation"])
+        self.assertEqual(result["splits_left_closed"], ["test"])
+        self.assertIn("n_30020_0_0", result["recommended_traits"])
+        self.assertNotIn("n_88888_0_0", result["recommended_traits"])
+
+        report = json.loads(
+            (self.base / "preflight" / "PREFLIGHT.json").read_text(encoding="utf-8")
+        )
+        degenerate = next(item for item in report["traits"]
+                          if item["trait_column"] == "n_88888_0_0")
+        self.assertFalse(degenerate["usable"])
+        # Heavy rounding plus a dominant value is what disqualifies it. The negative
+        # integers are reported but not treated as sentinels, because this trait's median
+        # is not positive, so going below zero is not by itself suspicious.
+        self.assertTrue(any("distinct values" in reason for reason in degenerate["reasons"]))
+        self.assertTrue(any("dominates" in reason for reason in degenerate["reasons"]))
+        self.assertIn(-3.0, degenerate["negative_integer_modes"])
+        self.assertEqual(degenerate["sentinel_suspects"], [])
 
     def test_split_is_singleton_and_proportional(self) -> None:
         with (self.split_dir / "tq_split_manifest.tsv").open(encoding="utf-8") as handle:

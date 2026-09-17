@@ -133,7 +133,7 @@ UKB imputed BGEN 为 ref-first。未显式指定时，`.bim` 的 A1/A2 与官方
 | 全部 22 条染色体均只有 imputed fileset | **科学性阻断** | E0 primary target 必须是观测分型 |
 | 无可解析 kinship/relatedness 文件 | **硬阻断** | family connected components 无法冻结，`R2` family 轴停摆。应用号 44430 已知，官方 `ukbgene rel` 可直接下载该文件 |
 | 无 genetic map | 工程阻断 | `1 cM` guard 规则无法执行 |
-| 未探测到 CUDA-enabled PyTorch | 疑似误报 | inventory 由系统 `python3` 3.10.12 运行，非 miniforge 环境；需在含 torch 的环境复测 |
+| ~~未探测到 CUDA-enabled PyTorch~~ | **已解除（2026-09-17）** | 系误报：inventory 由系统 `python3` 3.10.12 运行。在 `/home/tyuxiao/miniforge3/envs/grassbench`（Python 3.11.15）中实测 `torch 2.11.0+cu128`、`torch.cuda.is_available() == True`。micro-batch 与 precision 的绑定不再被环境阻断，仍需实测吞吐与显存 |
 
 ## ⚠️ 为什么 imputed 不能做 E0 primary target
 
@@ -180,7 +180,7 @@ genetic map 不是 UKB 受限资产。优先复用开发阶段已冻结哈希的
 
 1. 列出 `/data3/ukb_all/genotype` 其余子目录与 `phenotype`、`runs`，定位 `chr1`–`chr10` 及可能的 array/kinship 资产
 2. 向数据管理方 `jingyixi` 申请 `ukb_cal_*`、`ukb_rel_*.dat`、`ukb_sqc_v2.txt`，以及退路所需的 `ukb_mfi_chr*_v3.txt`
-3. 在含 torch 的 miniforge 环境复测 CUDA，清除第四条阻断
+3. ~~在含 torch 的 miniforge 环境复测 CUDA~~ —— 已完成，见上表
 4. 传入已冻结哈希的 `geneticMap-GRCh37` 镜像，清除 genetic map 阻断
 5. 取得 kinship 后重跑 R1，`PASS` 后才进入 R2 family 轴
 

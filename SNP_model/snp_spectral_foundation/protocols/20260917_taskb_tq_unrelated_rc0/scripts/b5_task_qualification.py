@@ -45,6 +45,36 @@ def fit_linear(design: np.ndarray, target: np.ndarray) -> np.ndarray:
     return np.linalg.solve(gram, design.T @ target)
 
 
+def pearson(y: np.ndarray, prediction: np.ndarray) -> float:
+    if y.size < 2:
+        return float("nan")
+    centred_y = y - y.mean()
+    centred_p = prediction - prediction.mean()
+    denominator = math.sqrt(float(centred_y @ centred_y) * float(centred_p @ centred_p))
+    return float(centred_y @ centred_p) / denominator if denominator > 0 else float("nan")
+
+
+def paired_bootstrap_delta(
+    y: np.ndarray,
+    prediction_a: np.ndarray,
+    prediction_b: np.ndarray,
+    train_mean: float,
+    replicates: int,
+    rng: np.random.Generator,
+) -> tuple[float, float]:
+    """Percentile CI for R2_B - R2_A, resampling the same rows for both arms."""
+    deltas = np.empty(replicates)
+    size = y.size
+    for replicate in range(replicates):
+        draw = rng.integers(0, size, size)
+        deltas[replicate] = (
+            out_of_sample_r2(y[draw], prediction_b[draw], train_mean)
+            - out_of_sample_r2(y[draw], prediction_a[draw], train_mean)
+        )
+    low, high = np.percentile(deltas, [2.5, 97.5])
+    return float(low), float(high)
+
+
 def out_of_sample_r2(y: np.ndarray, prediction: np.ndarray, train_mean: float) -> float:
     residual = float(np.sum((y - prediction) ** 2))
     total = float(np.sum((y - train_mean) ** 2))
@@ -128,6 +158,102 @@ def transform_phenotype(y: np.ndarray, train_mask: np.ndarray, method: str) -> n
     raise SystemExit(f"Unknown --phenotype-transform: {method}")
 
 
+def surrogate_id(salt: str, sample_key: str) -> str:
+    """Run-stable pseudonym. Same person keeps one id across traits; it is not an eid.
+
+    This is pseudonymisation, not anonymisation: anyone holding the underlying
+    identifier list can recompute the mapping. Treat exported rows accordingly.
+    """
+    import hashlib
+
+    return hashlib.sha256(f"{salt}|{sample_key}".encode("utf-8")).hexdigest()[:16]
+
+
+def export_task_gate(
+    args: argparse.Namespace,
+    report: dict[str, object],
+    keys: list[str],
+    y: np.ndarray,
+    split_labels: np.ndarray,
+    validation_mask: np.ndarray,
+    prediction_a: np.ndarray,
+    predictions_b: dict[int, np.ndarray],
+    validation_rows: list[dict[str, object]],
+    best_level: int,
+    train_mean: float,
+    panel_dir: Path,
+) -> None:
+    """Write the auditable Task Gate bundle for this trait."""
+    export_dir = args.export_dir.resolve()
+    export_dir.mkdir(parents=True, exist_ok=True)
+    trait = args.trait_column
+    rng = np.random.default_rng(args.seed)
+
+    # The salt ties surrogate ids to this split, so the three traits join on it.
+    salt = sha256_file(args.split_manifest) if args.split_manifest else str(args.seed)
+
+    with (export_dir / f"{trait}_validation_curve.csv").open(
+        "w", encoding="utf-8", newline=""
+    ) as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow([
+            "trait", "p_threshold", "n_snps", "r2_A", "r2_B", "delta_r2",
+            "delta_r2_ci95_low", "delta_r2_ci95_high", "pearson_A", "pearson_B",
+            "selected", "split_evaluated", "bootstrap_replicates",
+        ])
+        for level, row in zip(sorted(predictions_b), validation_rows):
+            low, high = paired_bootstrap_delta(
+                y[validation_mask], prediction_a[validation_mask],
+                predictions_b[level][validation_mask], train_mean,
+                args.export_bootstrap, rng,
+            )
+            writer.writerow([
+                trait, row["p_threshold"], row["variants_selected"],
+                row["r2_A"], row["r2_B"], row["delta_r2"],
+                round(low, 6), round(high, 6), row["pearson_A"], row["pearson_B"],
+                int(level == best_level), args.validation_split, args.export_bootstrap,
+            ])
+
+    if args.export_predictions != "none":
+        levels = sorted(predictions_b) if args.export_predictions == "all" else [best_level]
+        rows = []
+        for index in np.flatnonzero(validation_mask):
+            record = {
+                "surrogate_id": surrogate_id(salt, keys[index]),
+                "trait": trait,
+                "split": split_labels[index],
+                "y_true_z": round(float(y[index]), 6),
+                "pred_A": round(float(prediction_a[index]), 6),
+            }
+            for level in levels:
+                label = "selected" if level == best_level else f"p{P_THRESHOLDS[level]:g}"
+                record[f"pred_B_{label}"] = round(float(predictions_b[level][index]), 6)
+            rows.append(record)
+        rows.sort(key=lambda item: item["surrogate_id"])
+        with (export_dir / f"validation_predictions_{trait}.csv").open(
+            "w", encoding="utf-8", newline=""
+        ) as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+
+    (export_dir / f"{trait}_counts.json").write_text(
+        json.dumps({
+            "trait": trait,
+            "participants": report["participants"],
+            "splits": report["splits"],
+            "selected_p_threshold": report["selected_p_threshold"],
+            "selected_variant_count": report["selected_variant_count"],
+            "phenotype_transform": args.phenotype_transform,
+            "verdict": report["verdict"],
+            "surrogate_id_scheme": "sha256(split_manifest_sha256 | sample_id)[:16]",
+            "surrogate_is_pseudonymous_not_anonymous": True,
+            "y_units": "z-score on train-fitted mean and sd, winsorised at 5 SD",
+        }, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--panel-dir", type=Path, required=True)
@@ -155,6 +281,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--allow-test", action="store_true",
                         help="Open the test split. Without it only validation is reported.")
     parser.add_argument("--out-dir", type=Path, required=True)
+    parser.add_argument("--split-manifest", type=Path, default=None,
+                        help="Split manifest, used only to salt exported surrogate ids.")
+    parser.add_argument("--export-dir", type=Path, default=None,
+                        help="Also write the auditable Task Gate bundle here.")
+    parser.add_argument("--export-bootstrap", type=int, default=2000,
+                        help="Paired bootstrap replicates for the exported validation CIs.")
+    parser.add_argument("--export-predictions", default="selected",
+                        choices=["none", "selected", "all"],
+                        help="Per-participant rows to export. These are individual-level "
+                             "phenotype values under a pseudonym; check your data agreement "
+                             "before moving them off the analysis environment.")
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args(argv)
 
@@ -303,11 +440,13 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     validation_rows = []
+    predictions_b: dict[int, np.ndarray] = {}
     best_level, best_gain = None, -math.inf
     for level, threshold in enumerate(P_THRESHOLDS):
         if selected_counts[level] == 0:
             continue
-        r2_a, r2_b, _ = evaluate(validation_mask, scores[level])
+        r2_a, r2_b, prediction_b_level = evaluate(validation_mask, scores[level])
+        predictions_b[level] = prediction_b_level
         gain = r2_b - r2_a
         validation_rows.append({
             "p_threshold": threshold,
@@ -315,6 +454,8 @@ def main(argv: list[str] | None = None) -> int:
             "r2_A": round(r2_a, 6),
             "r2_B": round(r2_b, 6),
             "delta_r2": round(gain, 6),
+            "pearson_A": round(pearson(y[validation_mask], prediction_a[validation_mask]), 6),
+            "pearson_B": round(pearson(y[validation_mask], prediction_b_level[validation_mask]), 6),
         })
         if gain > best_gain:
             best_level, best_gain = level, gain
@@ -411,6 +552,12 @@ def main(argv: list[str] | None = None) -> int:
         )
     else:
         report["verdict"] = "VALIDATION_ONLY_TEST_NOT_OPENED"
+
+    if args.export_dir is not None:
+        export_task_gate(
+            args, report, keys, y, split_labels, validation_mask, prediction_a,
+            predictions_b, validation_rows, best_level, train_mean, panel_dir,
+        )
 
     result_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     printable = {key: report[key] for key in ("trait_column", "verdict", "selected_p_threshold",

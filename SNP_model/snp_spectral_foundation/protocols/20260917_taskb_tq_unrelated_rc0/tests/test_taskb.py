@@ -27,6 +27,7 @@ import b3_build_unrelated_split  # noqa: E402
 import b4_build_snp_panel  # noqa: E402
 import b5_task_qualification  # noqa: E402
 import b6_trait_preflight  # noqa: E402
+import e2_bundle_task_gate  # noqa: E402
 
 N_SAMPLES = 4000
 N_VARIANTS = 600
@@ -339,6 +340,72 @@ class TaskBChain(unittest.TestCase):
         self.assertEqual(report["verdict"], "VALIDATION_ONLY_TEST_NOT_OPENED")
         self.assertNotIn("test", report)
         self.assertFalse((self.base / "tq_closed" / "TEST_OPENED.marker").exists())
+
+    def test_export_bundle_is_auditable_and_keeps_test_shut(self) -> None:
+        export = self.base / "export"
+        for trait in ("n_30020_0_0", "n_99999_0_0"):
+            run_json(b5_task_qualification.main, [
+                "--panel-dir", str(self.panel_dir),
+                "--covariates", str(self.covariates),
+                "--covariate-column", "n_22009_0_1",
+                "--categorical-column", "n_22001_0_0",
+                "--phenotype", str(self.phenotype),
+                "--trait-column", trait,
+                "--split-manifest", str(self.split_dir / "tq_split_manifest.tsv"),
+                "--export-dir", str(export),
+                "--export-bootstrap", "50",
+                "--out-dir", str(self.base / f"export_run_{trait}"),
+            ])
+
+        with (export / "n_30020_0_0_validation_curve.csv").open(encoding="utf-8") as handle:
+            curve = list(csv.DictReader(handle))
+        for column in ("delta_r2", "delta_r2_ci95_low", "delta_r2_ci95_high",
+                       "pearson_A", "pearson_B", "n_snps", "selected"):
+            self.assertIn(column, curve[0])
+        # Exactly one threshold is flagged as the chosen one, and every row is
+        # evaluated on validation rather than the held-out test split.
+        self.assertEqual(sum(int(row["selected"]) for row in curve), 1)
+        self.assertTrue(all(row["split_evaluated"] == "validation" for row in curve))
+        for row in curve:
+            self.assertLessEqual(float(row["delta_r2_ci95_low"]), float(row["delta_r2"]))
+            self.assertGreaterEqual(float(row["delta_r2_ci95_high"]), float(row["delta_r2"]))
+
+        # One participant keeps one surrogate id across traits, so the tables join,
+        # and only validation rows are exported.
+        def read_predictions(trait: str) -> list[dict[str, str]]:
+            with (export / f"validation_predictions_{trait}.csv").open(encoding="utf-8") as fh:
+                return list(csv.DictReader(fh))
+
+        first, second = read_predictions("n_30020_0_0"), read_predictions("n_99999_0_0")
+        self.assertEqual({row["surrogate_id"] for row in first},
+                         {row["surrogate_id"] for row in second})
+        self.assertTrue(all(row["split"] == "validation" for row in first))
+        self.assertNotIn("IID0", (export / "validation_predictions_n_30020_0_0.csv")
+                         .read_text(encoding="utf-8"))
+
+        config = self.base / "CONFIG.json"
+        config.write_text(json.dumps({
+            "firewall": {"test_opened": False},
+            "cohort": {"withdrawal_list_supplied": False},
+            "panel": {"chromosomes_included": [1], "chromosomes_excluded": []},
+        }), encoding="utf-8")
+        panel_summary = self.panel_dir / "PANEL_SUMMARY.json"
+        bundle = run_json(e2_bundle_task_gate.main, [
+            "--config", str(config),
+            "--split-summary", str(self.split_dir / "SPLIT_SUMMARY.json"),
+            "--panel-summary", str(panel_summary),
+            "--export-dir", str(export),
+            "--trait", "n_30020_0_0",
+            "--out-dir", str(self.base / "task_gate"),
+            "--include-predictions",
+        ])["stdout"]
+        self.assertFalse(bundle["test_opened"])
+        self.assertIn("hashes.txt", bundle["files"])
+        self.assertIn("exclusions.json", bundle["files"])
+        readme = (self.base / "task_gate" / "README.md").read_text(encoding="utf-8")
+        # The bundle must not oversell what it proves.
+        self.assertIn("not proof that the implementation is leak-free", readme)
+        self.assertIn("pseudonymisation, not anonymisation", readme)
 
     def test_reopening_the_test_split_is_refused(self) -> None:
         self.qualification("n_30020_0_0", "tq_once")

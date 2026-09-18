@@ -194,7 +194,6 @@ def main(argv: list[str] | None = None) -> int:
         for label, path in [
             ("split_manifest.tsv", args.split_summary.parent / "tq_split_manifest.tsv"),
             ("panel.int8.npy", args.panel_summary.parent / "panel.int8.npy"),
-            ("panel_variants.tsv", args.panel_summary.parent / "panel_variants.tsv"),
         ]:
             if path.exists():
                 handle.write(f"{sha256_file(path)}  {label}\n")

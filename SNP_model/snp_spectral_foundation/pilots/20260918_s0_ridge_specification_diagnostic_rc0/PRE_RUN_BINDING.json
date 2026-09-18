@@ -1,0 +1,34 @@
+{
+  "_instructions": [
+    "Fill asset_dir with the absolute directory that holds the six chr18 GEUVADIS assets.",
+    "It is the same directory TQ-G1 used; the pinned sha256 values are enforced and a wrong or re-downloaded file aborts the run.",
+    "sample_manifest_path points at the frozen stage2b rc1 manifest; it is reused, never regenerated.",
+    "This diagnostic reads dev_train and dev_validation only. task_gate and bridge_test are refused."
+  ],
+  "asset_dir": null,
+  "asset_dir_examples": [
+    "F:/geuvadis/geuvadis_tensorqtl_chr18",
+    "/mnt/f/geuvadis/geuvadis_tensorqtl_chr18",
+    "<repo>/SNP_model/snp_spectral_foundation/pilot_assets/geuvadis_tensorqtl_chr18"
+  ],
+  "assets": {
+    "pgen": "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pgen",
+    "pvar": "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pvar",
+    "psam": "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.psam",
+    "expression": "GEUVADIS.445_samples.expression.bed.gz",
+    "panel": "integrated_call_samples_v3.20130502.ALL.panel",
+    "pedigree": "integrated_call_samples_v3.20250704.ALL.ped"
+  },
+  "expected_sha256": {
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pgen": "71b72570eb7326ae97084a7b2576cf759e269800001636c5dc51318943465173",
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pvar": "98ce39cf8cb71f7d2080d1577315780aaf0d2d4748c9e6a8ccfd9cb642d89ba8",
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.psam": "e8e757f42399bd7ee7065f365a4b3e7c5134170b71219ad5280331efb3bc14a4",
+    "GEUVADIS.445_samples.expression.bed.gz": "2e05f173907e4ba1e9fa4d5c5ad5389d2852f5aaf0eda72dc5c9d6865a80f562",
+    "integrated_call_samples_v3.20130502.ALL.panel": "b4023dc6ee2d62ee89c8d4d347db4d348e65518d66d346574cdae7a4bbd76858",
+    "integrated_call_samples_v3.20250704.ALL.ped": "02c5f7a2a706fe944bb46642f73f0cd99fb8cb22e35ae717589c3317efd50e57"
+  },
+  "sample_manifest_path": "../20260915_geuvadis_chr18_stage2b_rc1/SAMPLE_MANIFEST.tsv",
+  "sample_manifest_expected_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6",
+  "expected_variant_count": 367759,
+  "expected_sample_count": 445
+}

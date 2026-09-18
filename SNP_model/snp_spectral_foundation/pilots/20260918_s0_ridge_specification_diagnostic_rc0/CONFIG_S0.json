@@ -1,0 +1,63 @@
+{
+  "analysis_id": "s0-ridge-specification-diagnostic-chr18-rc0",
+  "pilot_id": "20260918_s0_ridge_specification_diagnostic_rc0",
+  "claim_class": "development_only_fit_specification_diagnostic_not_a_decision_pilot",
+  "question": "Is macro R2(B) < macro R2(A) an artefact of penalising the covariate block, given that B's design matrix contains A's?",
+  "decides_nothing_about": [
+    "the frozen TQ-G1 NOT-SUPPORTED verdict",
+    "whether the encoder representation has phenotype value",
+    "whether the biological hierarchy adds anything",
+    "any UKB or WES plan"
+  ],
+  "seed": 5262026,
+  "cv_fold_seed": 5265026,
+  "inner_split_seed": 5266026,
+  "bootstrap_seed": 5263026,
+  "bootstrap_replicates": 5000,
+  "chromosome": "chr18",
+  "assembly": "GRCh38",
+  "coordinate_contract": {
+    "pvar": "1-based POS",
+    "expression_bed": "0-based half-open TSS point",
+    "tss_conversion": "TSS_1based=start+1"
+  },
+  "roles_used": ["dev_train", "dev_validation"],
+  "forbidden_roles": ["task_gate", "bridge_test"],
+  "evaluation": "group-5-fold cross-validation over the pooled development individuals, families kept whole",
+  "cv_folds": 5,
+  "specifications": ["S1", "S2", "S3"],
+  "specification_notes": {
+    "S1": "every column standardized, one alpha over [covariates | dosage]; reproduces run_stage2b.fit_ridge_predictions and tqg1_core.fit_ridge",
+    "S2": "covariates unpenalized, dosage penalized, fitted jointly (partial ridge via Frisch-Waugh-Lovell)",
+    "S3": "covariates fitted by OLS, dosage ridged on the residual (standard two-stage eQTL recipe)"
+  },
+  "snp_counts": [8, 32, 128, 256],
+  "cis_radius_bp": 1000000,
+  "snps_per_gene": 256,
+  "maf_min": 0.05,
+  "missingness_max": 0.1,
+  "genotype_pc_count": 10,
+  "pc_panel_snps": 20000,
+  "pc_panel_rule": "chr18_wide_uniform_thinning_of_qc_variants_fit_on_dev_train",
+  "cis_snp_selection_rule": "position_ordered_uniform_thinning_within_cis_window_then_nested_uniform_subsets",
+  "cis_snp_selection_uses_phenotype": false,
+  "gene_selection_rule": "all_eligible_then_deterministic_hash_cap",
+  "gene_selection_salt": "tqg1-rc0",
+  "gene_selection_uses_phenotype_signal": false,
+  "max_genes": 200,
+  "min_genes_required": 60,
+  "ridge_alphas": [1e-06, 1e-05, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000],
+  "primary_readout": "macro R2(B) - macro R2(A) per specification at snps_per_gene=256",
+  "decision_rule": {
+    "artefact_supported": "B-A > 0 with CI95 excluding 0 under S2 and S3, while S1's B-A stays at or below 0",
+    "artefact_refuted": "B-A does not clear 0 under any specification",
+    "note": "a diagnostic outcome, not a gate; neither branch reopens or overturns a frozen pilot"
+  },
+  "interpretation_limits": [
+    "development individuals only; task_gate and bridge_test are never read",
+    "cross-validated within development, so this is not a held-out replication",
+    "gene panel and cis selection are inherited from TQ-G1 so that the fit specification is the only thing that varies",
+    "uniform thinning is kept deliberately, so a null here does not rule out that lead cis-eQTLs are simply absent from the panel",
+    "this diagnostic cannot overturn the frozen TQ-G1 verdict and does not evaluate any encoder arm"
+  ]
+}

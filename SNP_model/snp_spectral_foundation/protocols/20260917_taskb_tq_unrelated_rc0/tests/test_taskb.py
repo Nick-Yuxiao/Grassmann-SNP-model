@@ -402,6 +402,7 @@ class TaskBChain(unittest.TestCase):
         self.assertFalse(bundle["test_opened"])
         self.assertIn("hashes.txt", bundle["files"])
         self.assertIn("exclusions.json", bundle["files"])
+        self.assertIn("panel_variants.tsv", bundle["files"])
         readme = (self.base / "task_gate" / "README.md").read_text(encoding="utf-8")
         # The bundle must not oversell what it proves.
         self.assertIn("not proof that the implementation is leak-free", readme)

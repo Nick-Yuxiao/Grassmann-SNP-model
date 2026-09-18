@@ -1,0 +1,74 @@
+{
+  "protocol_id": "20260918_complementarity_v1_rc0",
+  "status": "PRE_REGISTRATION_DRAFT",
+  "depends_on": "20260917_taskb_tq_unrelated_rc0",
+  "question": "does functional annotation add beyond population structure, and conversely",
+  "verdict_is_confirmatory": false,
+  "why_not_confirmatory": "validation selected the B threshold in Task Qualification and is the evaluation split here as well",
+  "arms": {
+    "A": "covariates only, identical to Task Qualification",
+    "B": "A plus the marginal-effect score at the frozen p-threshold, not reselected",
+    "P": "A plus block-local PCA components",
+    "F": "A plus annotation-weighted dosage aggregates",
+    "PF": "A plus P plus F"
+  },
+  "decoder": {
+    "model": "ridge, intercept unpenalised",
+    "penalty_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0],
+    "penalty_selected_by": "K-fold CV inside train",
+    "inner_folds": 5,
+    "penalty_never_selected_on_eval_split": true
+  },
+  "population_carrier_P": {
+    "construction": "block-local PCA on the frozen panel, train-only fit",
+    "block_size_variants": 100,
+    "pcs_per_block": 3,
+    "global_pca_forbidden_because": "arm A already carries PC1-40 and a global PCA would be near-collinear with it",
+    "overlap_with_global_pcs_reported": true,
+    "top_canonical_correlations": null
+  },
+  "functional_carrier_F": {
+    "construction": "F[i,a] = sum_j standardised_dosage[i,j] * annotation[j,a]",
+    "group_by": "chromosome",
+    "join": "variant position only; allele orientation unused",
+    "genome_build": "GRCh37",
+    "phenotype_free_required": true,
+    "allowed_track_kinds": ["chromatin_state", "accessibility", "conservation", "gene_structure"],
+    "forbidden_track_kinds": ["gwas_catalog", "same_trait_eqtl", "existing_prs_weights", "twas", "finemapping_posterior"],
+    "tracks_selected": [],
+    "annotation_manifest_sha256": null
+  },
+  "frozen_from_task_qualification": {
+    "panel_sha256": null,
+    "split_manifest_sha256": null,
+    "p_threshold_per_trait": {},
+    "reselected_here": false
+  },
+  "traits": {
+    "development_smoke_test": "n_30040_0_0",
+    "development_trait_is_not_confirmatory_primary": true,
+    "confirmatory_primary": null,
+    "confirmatory_primary_chosen_after": "tq_test opened once and QUALIFIED traits known"
+  },
+  "analysis": {
+    "primary_comparisons": ["PF_minus_P", "PF_minus_F"],
+    "secondary_comparisons": ["PF_minus_A", "PF_minus_B", "P_minus_A", "F_minus_A", "B_minus_A"],
+    "eligibility_rule": "delta_r2 > 0 and paired 95% CI lower bound > 0",
+    "bootstrap_replicates": 2000,
+    "bootstrap_unit": "individual, resampled once per replicate for both arms",
+    "eval_split": "validation"
+  },
+  "firewall": {
+    "sealed_splits": ["tq_test", "test", "bridge_holdout", "holdout"],
+    "sealed_splits_openable_from_this_package": false,
+    "individual_level_rows_exported": false,
+    "exports": ["GATE_RESULTS.json", "PENALTY_TRACE.json", "arms.csv", "comparisons.csv"]
+  },
+  "scope_exclusions": [
+    "no representation training and no checkpoint loading",
+    "no Grassmann geometry",
+    "no phenotype-driven back-selection of model, layer, rank, seed, panel or annotation track",
+    "no opening of tq_test or bridge_holdout",
+    "no individual-level export, pseudonymous or otherwise"
+  ]
+}

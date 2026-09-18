@@ -408,6 +408,22 @@ class TaskBChain(unittest.TestCase):
         self.assertIn("not proof that the implementation is leak-free", readme)
         self.assertIn("pseudonymisation, not anonymisation", readme)
 
+        # A trait whose b5 export has not finished must leave nothing behind, so a
+        # half-written bundle cannot be tarred up and shipped as the real thing.
+        partial = self.base / "task_gate_partial"
+        with self.assertRaises(SystemExit) as caught:
+            e2_bundle_task_gate.main([
+                "--config", str(config),
+                "--split-summary", str(self.split_dir / "SPLIT_SUMMARY.json"),
+                "--panel-summary", str(panel_summary),
+                "--export-dir", str(export),
+                "--trait", "n_30020_0_0", "--trait", "n_30080_0_0",
+                "--out-dir", str(partial),
+            ])
+        self.assertIn("n_30080_0_0", str(caught.exception))
+        self.assertIn("b5 --export-dir", str(caught.exception))
+        self.assertFalse(partial.exists())
+
     def test_reopening_the_test_split_is_refused(self) -> None:
         self.qualification("n_30020_0_0", "tq_once")
         with self.assertRaises(SystemExit):

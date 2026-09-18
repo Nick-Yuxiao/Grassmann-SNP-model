@@ -119,6 +119,27 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = args.out_dir.resolve()
     if out_dir.exists() and any(out_dir.iterdir()) and not args.overwrite:
         raise SystemExit(f"Refusing to overwrite a non-empty directory: {out_dir}")
+
+    # Everything is checked before anything is written. A bundle that stops halfway
+    # still looks like a bundle on disk, and a half-bundle that gets tarred and shipped
+    # is worse than no bundle at all.
+    variants_path = args.panel_variants or (args.panel_summary.parent / "panel_variants.tsv")
+    curves = {trait: args.export_dir / f"{trait}_validation_curve.csv" for trait in args.trait}
+    required = [
+        ("--config", args.config),
+        ("--split-summary", args.split_summary),
+        ("--panel-summary", args.panel_summary),
+        ("panel_variants.tsv", variants_path),
+        *((f"validation curve for {trait}", path) for trait, path in curves.items()),
+    ]
+    missing = [f"  {label}: {path}" for label, path in required if not path.exists()]
+    if missing:
+        raise SystemExit(
+            "These inputs are missing, so no bundle was written:\n" + "\n".join(missing) +
+            "\n\nA missing validation curve usually means b5 --export-dir has not finished "
+            "for that trait yet. Check the b5 log before rerunning this."
+        )
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     config = json.loads(args.config.read_text(encoding="utf-8"))
@@ -126,11 +147,7 @@ def main(argv: list[str] | None = None) -> int:
     panel = json.loads(args.panel_summary.read_text(encoding="utf-8"))
 
     shutil.copy2(args.config, out_dir / "CONFIG.json")
-    variants_path = args.panel_variants or (args.panel_summary.parent / "panel_variants.tsv")
-    if variants_path.exists():
-        shutil.copy2(variants_path, out_dir / "panel_variants.tsv")
-    else:
-        raise SystemExit(f"panel_variants.tsv not found at {variants_path}")
+    shutil.copy2(variants_path, out_dir / "panel_variants.tsv")
     write_split_summary(summary, out_dir / "split_manifest.csv")
     write_exclusions(summary, config, out_dir / "exclusions.json")
 
@@ -138,10 +155,7 @@ def main(argv: list[str] | None = None) -> int:
     prediction_sources: list[Path] = []
     for trait in args.trait:
         label = TRAIT_LABELS.get(trait, trait)
-        curve = args.export_dir / f"{trait}_validation_curve.csv"
-        if not curve.exists():
-            raise SystemExit(f"Missing curve for {trait}: {curve}")
-        shutil.copy2(curve, out_dir / f"{label}_validation_curve.csv")
+        shutil.copy2(curves[trait], out_dir / f"{label}_validation_curve.csv")
         counts = args.export_dir / f"{trait}_counts.json"
         if counts.exists():
             verdicts[trait] = json.loads(counts.read_text(encoding="utf-8"))

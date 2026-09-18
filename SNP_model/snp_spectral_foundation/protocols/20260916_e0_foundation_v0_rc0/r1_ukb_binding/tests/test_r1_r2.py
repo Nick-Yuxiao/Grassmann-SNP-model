@@ -169,9 +169,10 @@ class InventoryTests(FixtureCase):
 
     def test_contract_draft_keeps_unbound_fields_null(self) -> None:
         self.build_inventory()
-        template = (
-            Path(__file__).resolve().parents[2] / "CONTRACT.template.json"
-        )
+        package = Path(__file__).resolve().parents[1]
+        template = package / "CONTRACT.template.json"
+        if not template.exists():
+            template = package.parent / "CONTRACT.template.json"
         output = self.out / "CONTRACT.R1_DRAFT.json"
         result = run_json(
             r1_bind_contract.main,

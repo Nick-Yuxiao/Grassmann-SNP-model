@@ -62,6 +62,8 @@ python3 scripts/r2_build_family_manifest.py \
 
 只依赖 Python 3.9+ 标准库，没有第三方依赖；torch 只在存在时用于探测 CUDA，缺失不影响 R1。
 
+包内的 `CONTRACT.template.json` 是协议目录同名文件的副本，便于本包在服务器上自包含运行；以协议目录的版本为准。
+
 ## 📤 跑完回传什么
 
 把这三个文件贴回来（都不含参与者标识），我据此写 `R1` 状态报告并出 R2 的 block 轴代码：

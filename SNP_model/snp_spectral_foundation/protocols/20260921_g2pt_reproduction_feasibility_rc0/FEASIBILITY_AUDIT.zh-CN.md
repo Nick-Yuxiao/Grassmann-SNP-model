@@ -141,6 +141,36 @@ RuntimeError: Found no NVIDIA driver on your system.
 
 **后果：** 照原样，连 293 个 SNP 的合成 demo 都需要一张 CUDA 卡。排期前必须先确认硬件；复现分支应把这行守卫补上并记为一处**显式偏离**。
 
+### B9 — 不传 `--target-phenotype` 时，验证指标恒为 0，早停与学习率调度双双失效 【实测确认，影响最深】[已核实]
+
+这是 Stage A 跑通后发现的，也是目前最需要论文 Methods 澄清的一条。
+
+`src/utils/trainer/snp2p_trainer.py:321-330`：
+
+```python
+target_performance = 0.
+for i, pheno in enumerate(phenotypes):
+    ...
+    if pheno == self.target_phenotype:
+        target_performance = performance
+return target_performance
+```
+
+`--target-phenotype` 的 argparse 默认值是 `None`，而表型列名是 `PHENOTYPE`，**永远匹配不上**，于是 `evaluate()` 恒返回 `0.0`。这个 `0.0` 同时喂给两个地方（`:196-197`）：
+
+- `self.scheduler.step(performance)` → `ReduceLROnPlateau` 永远收到 0.0，**学习率永不下调**；
+- `self.early_stopping(performance, model)` → `EarlyStopping` 永远收到 0.0。
+
+再看 `src/utils/trainer/utils.py` 的 `EarlyStopping.__call__`：首次调用走 `best_score is None` 分支，把**当次权重**存为 `best_weights`；此后 `0.0 > 0.0 + 1e-5` 恒为假，一路走 `else` 分支累加 `wait`。后果有三：
+
+1. **`best_weights` 停在第一次验证时的权重，之后再不更新**——`{out}.best` 不是"最好的"模型，而是"最早验证过的"模型。我们这次跑完全程 21 个 epoch，日志里**一次 `New best score` 都没出现**，只有 `No improvement 1/10 … 4/10`，最后照样写出了 `output_model.pt.best`。
+2. **`--patience` 变成一个纯粹的步数闸门**：既然"改善"不可能发生，训练必然在第 `patience` 次验证后停止，与验证表现无关。按代码默认值（`epochs=300, val_step=20, patience=10`）算，训练总是停在 epoch 220 附近——**看起来像早停，实则是定时器**。
+3. 学习率全程恒定。
+
+**对复现的意义：** `--target-phenotype` 这一个看似无关紧要的开关，实际决定了模型选择策略、训练时长和学习率轨迹。论文的 UKB 实验有没有传这个参数，会导致两个完全不同的训练过程。**这条必须在 Methods 里确认**，它把 B6 从"抄超参"升级成了"抄完整命令行"。
+
+注意上游自带的 `train_model.sh` **没有**传 `--target-phenotype`，因此仓库里附带的 `samples/output_model.pt.best` 大概率就是这条路径产出的。
+
 
 ---
 
@@ -156,7 +186,7 @@ RuntimeError: Found no NVIDIA driver on your system.
 
 | 复现目标 | 判定 | 前置条件 |
 |---------|------|---------|
-| 跑通官方代码（训练链路启动、数据载入、loss 下降） | **已验证** | 见 `ENVIRONMENT_NOTES.zh-CN.md` |
+| 跑通官方代码（21 epoch 全程走完，exit 0） | **已验证** | 见 `ENVIRONMENT_NOTES.zh-CN.md` |
 | 产出与作者参考输出**一致**的合成结果 | **未验证** | 需贴近作者版本的环境 + 与 `samples/` 参考输出比对 |
 | 复现上位效应检出类声明 | **大概率可行** | 论文 Methods 中的模拟参数 |
 | 复现 UKB 主结果的**数值** | **不可行** | 违反 B2，原理上不成立 |

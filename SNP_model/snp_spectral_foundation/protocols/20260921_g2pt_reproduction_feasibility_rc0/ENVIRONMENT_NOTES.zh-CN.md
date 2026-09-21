@@ -76,3 +76,43 @@ WeightsUnpickler error: Unsupported global: GLOBAL argparse.Namespace
 两个含义：
 - **好的一面**：checkpoint 里记录了完整的训练参数命名空间。若作者日后放出 UKB 训练好的权重，超参可以直接从 checkpoint 读出，不必依赖论文正文。
 - **坏的一面**：加载它必须 `weights_only=False`，即执行 pickle 代码。复现协议里应写明这一条（来源可信仍应记录为一次显式的信任决定）。
+
+## Stage A 冒烟结果（补上 `:239` 守卫后，纯 CPU）
+
+**`TRAIN_EXIT=0`，21 个 epoch 全程走完**，约 4 分钟。
+
+```
+Epoch  1: train_loss_epoch=0.5498
+Epoch  6: train_loss_epoch=0.5302
+Epoch 11: train_loss_epoch=0.5288
+Epoch 16: train_loss_epoch=0.5272
+Epoch 21: train_loss_epoch=0.5164
+```
+
+产出的 checkpoint 与上游 `samples/` 同节奏同命名（`pt.0/5/10/15/20/best`），大小 1,871,546 B vs 上游 1,872,954 B（差 1,408 B，符合 checkpoint 内嵌 `argparse.Namespace` 中路径字符串长度不同的预期）。
+
+验证集相关性接近 0（Pearson R 0.005 ~ 0.035，Spearman -0.07 ~ 0.007），**这是预期内的**——上游 README 已写明合成数据"will not yield meaningful biological results"。
+
+### 但这一跑暴露了一个真问题（→ 审计 B9）
+
+日志里**一次 `New best score` 都没有**，每次验证都是：
+
+```
+No improvement for 1/10 epochs. Current: 0.000000, Best: 0.000000
+```
+
+根因在 `snp2p_trainer.py:321-330`：`--target-phenotype` 默认 `None`，与表型列名 `PHENOTYPE` 永远匹配不上，于是 `evaluate()` 恒返回 `0.0`。这个 0.0 同时喂给 `ReduceLROnPlateau` 和 `EarlyStopping`，导致学习率永不下调、`best_weights` 停在第一次验证的权重、`--patience` 退化成纯步数闸门。详见审计 B9。
+
+**上游自带的 `train_model.sh` 没有传 `--target-phenotype`**，所以仓库里附带的 `samples/output_model.pt.best` 大概率也是这条路径产出的——这同时意味着，把它当作"作者的最优模型"来做一致性比对是有风险的，它更可能是"作者的第一次验证快照"。
+
+### 本次实测的确切环境
+
+```
+Python 3.11.15 (venv), Linux x86_64, CPU only
+torch 2.4.1+cu121   xformers 0.0.28.post1   triton 3.0.0
+numpy 2.1.3   pandas 3.0.6   scikit-learn 1.9.1   scipy 1.17.1
+sgkit 0.10.0   obonet 1.3.0   transformers 4.46.3   mlflow 3.16.1
+prettytable 3.18.0   networkx 3.6.1   statsmodels 0.15.0
+```
+
+与作者环境（Python 3.8 / numpy 1.24 / pandas 2.0.3 / sgkit 0.7.0 / transformers 4.46.3 / mlflow 2.17.2）相比，只有 `torch`、`xformers`、`transformers` 对齐。**因此本次结果只证明"代码在现代依赖下能跑完"，不能用来判定与作者输出是否一致。**

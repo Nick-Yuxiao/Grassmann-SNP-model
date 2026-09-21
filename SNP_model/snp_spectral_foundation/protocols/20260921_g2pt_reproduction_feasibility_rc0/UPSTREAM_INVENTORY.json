@@ -119,6 +119,16 @@
       "contains": "argparse.Namespace",
       "implication_good": "checkpoints record the full training arg namespace",
       "implication_bad": "loading requires weights_only=False, i.e. executing pickle"
+    },
+    "stage_a_run": {
+      "exit_code": 0,
+      "epochs": 21,
+      "first_loss": 0.5498,
+      "last_loss": 0.5164,
+      "val_pearson_range": "0.005 to 0.035",
+      "new_best_score_events": 0,
+      "checkpoint_bytes_ours": 1871546,
+      "checkpoint_bytes_upstream": 1872954
     }
   },
   "hyperparameters": {
@@ -226,6 +236,25 @@
       "severity": "medium",
       "verified": "yes",
       "workaround": "add the torch.cuda.is_available() guard that lines 114-115 and 286 already use; record as an explicit deviation"
+    },
+    {
+      "id": "B9",
+      "title": "without --target-phenotype the validation metric is constantly 0.0, disabling early stopping, model selection and LR scheduling",
+      "blocks": "any run whose training length or checkpoint choice must match the paper",
+      "severity": "high",
+      "verified": "yes",
+      "sites": [
+        "src/utils/trainer/snp2p_trainer.py:321-330",
+        "src/utils/trainer/snp2p_trainer.py:196-197",
+        "src/utils/trainer/utils.py EarlyStopping.__call__"
+      ],
+      "consequences": [
+        "best_weights frozen at the first validation, so {out}.best is the earliest validated model, not the best",
+        "--patience degenerates into a step counter: training always stops after `patience` validations",
+        "ReduceLROnPlateau never steps down"
+      ],
+      "workaround": "confirm from Methods whether the paper's runs passed --target-phenotype; treat the full CLI, not just hyperparameters, as the thing to reproduce",
+      "note": "upstream train_model.sh does NOT pass --target-phenotype, so samples/output_model.pt.best is likely a first-validation snapshot"
     }
   ],
   "external_resources": {
@@ -238,7 +267,8 @@
       "name": "env + synthetic smoke",
       "external_approval_needed": false,
       "gate": "our outputs match samples/ reference outputs within tolerance",
-      "status": "training loop verified to start and step on CPU with the B8 guard; output-vs-reference comparison NOT done"
+      "status": "COMPLETED on CPU with the B8 guard: 21 epochs, exit 0, loss 0.5498->0.5164, checkpoints written at the same cadence as upstream samples/",
+      "caveat": "environment far from the author's (py3.11/numpy2.1/pandas3.0); proves the code runs, says nothing about output agreement"
     },
     "B": {
       "name": "epistasis simulation reproduction",

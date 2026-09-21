@@ -23,6 +23,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import c0_prepare_annotations as c0  # noqa: E402
 import c1_build_population_features as c1  # noqa: E402
+import c1b_overlap_spectrum as c1b  # noqa: E402
 import c2_build_functional_features as c2  # noqa: E402
 import c3_complementarity_gate as c3  # noqa: E402
 import lib_arms  # noqa: E402
@@ -177,6 +178,45 @@ class TestPopulationFeatures(unittest.TestCase):
             summary = json.loads((out / "P_SUMMARY.json").read_text())
             self.assertFalse(summary["phenotype_read"])
             self.assertFalse(summary["identifiers_included"])
+
+
+class TestOverlapSpectrum(unittest.TestCase):
+    def test_a_pc_copied_from_P_shows_up_as_a_pair_at_one(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            panel_dir = build_cohort(root)
+            out = root / "P"
+            c1.main(["--panel-dir", str(panel_dir),
+                     "--split-manifest", str(root / "split_manifest.tsv"),
+                     "--block-size", "30", "--pcs-per-block", "2", "--out-dir", str(out)])
+            features = np.load(out / "P_population.npy")
+            samples = list(c1b.read_tsv(out / "P_samples.tsv"))
+
+            # One "global PC" is a column of P exactly, the rest are noise. The first
+            # canonical pair must then be 1, and the others clearly below it.
+            rng = np.random.default_rng(31)
+            noise = rng.normal(size=(features.shape[0], 2))
+            write_tsv(root / "pcs.tsv",
+                      ["eid", "n_22009_0_1", "n_22009_0_2", "n_22009_0_3"],
+                      [{"eid": row["eid"],
+                        "n_22009_0_1": float(features[i, 0]),
+                        "n_22009_0_2": float(noise[i, 0]),
+                        "n_22009_0_3": float(noise[i, 1])}
+                       for i, row in enumerate(samples)])
+
+            self.assertEqual(c1b.main([
+                "--population-dir", str(out),
+                "--covariates", str(root / "pcs.tsv"),
+                "--global-pc-count", "3",
+            ]), 0)
+            report = json.loads((out / "P_OVERLAP_SPECTRUM.json").read_text())
+            self.assertEqual(report["canonical_pairs"], 3)
+            self.assertAlmostEqual(report["spectrum"][0], 1.0, places=4)
+            self.assertGreaterEqual(report["pairs_above_threshold"]["above_0.99"], 1)
+            self.assertFalse(report["phenotype_read"])
+            self.assertTrue((out / "P_OVERLAP_SPECTRUM.csv").exists())
 
 
 class TestFunctionalFeatures(unittest.TestCase):

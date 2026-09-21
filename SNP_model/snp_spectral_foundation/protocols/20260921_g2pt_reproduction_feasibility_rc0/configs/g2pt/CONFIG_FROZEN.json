@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "id": "g2pt_baseline_frozen_rc0",
+    "frozen_at": "2026-09-21",
+    "target": "G2PT TG/HDL baseline, bioRxiv 10.1101/2024.10.23.619940",
+    "evidence_grades": {
+      "CONFIRMED_PRIMARY": "read directly from the v2 full text in this session",
+      "SECONDARY_PENDING_PRIMARY": "relayed from the authors' Review Commons response; not verifiable in this session (egress blocked); adopt but re-check against v3 primary text",
+      "CODE_OBSERVED": "read from idekerlab/G2PT @ fc13abd; describes the implementation, not necessarily the paper",
+      "UNRESOLVED": "paper and code disagree, or neither states it; must be run as a factorial arm, not silently defaulted"
+    },
+    "upstream_commit": "fc13abd59d31b9567b418b152cee189de358b095",
+    "rule": "no field may be consumed by training code without its status being logged into the run record"
+  },
+
+  "embedding_dim":   { "value": 64,          "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p14: 'The dimension d ... was set to d=64'" },
+  "n_heads":         { "value": 4,           "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p14: 'The number of heads was set to n=4'" },
+  "translation_heads": { "value": 1,         "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p15: Differential Attention, single head n=1" },
+  "split":           { "value": "60/20/20",  "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p16: 'training, validation, and test sets in a 3:1:1 proportion'" },
+  "loss":            { "value": "mse",       "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p16" },
+  "optimizer":       { "value": "adamw",     "status": "CONFIRMED_PRIMARY",         "source": "v2 Methods p16: decoupled weight decay (AdamW) + L2" },
+  "phenotype":       { "value": "log2(TG/HDL)", "status": "CONFIRMED_PRIMARY",      "source": "v2 Methods p13" },
+  "covariates":      { "value": ["sex", "age", "PC1..PC10"], "status": "CONFIRMED_PRIMARY", "source": "v2 Methods p15, m=12" },
+  "go_release":      { "value": "2023-07-27","status": "CONFIRMED_PRIMARY",         "source": "v2 Data Availability p17" },
+  "grid_searched":   { "value": ["p_value_threshold", "training_epoch"], "status": "CONFIRMED_PRIMARY", "source": "v2 Methods p16" },
+
+  "cv_folds":        { "value": 5,           "status": "SECONDARY_PENDING_PRIMARY", "source": "Review Commons author response (relayed)" },
+  "lr":              { "value": 1e-5,        "status": "SECONDARY_PENDING_PRIMARY", "source": "Review Commons; grid {1e-3, 1e-4, 1e-5}" },
+  "lr_grid":         { "value": [1e-3, 1e-4, 1e-5], "status": "SECONDARY_PENDING_PRIMARY" },
+  "weight_decay":    { "value": 1e-3,        "status": "SECONDARY_PENDING_PRIMARY", "source": "Review Commons; grid {0, 1e-5, 1e-3}" },
+  "weight_decay_grid": { "value": [0, 1e-5, 1e-3], "status": "SECONDARY_PENDING_PRIMARY" },
+  "embedding_dim_grid": { "value": [64, 128], "status": "SECONDARY_PENDING_PRIMARY", "source": "Review Commons; 128 slightly better, 64 chosen for cost" },
+
+  "init":            { "value": ["default", "xavier"], "status": "UNRESOLVED", "blocker": "B10",
+                       "code_behaviour": "bare nn.Embedding -> N(0,1); only init_method is kaiming_uniform_(a=sqrt(5)), PyTorch's Linear default",
+                       "paper_claim": "uniform Xavier for SNP/gene/system embeddings (relayed, unverified)" },
+  "ffn":             { "value": ["swiglu", "gelu"], "status": "UNRESOLVED", "blocker": "B11",
+                       "code_behaviour": "SwiGLU: w12 d->2*inner, F.silu(u)*v, proj inner->d, bias=False",
+                       "paper_claim": "two-layer position-wise FFN, 4x inner, GeLU (relayed, unverified)" },
+  "ffn_expansion":   { "value": 4,           "status": "CODE_OBSERVED", "source": "SwiGLUFFN computes expansion = d_ff // d_model; caller comment says 'usually 4*hidden_size'" },
+
+  "batch_size":      { "value": null,        "status": "UNRESOLVED", "note": "not in v2 Methods, not in the relayed v3 summary" },
+  "dropout":         { "value": null,        "status": "UNRESOLVED", "note": "same" },
+  "epochs":          { "value": null,        "status": "UNRESOLVED", "note": "selected by grid search; the grid range itself is unstated" },
+  "seed":            { "value": null,        "status": "UNRESOLVED", "blocker": "B2", "note": "upstream training script sets no seed at all; the reproduction fork must add one" },
+  "propagation_flags": { "value": null,      "status": "UNRESOLVED",
+                         "note": "which of --sys2env/--env2sys/--sys2gene/--gene2pheno/--sys2pheno reproduce the paper's 5 propagation steps is not stated" },
+
+  "_do_not_use": {
+    "note": "two demo configs live in the upstream repo; neither is the paper configuration",
+    "readme_single_gpu_example": { "hidden_dims": 256, "lr": 1e-3, "wd": 1e-3, "epochs": 50, "dropout": 0.2, "batch_size": 128 },
+    "train_model_sh": { "hidden_dims": 64, "lr": 1e-4, "wd": 1e-4, "epochs": 21, "dropout": 0.2, "batch_size": 128 }
+  }
+}

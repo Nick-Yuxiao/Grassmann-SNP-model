@@ -314,25 +314,66 @@
     },
     {
       "id": "B10",
-      "severity": "high",
+      "severity": "optimization-specification",
       "verified": "yes (code + git history)",
-      "title": "the FFN and initialization the paper describes are not in the released code",
+      "title": "initialization discrepancy: paper says Xavier, code has no custom init",
       "detail": {
-        "ffn_paper": "two-layer position-wise FFN, 4x inner, GeLU",
-        "ffn_code": "SwiGLU (F.silu(u)*v), no bias, hierarchical_transformer.py:8-20",
-        "init_paper": "uniform Xavier for SNP/gene/system embeddings",
-        "init_code": "no custom init; bare nn.Embedding -> N(0,1); only init_method is kaiming_uniform_(a=sqrt(5)), PyTorch's Linear default"
+        "paper_claim": "uniform Xavier for SNP/gene/system embeddings (relayed, unverified)",
+        "code": "bare nn.Embedding -> N(0,1); only init_method is kaiming_uniform_(a=sqrt(5))"
       },
-      "not_a_version_gap": "SwiGLU landed 2025-04-28 (7dd9726); the last pre-v3 commit af5dd26 (2026-01-13) already has the identical SwiGLU FFN; xavier last appears in the 2025-06-27 'remove DR and G2P model' commit, i.e. in a deleted model branch",
-      "quantified_impact": {
-        "nn_Embedding_default_std": 1.0,
-        "xavier_std_snp_emb_p1e-8": 0.0165,
-        "ratio_p1e-8": 61,
-        "xavier_std_snp_emb_p1e-5": 0.011,
-        "ratio_p1e-5": 91,
-        "why_it_matters": "at the paper's lr=1e-5 a 60-90x difference in initial embedding scale is a different optimization problem, not a style choice"
+      "workaround": "run as a factorial axis --init {default,xavier}; see experiments/B10_B11_spec_discrepancy_matrix.yaml",
+      "retracted_claim": {
+        "claim": "default init makes attention near one-hot at step 0",
+        "verdict": "FALSIFIED by probe_init_step0.py",
+        "measured": {
+          "Lk8_default": {
+            "logit_std": 0.3299,
+            "entropy_ratio": 0.978,
+            "max_prob": 0.1916
+          },
+          "Lk8_xavier": {
+            "logit_std": 0.0036,
+            "entropy_ratio": 1.0,
+            "max_prob": 0.1256
+          }
+        },
+        "why": "nn.Linear's default kaiming_uniform_(a=sqrt(5)) is small enough that logits stay near-uniform even at k_std=1"
       },
-      "workaround": "make initialization an explicit --init {default,xavier} switch, run both, and record the FFN substitution as an implementation-level deviation"
+      "surviving_mechanism": {
+        "structural_finding": "the HiGT block is pre-LN on the QUERY ONLY; k and v enter k_proj/v_proj unnormalized",
+        "consequence": "xavier's vocabulary-dependent bound creates a scale hierarchy across node types (snp 0.0110 / gene 0.0794 / sys 0.1543) while the default makes all three 1.0",
+        "residual_mixing_ratio": {
+          "SNP->gene": {
+            "default": 0.1233,
+            "xavier": 0.0163,
+            "ratio": 7.6
+          },
+          "gene->sys": {
+            "default": 0.0884,
+            "xavier": 0.0426,
+            "ratio": 2.1
+          },
+          "sys->gene": {
+            "default": 0.1413,
+            "xavier": 0.2633,
+            "ratio": 0.5
+          }
+        },
+        "reading": "xavier does not shrink uniformly; it re-weights forward vs reverse propagation by about 14x, and the reverse path is central to the paper's biological narrative"
+      }
+    },
+    {
+      "id": "B11",
+      "severity": "architecture-specification",
+      "verified": "yes (code + git history)",
+      "title": "FFN discrepancy: paper says two-layer GeLU, code is SwiGLU",
+      "detail": {
+        "paper_claim": "two-layer position-wise FFN, 4x inner, GeLU (relayed, unverified)",
+        "code": "SwiGLU: w12 d->2*inner, F.silu(u)*v, proj inner->d, bias=False (hierarchical_transformer.py:8-20)"
+      },
+      "not_a_version_gap": "SwiGLU landed 2025-04-28 (7dd9726); the last pre-v3 commit af5dd26 (2026-01-13) carries the identical block; GeLU exists only in the prediction heads",
+      "harder_than_B10": "initialization can be handled as a sensitivity analysis; SwiGLU and a GeLU FFN are different function classes, so both arms must be trained",
+      "workaround": "factorial axis --ffn {swiglu,gelu}; report increments against both G2PT-code-faithful and G2PT-paper-faithful"
     }
   ],
   "external_resources": {
@@ -481,5 +522,12 @@
       "gtex_v7": "https://www.gtexportal.org/home/downloads/adult-gtex/qtl",
       "go": "https://release.geneontology.org/2023-07-27/index.html"
     }
+  },
+  "artifacts_written": {
+    "decision_doc": "docs/G2PT_BASELINE_SPEC_DECISION.md",
+    "design_memo": "docs/DEEP_BRANCH_DESIGN_MEMO.zh-CN.md",
+    "frozen_config": "configs/g2pt/CONFIG_FROZEN.json",
+    "experiment_matrix": "experiments/B10_B11_spec_discrepancy_matrix.yaml",
+    "probe": "experiments/probe_init_step0.py"
   }
 }

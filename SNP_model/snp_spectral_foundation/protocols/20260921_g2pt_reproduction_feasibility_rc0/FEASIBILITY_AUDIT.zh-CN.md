@@ -217,41 +217,63 @@ return target_performance
 - 复现协议里要把"epoch 选择"写成一个显式的网格搜索步骤，而不是"开早停让它自己停"。
 
 
-### B10 — 论文描述的 FFN 与初始化，在公开代码里不存在 【新发现，对精准复现杀伤力等同 B2】[代码已核实]
-
-v3 的修订说明称新增了"更详细的 HiGT initialization"。但把转述的两条规格拿去对代码，**都对不上**：
+### B10 — 初始化分歧：论文称 Xavier，代码无任何自定义初始化 【优化规格，可敏感性分析】[代码已核实]
 
 | 论文（二手转述）| 上游代码实际 | 位置 |
-|---------------|------------|------|
-| 两层 position-wise FFN，内部维度 4×，**GeLU** | **SwiGLU**：`w12: d→2×inner` 分成门控与值，`F.silu(u) * v`，再 `proj: inner→d`，**无 bias** | `hierarchical_transformer.py:8-20` |
-| SNP/gene/system 嵌入用 **uniform Xavier** | **没有任何自定义初始化**。裸 `nn.Embedding(...)` → PyTorch 默认 **N(0,1)**；唯一的 `init_method` 是 `kaiming_uniform_(a=√5)`（即 PyTorch Linear 的默认值），且标注为 Differential Transformer 的辅助函数 | `snp2phenotype.py:82-83`、`g2pt.py:22-23`、`attention.py:8-9` |
+|---|---|---|
+| SNP/gene/system 嵌入用 **uniform Xavier** | **没有任何自定义初始化**。裸 `nn.Embedding` → PyTorch 默认 **N(0,1)**；唯一的 `init_method` 是 `kaiming_uniform_(a=√5)`（PyTorch Linear 的默认值），标注为 Differential Transformer 的辅助函数 | `snp2phenotype.py:82-83`、`g2pt.py:22-23`、`attention.py:8-9` |
 
-**这不是版本差。** 我把仓库历史拉深到 227 个提交后确认：
+`git log -S "xavier"` 显示 xavier 最后一次变动是 **2025-06-27 的 "remove DR and G2P model"**——它属于**已被删除的旧模型分支**，不在当前 G2PT 路径上。
+
+#### 一条撤回
+
+本审计早先写过"默认初始化下 attention logits 一开始就接近 one-hot"。**这是错的，已被 step-0 实测证伪**（`experiments/probe_init_step0.py`，d=64/h=4）：
+
+| Lk | init | logit std | entropy / ln(Lk) | max prob |
+|----|------|-----------|------------------|----------|
+| 8 | default | 0.3299 | **0.978** | 0.1916 |
+| 8 | xavier | 0.0036 | **1.000** | 0.1256 |
+
+两种初始化在 step 0 **都近似均匀**。原因也不是"Pre-LN 抹掉了尺度"，而是 `nn.Linear` 默认初始化本身足够小：即使 `k_std=1.0`，logit std 也只有 0.33。
+
+#### 换上的机制（更硬）
+
+**结构发现：HiGT block 是 Pre-LN，但只对 query 做。**
+
+```python
+q_norm = self.norm_attn(q)                                     # 只有 q
+attn_output = self.drop(self._xattn(q_norm, k, v, mask, ...))  # k, v 原样
+x = q + attn_output
+```
+
+`k`/`v` 未归一化直接进投影，所以嵌入尺度**确实**乘进 logits（比值 91×，与 1.0/0.011 吻合）。但真正的后果是：**`xavier_uniform_` 的 bound 依赖词表大小，于是在三类节点间造出尺度分层（SNP 0.011 / gene 0.079 / system 0.154，跨度 14×），而默认初始化让三类全部等于 1.0。** 由于残差是 `x = q + attn_output` 且 `v` 未归一化，这个分层直接改变各传播步骤的混合比：
+
+| 传播步骤 | default | xavier | 倍数 |
+|---|---|---|---|
+| SNP → gene（前向）| 0.1233 | 0.0163 | **弱 7.6×** |
+| gene → system（前向）| 0.0884 | 0.0426 | 弱 2.1× |
+| system → gene（**反向**）| 0.1413 | 0.2633 | **强 1.9×** |
+
+**xavier 不是均匀缩小，而是重新配平了前向与反向传播的相对强度**（净差约 14×）。论文生物学叙事的核心之一正是"系统状态反向调制基因"（v2 Methods p15），**这条通路的初始强度由一个论文与代码不一致的选择支配**。
+
+所以 B10 有架构级后果，但仍可用敏感性分析处理——这一点与 B11 不同。处置见 `docs/G2PT_BASELINE_SPEC_DECISION.md` 与 `experiments/B10_B11_spec_discrepancy_matrix.yaml`。
+
+### B11 — FFN 分歧：论文称两层 GeLU，代码是 SwiGLU 【架构规格，不可事后补救】[代码已核实]
+
+| 论文（二手转述）| 上游代码实际 |
+|---|---|
+| 两层 position-wise FFN，内部 4×，**GeLU** | **SwiGLU**：`w12: d→2×inner` 分成门控与值，`F.silu(u) * v`，再 `proj: inner→d`，**无 bias**（`hierarchical_transformer.py:8-20`）|
+
+**这不是版本差。** 仓库历史拉深到 227 个提交后确认：
 
 - SwiGLU 在 **2025-04-28** 引入（`7dd9726`，实现 xFormers 那次），早于 v2 定稿；
-- v3 发布时点前最后一个提交 **`af5dd26`（2026-01-13）** 的 `hierarchical_transformer.py`，FFN **已经是 SwiGLU**，与今天的 HEAD 逐字相同；
-- `git log -S "xavier"` 显示 xavier 最后一次变动是 **2025-06-27 的 "remove DR and G2P model"**——即它属于**已被删除的旧模型分支**，不在当前 G2PT 路径上。
+- v3 发布前最后一个提交 **`af5dd26`（2026-01-13）** 的 `hierarchical_transformer.py`，FFN **已经是 SwiGLU**，与今天的 HEAD 逐字相同。
 
-GeLU 在代码里确实存在，但在**预测头**（`g2pt.py:63`、`sys2pheno.py:25`、`geno2pheno.py:27`），不在 HiGT block 的 FFN。所以要么是论文用标准 Transformer 术语描述了一个实际是 SwiGLU 的模块，要么是二手转述不准。
+GeLU 在代码里确实存在，但在**预测头**（`g2pt.py:63`、`sys2pheno.py:25`、`geno2pheno.py:27`），不在 HiGT block 的 FFN。
 
-#### 为什么初始化这条必须当成一级问题
+**B11 比 B10 硬**：初始化可以当训练设置做敏感性分析，而 **SwiGLU 与 GeLU FFN 是两个不同的函数类**——它改变的不是基线的强弱，是基线**是什么**。两臂必须各训一次。
 
-`nn.Embedding` 默认是 **N(0,1)，std = 1.0**；Xavier uniform 对形状 (V, 64) 的张量给出 `bound = √(6/(64+V))`：
-
-| 张量 | 词表 V | xavier std | **默认 / xavier** |
-|------|-------|-----------|------------------|
-| SNP 嵌入（p=1e-8，V=7,289）| 7,289 | 0.0165 | **61×** |
-| SNP 嵌入（p=1e-5，V=16,532）| 16,532 | 0.0110 | **91×** |
-| gene 嵌入 | 253 | 0.0794 | 13× |
-| system 嵌入 | 20 | 0.1543 | 6× |
-
-（代码里 `snp_embedding` 的词表是 `n_snps*3+2`，因为每个 SNP × 3 种合子性状态。）
-
-在 **lr = 1e-5** 的 AdamW 下，初始尺度差 60–90 倍不是风格差异，是两个不同的优化问题：从 std=1 起步，注意力 logits 初始方差大、softmax 早期接近 one-hot，而 1e-5 的步长几乎不可能把嵌入拉回小尺度；从 std≈0.01 起步则是"从近似均匀注意力长出结构"。**两者在固定 epoch 预算下不会收敛到同一个解。**
-
-#### 处置
-
-复现分支必须把初始化做成**显式开关**（`--init {default,xavier}`），两种都跑，并在协议里记为一处 **待判定的规格分歧**，而不是默认沿用代码行为。FFN 同理：若要严格按论文文字，需要把 SwiGLU 换成 GeLU 两层 FFN，这是一处**实现级偏离**，必须记录。
+> 讽刺之处：v3 的修订说明宣称"补充了更详细的 HiGT initialization"，**而公开代码里根本没有那个初始化**。拿到 v3 后第一优先级是核对 initialization 与 FFN 的**原话**——它决定 B10/B11 是"论文与实现不符"（作者的问题）还是"转述不准"（我们的问题），两种情况下该做什么完全不同。
 
 
 ---

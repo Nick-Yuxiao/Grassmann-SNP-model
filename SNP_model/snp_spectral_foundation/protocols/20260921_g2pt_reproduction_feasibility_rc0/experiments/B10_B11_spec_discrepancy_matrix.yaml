@@ -1,0 +1,142 @@
+# B10 / B11 规格分歧的 2x2 析因矩阵
+# 目的：在 v3 原文到手之前，把两处"论文说法 vs 代码实现"的分歧做成可判定的实验，
+#       使得无论 v3 最终支持哪一种，都不需要重跑。
+
+meta:
+  id: B10_B11_spec_discrepancy_rc0
+  created: 2026-09-21
+  upstream_commit: fc13abd59d31b9567b418b152cee189de358b095
+  config: ../configs/g2pt/CONFIG_FROZEN.json
+  decision_doc: ../docs/G2PT_BASELINE_SPEC_DECISION.md
+
+blockers:
+  B10:
+    axis: init
+    severity: optimization-specification
+    paper_claim: uniform Xavier for SNP / gene / system embeddings   # 二手，未经原文核实
+    code_behaviour: bare nn.Embedding -> N(0,1); no custom init anywhere
+    resolvable_by: sensitivity analysis (训练设置层面，可事后补做)
+  B11:
+    axis: ffn
+    severity: architecture-specification
+    paper_claim: two-layer position-wise FFN, inner 4x, GeLU          # 二手，未经原文核实
+    code_behaviour: "SwiGLU: w12 d->2*inner, F.silu(u)*v, proj inner->d, bias=False"
+    resolvable_by: none — 这是两个不同的函数类，必须各训一次
+    note: 优先级高于 B10
+
+factorial:
+  design: 2x2
+  arms:
+    A:
+      name: code-faithful
+      init: default
+      ffn: swiglu
+      role: 复现"公开代码原样"的基线；Stage A 已在合成数据上跑通的就是这一臂
+    B:
+      name: ffn-only
+      init: default
+      ffn: gelu
+      role: 单独隔离 B11 的效应
+    C:
+      name: init-only
+      init: xavier
+      ffn: swiglu
+      role: 单独隔离 B10 的效应
+    D:
+      name: paper-faithful-candidate
+      init: xavier
+      ffn: gelu
+      role: 按二手转述的 v3 规格重建；若 v3 原文证实，这一臂成为 paper-faithful 基线
+  cli_surface:
+    # 需要在复现分支给上游脚本补的开关
+    - "--init {default,xavier}"
+    - "--ffn {swiglu,gelu}"
+    - "--seed INT            # B2：上游训练脚本完全没有种子"
+
+# ---------------------------------------------------------------------------
+# 阶段 1：step-0 诊断（已执行，不需要训练）
+# ---------------------------------------------------------------------------
+stage1_step0_diagnostic:
+  status: DONE
+  script: probe_init_step0.py
+  config: {embedding_dim: 64, n_heads: 4, seed: 0, snp_vocab: "5510*3+2", gene_vocab: 253, sys_vocab: 20}
+
+  key_structural_finding:
+    what: HiGT block 是 Pre-LN，但只对 query 做
+    evidence: |
+      hierarchical_transformer.py forward():
+          q_norm = self.norm_attn(q)
+          attn_output = self.drop(self._xattn(q_norm, k, v, mask, ...))
+          x = q + attn_output
+      k 与 v 未经归一化直接进入 k_proj / v_proj。
+    consequence: 嵌入初始尺度的差异会原样乘进 attention logits（因为 SNP 嵌入走的是 key 侧）
+
+  attention_at_step0:
+    # logit std 比值 91x，与嵌入尺度比 (1.0 / 0.011) 完全吻合
+    - {Lk: 4,  init: default, logit_std: 0.3303, entropy: 1.3472, max_entropy: 1.3863, entropy_ratio: 0.972, max_prob: 0.3387}
+    - {Lk: 4,  init: xavier,  logit_std: 0.0037, entropy: 1.3863, max_entropy: 1.3863, entropy_ratio: 1.000, max_prob: 0.2509}
+    - {Lk: 8,  init: default, logit_std: 0.3299, entropy: 2.0330, max_entropy: 2.0794, entropy_ratio: 0.978, max_prob: 0.1916}
+    - {Lk: 8,  init: xavier,  logit_std: 0.0036, entropy: 2.0794, max_entropy: 2.0794, entropy_ratio: 1.000, max_prob: 0.1256}
+    - {Lk: 32, init: default, logit_std: 0.3302, entropy: 3.4133, max_entropy: 3.4657, entropy_ratio: 0.985, max_prob: 0.0590}
+    - {Lk: 32, init: xavier,  logit_std: 0.0036, entropy: 3.4657, max_entropy: 3.4657, entropy_ratio: 1.000, max_prob: 0.0315}
+
+  retracted_claim:
+    claim: "默认初始化下 softmax 在 step 0 接近 one-hot"
+    verdict: FALSIFIED
+    why: |
+      两种初始化在 step 0 都近似均匀（entropy 达到上限的 97.2%~98.5% vs 100%）。
+      原因不是 Pre-LN 抹掉了尺度（k 侧根本没过 LN），而是 nn.Linear 的默认初始化
+      kaiming_uniform_(a=sqrt(5)) 本身很小，即使 k_std=1.0，logit std 也只有 0.33。
+      logit std 0.33 的 softmax 离 one-hot 很远。
+
+  surviving_mechanism:
+    what: xavier 的 bound 依赖词表大小，因此在三类节点之间造成尺度分层；default 则让三类全部等于 1.0
+    xavier_scales: {snp: 0.0110, gene: 0.0794, sys: 0.1543}   # sys 是 snp 的 14 倍
+    residual_mixing_ratio:   # ‖attn_output‖ / ‖q_raw‖，即 x = q + attn_output 的混合比
+      - {step: "SNP->gene", default: 0.1233, xavier: 0.0163, ratio: 7.6,  reading: "xavier 下基因型信息进入 gene token 时弱 7.6 倍"}
+      - {step: "gene->sys", default: 0.0884, xavier: 0.0426, ratio: 2.1,  reading: "弱 2.1 倍"}
+      - {step: "sys->gene", default: 0.1413, xavier: 0.2633, ratio: 0.5,  reading: "反向路径反而强 1.9 倍"}
+    interpretation: |
+      xavier 不是均匀地缩小一切，而是**重新配平了前向与反向传播的相对强度**：
+      前向 SNP->gene 被压低 7.6 倍，反向 sys->gene 被抬高 1.9 倍，净差约 14 倍。
+      论文关于"系统状态反向调制基因"的生物学叙事，其初始强度直接受这个选择支配。
+      因此 B10 不只是训练设置，它有架构级后果——但仍可用敏感性分析处理，
+      这一点与 B11（不同函数类）不同。
+
+# ---------------------------------------------------------------------------
+# 阶段 2：短程优化诊断（待跑）
+# ---------------------------------------------------------------------------
+stage2_short_run_diagnostic:
+  status: TODO
+  arms: [A, B, C, D]
+  seeds: [0, 1, 2]              # B2 要求：种子必须显式固定并记录
+  checkpoints_at_steps: [0, 10, 100, 1000, 10000]
+  record_per_checkpoint:
+    - embedding_std_by_node_type   # snp / gene / system 分开记
+    - pre_ln_std
+    - post_ln_std
+    - q_std
+    - k_std                        # 关键：k 不过 LN，必须单独记
+    - attention_logit_std
+    - attention_entropy            # 同时记 entropy / ln(Lk)，否则不同 Lk 不可比
+    - residual_mixing_ratio        # 按 5 个传播步骤分别记
+    - grad_norm_by_parameter_group
+    - train_loss
+    - val_loss
+  gate:
+    - "若 A 与 C 的曲线在 1k step 后收敛到同一区域 -> B10 降级为次要，仅作敏感性分析记录"
+    - "若 A 与 B 的曲线分离且不收敛 -> B11 确认为函数类差异，两臂都必须进入正式基线"
+
+# ---------------------------------------------------------------------------
+# 阶段 3：正式基线
+# ---------------------------------------------------------------------------
+stage3_formal_baseline:
+  status: BLOCKED
+  blocked_on:
+    - v3 primary text: initialization 原话 -> FFN 原话 -> grid-search 表 -> batch/dropout/epoch
+    - B1 (UK Biobank access)
+  reporting_rule: |
+    任何"我们的方法相对 G2PT 提升 X"的表述，必须明确是
+        vs G2PT-code-faithful (arm A)   还是   vs G2PT-paper-faithful (arm D)。
+    若最终确认论文与代码确实不一致，**两个都报**。
+    理由：避免把增量建立在某个偶然较弱的基线上。

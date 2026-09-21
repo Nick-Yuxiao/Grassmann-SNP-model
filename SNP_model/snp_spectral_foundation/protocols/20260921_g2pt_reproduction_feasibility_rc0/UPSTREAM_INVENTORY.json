@@ -181,14 +181,42 @@
         "optimizer": "AdamW"
       },
       "still_unknown": [
-        "lr",
-        "wd",
         "batch_size",
         "dropout",
-        "epoch grid",
-        "CV folds",
-        "which of the sys2env/env2sys/sys2gene flags map to the paper's 5 propagation steps"
-      ]
+        "training epoch / early-stopping setup",
+        "which CLI flags map to the paper's 5 propagation steps"
+      ],
+      "from_v3_secondhand": {
+        "source": "user-relayed from Review Commons author response / Sciety; NOT verifiable in this session (egress blocked)",
+        "lr_grid": [
+          0.001,
+          0.0001,
+          1e-05
+        ],
+        "lr_final": 1e-05,
+        "wd_grid": [
+          0,
+          1e-05,
+          0.001
+        ],
+        "wd_final": 0.001,
+        "dim_grid": [
+          64,
+          128
+        ],
+        "dim_final": 64,
+        "heads_final": 4,
+        "cv": "5-fold nested, 60/20/20 per fold",
+        "cross_checked_against_v2_text": [
+          "dim=64 OK",
+          "heads=4 OK",
+          "60/20/20 ratio OK"
+        ],
+        "contradicted_by_code": [
+          "FFN described as 2-layer GeLU; code is SwiGLU",
+          "embeddings described as Xavier uniform; code uses PyTorch defaults"
+        ]
+      }
     }
   },
   "blockers": [
@@ -242,9 +270,9 @@
     },
     {
       "id": "B6",
-      "title": "paper hyperparameters: architecture and optimizer resolved; grid points still unknown (likely in Supplementary)",
+      "title": "paper hyperparameters: lr/wd/dim/heads/CV now pinned (v3 second-hand); batch size, dropout and epoch setup still open",
       "blocks": "S2 and S3 configuration",
-      "severity": "narrowed",
+      "severity": "partially-closed",
       "verified": "paper",
       "workaround": "read Methods from the PDF"
     },
@@ -283,6 +311,28 @@
       "workaround": "confirm from Methods whether the paper's runs passed --target-phenotype; treat the full CLI, not just hyperparameters, as the thing to reproduce",
       "note": "upstream train_model.sh does NOT pass --target-phenotype, so samples/output_model.pt.best is likely a first-validation snapshot",
       "paper_reframing": "the paper selects the training epoch by grid search on validation, not by the built-in EarlyStopping, so the broken early stopping probably did not affect the published results; for us it means: keep per-epoch checkpoints, select on validation, never use {out}.best"
+    },
+    {
+      "id": "B10",
+      "severity": "high",
+      "verified": "yes (code + git history)",
+      "title": "the FFN and initialization the paper describes are not in the released code",
+      "detail": {
+        "ffn_paper": "two-layer position-wise FFN, 4x inner, GeLU",
+        "ffn_code": "SwiGLU (F.silu(u)*v), no bias, hierarchical_transformer.py:8-20",
+        "init_paper": "uniform Xavier for SNP/gene/system embeddings",
+        "init_code": "no custom init; bare nn.Embedding -> N(0,1); only init_method is kaiming_uniform_(a=sqrt(5)), PyTorch's Linear default"
+      },
+      "not_a_version_gap": "SwiGLU landed 2025-04-28 (7dd9726); the last pre-v3 commit af5dd26 (2026-01-13) already has the identical SwiGLU FFN; xavier last appears in the 2025-06-27 'remove DR and G2P model' commit, i.e. in a deleted model branch",
+      "quantified_impact": {
+        "nn_Embedding_default_std": 1.0,
+        "xavier_std_snp_emb_p1e-8": 0.0165,
+        "ratio_p1e-8": 61,
+        "xavier_std_snp_emb_p1e-5": 0.011,
+        "ratio_p1e-5": 91,
+        "why_it_matters": "at the paper's lr=1e-5 a 60-90x difference in initial embedding scale is a different optimization problem, not a style choice"
+      },
+      "workaround": "make initialization an explicit --init {default,xavier} switch, run both, and record the FFN substitution as an implementation-level deviation"
     }
   ],
   "external_resources": {

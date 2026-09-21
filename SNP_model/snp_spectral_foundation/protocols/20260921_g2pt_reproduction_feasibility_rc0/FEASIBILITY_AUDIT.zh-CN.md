@@ -122,7 +122,7 @@ v2 的 Data Availability 把每个外部资源都给了地址与时间：
 
 实际依赖面其实很窄（按 import 实测）：`torch` / `numpy` / `pandas` / `sklearn` / `scipy` / `tqdm` / `sgkit`（读 PLINK） / `networkx` / `prettytable` / `statsmodels`，可视化另需 `pygraphviz` + `matplotlib`。**建议自建一个锁定版本的最小环境，而不是复原 environment.yml。** 但见 B7——这个"最小环境"并不自由。
 
-### B6 — 论文超参 【大部分已解除，残留部分需 Supplementary】[原文已核实]
+### B6 — 论文超参 【PARTIALLY CLOSED】[v2 原文已核实 + v3 二手]
 
 v2 Methods 给出的部分：
 
@@ -136,14 +136,16 @@ v2 Methods 给出的部分：
 | 划分 | **嵌套交叉验证，train:val:test = 3:1:1** | 需自建，脚本只接受已分好的三份 bfile |
 | 网格搜索维度 | **p-value 阈值** × **训练 epoch 数** | 阈值影响 SNP 集，epoch 影响取哪个 checkpoint |
 
-**仍然缺的**（Methods 只说 "grid search"，未给网格点）：
+**v3 补上的部分**（二手来源，用户转述自 Review Commons 作者回复；详见 `PAPER_SPEC.zh-CN.md` §10）：
 
-- 学习率、weight decay 的具体数值
-- batch size、dropout
-- epoch 网格的取值范围、nested CV 的折数
-- 五个传播步骤是否各用不同 `--sys2env/--env2sys/--sys2gene/...` 开关组合（论文描述的 5 步对应代码里哪几个 flag，需要按模型代码逐一对照）
+- **learning rate**：grid {1e-3, 1e-4, 1e-5} → 选 **1e-5**
+- **weight decay**：grid {0, 1e-5, 1e-3} → 选 **1e-3**
+- **embedding dim**：grid {64, 128} → 选 **64**（与 v2 原文一致，可信）
+- **CV**：**5-fold** nested，每折 60/20/20（比例与 v2 原文一致）
 
-这些**很可能在 Supplementary 里**，而本会话拿不到（出口被拦）。若最终确实没写，只能按验证集自行搜索并**记为偏离项**。
+**仍然缺的**：`batch size`、`dropout`、`训练 epoch / 早停的正式设置`、以及论文描述的 5 个传播步骤对应代码里哪组 `--sys2env/--env2sys/--sys2gene/...` 开关。
+
+**注意 lr=1e-5 这个值的分量**：它比代码默认低两个数量级。配合 B10 的初始化分歧，"用哪套初始化"在这个学习率下会直接决定训练轨迹。
 
 ### B7 — 训练路径有四个未文档化的硬依赖，且 torch 版本被反向锁死 【实测踩到】[已核实]
 
@@ -213,6 +215,43 @@ return target_performance
 - **必须保留逐 epoch 检查点 `{out}.pt.N`，在验证集上自己选 epoch；**
 - **绝不能用 `{out}.best`**，它只是第一次验证的快照；
 - 复现协议里要把"epoch 选择"写成一个显式的网格搜索步骤，而不是"开早停让它自己停"。
+
+
+### B10 — 论文描述的 FFN 与初始化，在公开代码里不存在 【新发现，对精准复现杀伤力等同 B2】[代码已核实]
+
+v3 的修订说明称新增了"更详细的 HiGT initialization"。但把转述的两条规格拿去对代码，**都对不上**：
+
+| 论文（二手转述）| 上游代码实际 | 位置 |
+|---------------|------------|------|
+| 两层 position-wise FFN，内部维度 4×，**GeLU** | **SwiGLU**：`w12: d→2×inner` 分成门控与值，`F.silu(u) * v`，再 `proj: inner→d`，**无 bias** | `hierarchical_transformer.py:8-20` |
+| SNP/gene/system 嵌入用 **uniform Xavier** | **没有任何自定义初始化**。裸 `nn.Embedding(...)` → PyTorch 默认 **N(0,1)**；唯一的 `init_method` 是 `kaiming_uniform_(a=√5)`（即 PyTorch Linear 的默认值），且标注为 Differential Transformer 的辅助函数 | `snp2phenotype.py:82-83`、`g2pt.py:22-23`、`attention.py:8-9` |
+
+**这不是版本差。** 我把仓库历史拉深到 227 个提交后确认：
+
+- SwiGLU 在 **2025-04-28** 引入（`7dd9726`，实现 xFormers 那次），早于 v2 定稿；
+- v3 发布时点前最后一个提交 **`af5dd26`（2026-01-13）** 的 `hierarchical_transformer.py`，FFN **已经是 SwiGLU**，与今天的 HEAD 逐字相同；
+- `git log -S "xavier"` 显示 xavier 最后一次变动是 **2025-06-27 的 "remove DR and G2P model"**——即它属于**已被删除的旧模型分支**，不在当前 G2PT 路径上。
+
+GeLU 在代码里确实存在，但在**预测头**（`g2pt.py:63`、`sys2pheno.py:25`、`geno2pheno.py:27`），不在 HiGT block 的 FFN。所以要么是论文用标准 Transformer 术语描述了一个实际是 SwiGLU 的模块，要么是二手转述不准。
+
+#### 为什么初始化这条必须当成一级问题
+
+`nn.Embedding` 默认是 **N(0,1)，std = 1.0**；Xavier uniform 对形状 (V, 64) 的张量给出 `bound = √(6/(64+V))`：
+
+| 张量 | 词表 V | xavier std | **默认 / xavier** |
+|------|-------|-----------|------------------|
+| SNP 嵌入（p=1e-8，V=7,289）| 7,289 | 0.0165 | **61×** |
+| SNP 嵌入（p=1e-5，V=16,532）| 16,532 | 0.0110 | **91×** |
+| gene 嵌入 | 253 | 0.0794 | 13× |
+| system 嵌入 | 20 | 0.1543 | 6× |
+
+（代码里 `snp_embedding` 的词表是 `n_snps*3+2`，因为每个 SNP × 3 种合子性状态。）
+
+在 **lr = 1e-5** 的 AdamW 下，初始尺度差 60–90 倍不是风格差异，是两个不同的优化问题：从 std=1 起步，注意力 logits 初始方差大、softmax 早期接近 one-hot，而 1e-5 的步长几乎不可能把嵌入拉回小尺度；从 std≈0.01 起步则是"从近似均匀注意力长出结构"。**两者在固定 epoch 预算下不会收敛到同一个解。**
+
+#### 处置
+
+复现分支必须把初始化做成**显式开关**（`--init {default,xavier}`），两种都跑，并在协议里记为一处 **待判定的规格分歧**，而不是默认沿用代码行为。FFN 同理：若要严格按论文文字，需要把 SwiGLU 换成 GeLU 两层 FFN，这是一处**实现级偏离**，必须记录。
 
 
 ---

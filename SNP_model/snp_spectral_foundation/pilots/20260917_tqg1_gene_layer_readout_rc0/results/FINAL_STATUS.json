@@ -1,0 +1,20 @@
+{
+  "analysis_id": "tqg1-gene-layer-readout-chr18-rc0",
+  "status": "NOT-SUPPORTED",
+  "primary_contrast": "C_gene-B",
+  "macro_delta_r2": -0.03149926439026969,
+  "paired_bootstrap_ci95": [
+    -0.05405973466094464,
+    -0.012397144071778462
+  ],
+  "n_genes": 200,
+  "n_individuals": 50,
+  "evaluation_role": "task_gate",
+  "sealed_roles_still_sealed": [
+    "bridge_test"
+  ],
+  "rehearsal_model_spearman": 0.5724818120453011,
+  "rehearsal_linear_spearman": 0.8926978174454361,
+  "rehearsal_model_beats_linear": false,
+  "is_burden_test": false
+}

@@ -21,16 +21,14 @@
 
 ---
 
-## 1. 本次审计的证据等级（重要）
+## 1. 本次审计的证据等级（已更新）
 
-本会话的网络出口策略**拦截了 biorxiv.org、pmc.ncbi.nlm.nih.gov、zenodo.org**，因此：
+**论文原文已读到。** 用户提供了 **v2（2025-04-11）** 全文 PDF，Methods 已逐条抽进 `PAPER_SPEC.zh-CN.md`，原先所有 `[待核实]` 条目**均已解除**。
 
-- **[已核实]** 标记的事实 = 直接读上游源码/文件得出，可逐条复查。
-- **[待核实]** 标记的事实 = 来自检索摘要，**未读过论文原文**。凡涉及样本量、SNP 数、超参、精度数字的，一律为待核实。
+两点仍需注意：
 
-补齐待核实项只需一件事：把论文 PDF（建议 v3，2026-01-15）放进本仓库，我逐条对齐 Methods。
-
----
+1. **版本差**：读到的是 v2，最新是 **v3（2026-01-15）**。v2 只做了 **TG/HDL 一个性状**；v3 摘要另称覆盖 LDL、T2D 与跨人群外推。**复现目标若包含后三项，必须再拿 v3。**
+2. **Supplementary 未获取**：本会话出口策略拦截 biorxiv.org / PMC / zenodo.org，补充材料没读到。网格搜索的**具体网格点**很可能在那里（见 B6 残留）。
 
 ## 2. 上游代码资产盘点 [已核实]
 
@@ -53,9 +51,9 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 
 ## 3. 阻塞项清单（按严重度排序）
 
-### B1 — UK Biobank 数据准入 【阻断 S3，不可绕过】[部分已核实]
+### B1 — UK Biobank 数据准入 【阻断 S3，不可绕过】[原文已核实]
 
-- 论文主结果建立在 UK Biobank 个体级基因型与表型上（检索摘要称 423,888 名参与者、203,126 个 SNP；**待核实**）。
+- 论文主结果建立在 UK Biobank 个体级基因型与表型上：**423,888 名参与者**、**203,126 个 SNP**、限 **Caucasian ancestry**（已从 v2 原文核实）。作者使用的 UKB 申请号是 **51436 与 26041**——这是他们的，我们必须有自己的。
 - 上游仓库 `samples/README.md` 明确声明 [已核实]：*"No real participant data should be distributed through this repository."* 即**上游不会、也不能提供数据**。
 - UKB 访问需要正式申请、机构承诺书、审批周期与费用。这是日历时间上的最大不确定项，且不是技术问题。
 
@@ -74,17 +72,44 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 2. 复现口径改为 **n≥5 种子重复 → 报告 mean ± 95% CI**；
 3. 判定标准改为"论文点估计是否落入我们的 CI"，而非"数字是否相等"。
 
-### B3 — 论文使用的本体与 SNP→基因映射未随代码发布 【阻断 S3 的可比性】[已核实]
+### B3 — ~~论文使用的本体与 SNP→基因映射未随代码发布~~ 【已解除】[原文已核实]
 
-- 仓库内只有两样东西：全量 `GO_BP_full.txt`，以及**合成**的 `samples/ontology.txt`、`samples/snp2gene.txt`。
-- 论文用的是"按 GWAS 结果坍缩后的本体"。坍缩流程在 `Collapse_Gene_Ontology_Based_on_GWAS_results.ipynb` 中，其输入是一份 GWAS 摘要统计——notebook 里示范下载的是 GWAS Catalog 的 `GCST90257283`（公开可取，**这一点是好消息**）。
-- 但论文正文的坍缩很可能基于作者自己在 UKB 上跑出的 GWAS。**本体不是常量，而是数据派生物**：GWAS 不同 → 本体不同 → 模型结构不同 → 结果不可比。这条必须在读 Methods 时首先确认：论文的本体究竟来自哪一份 GWAS。
-- SNP→基因映射据称用三条证据（eQTL / cS2G / 最近基因）合并（**待核实**），每条都需要定位到具体版本的外部资源。
+v2 Methods 把本体来源写死了，这条从"阻塞"降为"照做即可"：
 
-### B4 — 外部资源缺失与版本漂移 【可绕，但必须先锁版本】[已核实]
+- **GO Biological Process, version 2023-07-27**，下载地址原文给定（`release.geneontology.org/2023-07-27/`）；
+- 用 **DDOT** 剪枝，只保留与"有显著 SNP 映射的基因"相关的 term；
+- 排除 **映射基因数 < 5** 的 system；
+- 再排除 **注释基因集合与某个子系统完全相同** 的 system。
 
-- `Collapse_Gene_Ontology_Based_on_GWAS_results.ipynb` 引用 `../G2PT/GO_files/Homo_sapiens.GRCh37.87.gtf`，**该文件不在仓库内**（需从 Ensembl 取；文件名已指明 GRCh37 release 87，版本是明确的）。
-- `go_file.ipynb` 从 `http://purl.obolibrary.org/obo/go.obo` 下载本体，**该 URL 永远指向最新版 GO**，无版本锁。所幸仓库已附带生成好的 `GO_BP_full.txt`，应当**直接使用仓库附带文件，不要重跑下载**，否则 GO 版本漂移会静默改变本体。
+SNP→基因映射也已写死：**cS2G（2023 年 11 月版）∪ GTEx v7 eQTL（7 个指定组织）∪ 最近基因（hg19）**。详见 `PAPER_SPEC.zh-CN.md` §3–§4。
+
+**但本体仍然是数据派生物**：剪枝依据是"哪些基因有显著 SNP 映射"，而显著性来自作者自己在 UKB 上跑的 BOLT-LMM。所以本体**必须在我们自己的 GWAS 结果上重建**，不能指望拿到一份现成的。这一点决定了 Stage C 必须从 GWAS 开始，不能从本体开始。
+
+**顺带否定一条歧路：** 上游 `Collapse_Gene_Ontology_Based_on_GWAS_results.ipynb` 下载的是 GWAS Catalog 的 `GCST90257283`——那只是流程示范，**不是论文路径**。
+
+### B4 — 外部资源版本 【已全部锁定；但需更正我先前的一条建议】[原文已核实]
+
+v2 的 Data Availability 把每个外部资源都给了地址与时间：
+
+| 资源 | 论文指定版本 |
+|------|------------|
+| Gene Ontology | **release 2023-07-27** |
+| cS2G | **2023 年 11 月**取自 `alkesgroup.broadinstitute.org/cS2G` |
+| eQTL | **GTEx v7**，限 7 个组织 |
+| 基因组坐标 | **GRCh37 / hg19** |
+
+**更正：** 本审计早先写过"直接使用仓库附带的 `GO_BP_full.txt`，不要重跑下载"。**这条建议现在要反过来。** 论文锁定的是 GO 2023-07-27，而仓库附带的 `GO_BP_full.txt` 是 `go_file.ipynb` 从无版本锁的 `purl.obolibrary.org/obo/go.obo` 下载后生成的，**版本未知**。
+
+实测该文件的规模指纹，供比对用：
+
+```
+55,030  条 term→term 边（default）
+134,564 条 term→gene 边（gene）
+27,596  个不同 GO term
+17,775  个不同基因符号
+```
+
+**动作：** 先从 `release.geneontology.org/2023-07-27/` 取 GO 与当期 GOA，按 `go_file.ipynb` 的逻辑重建一份，与上述指纹比对。指纹一致则可用仓库附带文件；不一致则必须用重建的那份，并把差异记入偏离清单。`Homo_sapiens.GRCh37.87.gtf` 仓库内缺失，按文件名从 Ensembl release 87 取即可（版本本身是明确的）。
 
 ### B5 — 环境无法按 environment.yml 重建 【可绕，需自建最小依赖集】[已核实]
 
@@ -97,16 +122,28 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 
 实际依赖面其实很窄（按 import 实测）：`torch` / `numpy` / `pandas` / `sklearn` / `scipy` / `tqdm` / `sgkit`（读 PLINK） / `networkx` / `prettytable` / `statsmodels`，可视化另需 `pygraphviz` + `matplotlib`。**建议自建一个锁定版本的最小环境，而不是复原 environment.yml。** 但见 B7——这个"最小环境"并不自由。
 
-### B6 — 论文超参未在代码中固化 【需要 PDF 才能解除】[已核实]
+### B6 — 论文超参 【大部分已解除，残留部分需 Supplementary】[原文已核实]
 
-仓库里存在两套互相矛盾的参数，且都**不是**论文的 UKB 配置：
+v2 Methods 给出的部分：
 
-| 来源 | hidden | heads | lr | wd | dropout | batch | epochs | patience |
-|------|--------|-------|-----|-----|---------|-------|--------|----------|
-| `train_model.sh`（合成 demo） | 64 | – | 1e-4 | 1e-4 | 0.2 | 128 | 21 | – |
-| 代码默认值（`ModelConfig`/`TrainerConfig`） | 256 | 4 | 1e-3 | 1e-3 | 0.2 | 128 | 300 | 10 |
+| 项 | 论文取值 | 对应 CLI / 默认值 |
+|----|---------|------------------|
+| 嵌入维度 d | **64** | `--hidden-dims 64`（**不是**代码默认的 256；恰好等于 `train_model.sh` 的 demo 值）|
+| 传播阶段头数 | **4** | `--n-heads 4`（与代码默认一致）|
+| 翻译阶段 | **Differential Attention，1 头** | 上游 README 的 "Future work" 已勾选 Differential Transformer |
+| 损失 | **MSE** | `--regression` |
+| 优化器 | **AdamW**（decoupled weight decay + L2）| 代码即用 AdamW |
+| 划分 | **嵌套交叉验证，train:val:test = 3:1:1** | 需自建，脚本只接受已分好的三份 bfile |
+| 网格搜索维度 | **p-value 阈值** × **训练 epoch 数** | 阈值影响 SNP 集，epoch 影响取哪个 checkpoint |
 
-论文的 UKB 实验用哪一组、以及 `--sys2env/--env2sys/--sys2gene/--gene2pheno/--sys2pheno/--mlm/--use_moe/--z-weight/--cov-effect` 这些开关的取值，**只能从 Methods 里读**。这是现在最需要 PDF 的一条。
+**仍然缺的**（Methods 只说 "grid search"，未给网格点）：
+
+- 学习率、weight decay 的具体数值
+- batch size、dropout
+- epoch 网格的取值范围、nested CV 的折数
+- 五个传播步骤是否各用不同 `--sys2env/--env2sys/--sys2gene/...` 开关组合（论文描述的 5 步对应代码里哪几个 flag，需要按模型代码逐一对照）
+
+这些**很可能在 Supplementary 里**，而本会话拿不到（出口被拦）。若最终确实没写，只能按验证集自行搜索并**记为偏离项**。
 
 ### B7 — 训练路径有四个未文档化的硬依赖，且 torch 版本被反向锁死 【实测踩到】[已核实]
 
@@ -171,6 +208,12 @@ return target_performance
 
 注意上游自带的 `train_model.sh` **没有**传 `--target-phenotype`，因此仓库里附带的 `samples/output_model.pt.best` 大概率就是这条路径产出的。
 
+**读到论文后的修正（重要）：** v2 Methods 写明模型选择是"**对训练 epoch 做网格搜索**"，即按验证集在若干 epoch 检查点里挑，**不依赖代码里的 EarlyStopping**。所以这个失效的早停逻辑**大概率没有污染论文结果**。但它对我们的要求反而更清晰了：
+
+- **必须保留逐 epoch 检查点 `{out}.pt.N`，在验证集上自己选 epoch；**
+- **绝不能用 `{out}.best`**，它只是第一次验证的快照；
+- 复现协议里要把"epoch 选择"写成一个显式的网格搜索步骤，而不是"开早停让它自己停"。
+
 
 ---
 
@@ -210,13 +253,37 @@ return target_performance
 
 ---
 
-## 7. 需要你提供的三件事
+## 7. 待确认事项（已更新）
 
-1. **论文 PDF**（建议 v3，2026-01-15）放到本目录下的 `paper/` 或仓库任意位置并告诉我路径。本会话无法访问 bioRxiv / PMC / Zenodo（出口策略拦截），所有"待核实"项都靠它解除。
-2. **UKB 申请状态**：已有 application、正在申请、还是完全没有。这直接决定 Stage C 是排期还是搁置。
-3. **目标硬件**：GPU 型号与显存。上游 README 自述稀疏注意力下 32GB 显存可支持 batch 256；你的机器决定 Stage C 要不要改批大小（改了就得在复现协议里记为偏离项）。
+论文 PDF 已收到（v2），原先三问中的第一问解除。剩下的：
 
----
+### 7.1 UKB 服务器上到底有什么 —— 请逐条对照
+
+复现 Stage C 需要下列输入。**这个清单是按 v2 Methods 反推的**，请按"有 / 没有 / 不确定"逐条回答：
+
+| # | 需要的东西 | 论文要求 |
+|---|-----------|---------|
+| 1 | 个体级**基因型**（SNP array，PLINK bed/bim/fam 或可转换格式）| 覆盖 203,126 个 SNP，坐标 **hg19/GRCh37** |
+| 2 | **血清甘油三酯 TG**（mmol/L）| 用于 log₂(TG/HDL) |
+| 3 | **血清 HDL 胆固醇**（mmol/L）| 同上 |
+| 4 | **sex、age** | 协变量 |
+| 5 | **遗传主成分 PC1–PC10** | 协变量；UKB 有现成字段，也可自算（自算即偏离）|
+| 6 | **祖先/人群标签** | 论文限 Caucasian ancestry 子集 |
+| 7 | 有效样本量 | 论文 423,888；我们的子集有多少？ |
+| 8 | **BOLT-LMM** 是否可用（或可安装）| SNP 筛选必须用它；这一步是 Stage C 的起点 |
+| 9 | 服务器算力 | GPU 型号与显存、是否多卡、是否支持 torchrun |
+
+外部资源（与 UKB 无关，可独立准备）：cS2G、GTEx v7 eQTL（7 组织）、GO release 2023-07-27、Ensembl GRCh37.87 GTF。
+
+> 说明：你提到"之前的会话窗口已经问过一遍"——**那次对话的内容不在本会话里，我看不到**。上面这份清单是按论文重新推的，请直接在这份上回答。
+
+### 7.2 是否需要 v3
+
+本次读的是 v2，只有 TG/HDL。**若复现目标包含 LDL、T2D 或跨人群外推，需要 v3 全文**（v3 的 Supplementary 也可能含网格搜索的具体取值）。
+
+### 7.3 Supplementary
+
+v2 的补充材料本会话取不到（出口拦截 bioRxiv/PMC）。网格点、nested CV 折数很可能在里面。
 
 ## 附：与本仓库主线的关系
 

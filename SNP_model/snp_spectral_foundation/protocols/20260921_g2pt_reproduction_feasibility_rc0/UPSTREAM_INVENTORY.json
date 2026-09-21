@@ -11,8 +11,11 @@
       "v2 (2025-04)",
       "v3 (2026-01-15)"
     ],
-    "full_text_read_in_this_session": false,
-    "full_text_block_reason": "egress proxy blocks biorxiv.org, pmc.ncbi.nlm.nih.gov, zenodo.org"
+    "full_text_read_in_this_session": true,
+    "full_text_block_reason": "egress proxy blocks biorxiv.org, pmc.ncbi.nlm.nih.gov, zenodo.org",
+    "version_read": "v2 (2025-04-11), supplied by the user",
+    "version_caveat": "v2 covers TG/HDL only; v3 (2026-01-15) reportedly adds LDL, T2D and cross-population results",
+    "supplementary_read": false
   },
   "upstream_code": {
     "url": "https://github.com/idekerlab/G2PT",
@@ -170,7 +173,23 @@
         "regression"
       ]
     },
-    "paper_ukb_config": "UNKNOWN - requires Methods section of the PDF"
+    "paper_ukb_config": {
+      "resolved_from_methods": {
+        "hidden_dims": 64,
+        "n_heads": 4,
+        "loss": "MSE (--regression)",
+        "optimizer": "AdamW"
+      },
+      "still_unknown": [
+        "lr",
+        "wd",
+        "batch_size",
+        "dropout",
+        "epoch grid",
+        "CV folds",
+        "which of the sys2env/env2sys/sys2gene flags map to the paper's 5 propagation steps"
+      ]
+    }
   },
   "blockers": [
     {
@@ -191,19 +210,27 @@
     },
     {
       "id": "B3",
-      "title": "paper's collapsed ontology and snp2gene map not shipped",
+      "title": "RESOLVED: ontology provenance fully specified (GO BP 2023-07-27, DDOT-pruned, <5-gene and duplicate-subsystem exclusions)",
       "blocks": "S3 comparability",
-      "severity": "high",
-      "verified": "yes",
-      "workaround": "confirm from Methods which GWAS drove the collapse"
+      "severity": "resolved",
+      "verified": "paper",
+      "workaround": "confirm from Methods which GWAS drove the collapse",
+      "residual": "the ontology is still derived from the authors' own BOLT-LMM run, so it must be rebuilt on our GWAS; Stage C starts at the GWAS, not at the ontology"
     },
     {
       "id": "B4",
-      "title": "missing GRCh37.87 GTF; unversioned go.obo download URL",
+      "title": "External resource versions now all pinned by the paper",
       "blocks": "ontology rebuild",
-      "severity": "medium",
-      "verified": "yes",
-      "workaround": "use repo-shipped GO_BP_full.txt; pin Ensembl release 87"
+      "severity": "resolved-with-action",
+      "verified": "paper",
+      "workaround": "use repo-shipped GO_BP_full.txt; pin Ensembl release 87",
+      "correction": "earlier advice to use the repo-shipped GO_BP_full.txt is WITHDRAWN: the paper pins GO release 2023-07-27 while the shipped file came from an unversioned go.obo download",
+      "shipped_go_file_fingerprint": {
+        "term_term_edges": 55030,
+        "term_gene_edges": 134564,
+        "distinct_go_terms": 27596,
+        "distinct_genes": 17775
+      }
     },
     {
       "id": "B5",
@@ -215,10 +242,10 @@
     },
     {
       "id": "B6",
-      "title": "paper hyperparameters not fixed anywhere in the repo",
+      "title": "paper hyperparameters: architecture and optimizer resolved; grid points still unknown (likely in Supplementary)",
       "blocks": "S2 and S3 configuration",
-      "severity": "high",
-      "verified": "yes",
+      "severity": "narrowed",
+      "verified": "paper",
       "workaround": "read Methods from the PDF"
     },
     {
@@ -254,7 +281,8 @@
         "ReduceLROnPlateau never steps down"
       ],
       "workaround": "confirm from Methods whether the paper's runs passed --target-phenotype; treat the full CLI, not just hyperparameters, as the thing to reproduce",
-      "note": "upstream train_model.sh does NOT pass --target-phenotype, so samples/output_model.pt.best is likely a first-validation snapshot"
+      "note": "upstream train_model.sh does NOT pass --target-phenotype, so samples/output_model.pt.best is likely a first-validation snapshot",
+      "paper_reframing": "the paper selects the training epoch by grid search on validation, not by the built-in EarlyStopping, so the broken early stopping probably did not affect the published results; for us it means: keep per-epoch checkpoints, select on validation, never use {out}.best"
     }
   ],
   "external_resources": {
@@ -282,8 +310,126 @@
     }
   },
   "open_questions_for_user": [
-    "paper PDF (v3 preferred) path in this repo",
-    "UK Biobank application status",
-    "target GPU model and VRAM"
-  ]
+    "UKB server inventory: genotype/TG/HDL/sex/age/PC1-10/ancestry/sample size/BOLT-LMM availability/GPU",
+    "whether v3 full text is needed (LDL, T2D, cross-population)",
+    "Supplementary of v2 for the grid search points"
+  ],
+  "paper_spec": {
+    "cohort": {
+      "source": "UK Biobank",
+      "ancestry": "Caucasian",
+      "n_participants": 423888,
+      "n_snps_genotyped": 203126,
+      "author_application_numbers": [
+        "51436",
+        "26041"
+      ],
+      "genotype_encoding": "0=hom major, 1=het, 2=hom minor"
+    },
+    "phenotype": "log2(TG/HDL), TG and HDL in mmol/L",
+    "covariates": [
+      "sex",
+      "age",
+      "PC1..PC10"
+    ],
+    "snp_selection": {
+      "method": "BOLT-LMM",
+      "covariates": "sex, age, top 10 PCs",
+      "p_thresholds": "1e-5 to 1e-8 (threshold itself is grid-searched)",
+      "n_snps_at_1e-8": 2429,
+      "n_snps_at_1e-5": 5510,
+      "note": "SNP selection is done on the training split only"
+    },
+    "snp2gene": {
+      "union_of": [
+        "cS2G (obtained Nov 2023)",
+        "GTEx v7 eQTL",
+        "nearest gene (hg19)"
+      ],
+      "gtex_tissues": [
+        "adipose subcutaneous",
+        "adipose visceral omentum",
+        "liver",
+        "pancreas",
+        "adrenal gland",
+        "muscle skeletal",
+        "uterus"
+      ]
+    },
+    "ontology": {
+      "source": "GO Biological Process release 2023-07-27",
+      "pruned_with": "DDOT",
+      "exclusions": [
+        "systems with <5 mapped genes",
+        "systems whose gene set exactly matches a subsystem"
+      ],
+      "edge_types": [
+        "SNP->gene",
+        "gene->system",
+        "subsystem->supersystem (is_a, part_of)"
+      ]
+    },
+    "architecture": {
+      "embedding_dim": 64,
+      "propagation_heads": 4,
+      "translation_phase": "Differential Attention, 1 head",
+      "forward_steps": [
+        "SNP->gene",
+        "gene->system",
+        "subsystem->supersystem"
+      ],
+      "reverse_steps": [
+        "system->subsystem",
+        "system->gene"
+      ],
+      "zygosity": "separate HiGT modules for hetero and homominor; hom major is the reference state",
+      "per_step_weights": "separate"
+    },
+    "training": {
+      "scheme": "nested cross-validation",
+      "split": "train:val:test = 3:1:1",
+      "loss": "MSE",
+      "optimizer": "AdamW with decoupled weight decay + L2",
+      "grid_searched": [
+        "p-value threshold",
+        "training epoch"
+      ],
+      "not_specified_in_methods": [
+        "learning rate",
+        "weight decay value",
+        "batch size",
+        "dropout",
+        "epoch grid range",
+        "CV fold count"
+      ]
+    },
+    "baselines": [
+      "ElasticNet",
+      "XGBoost",
+      "PRS C+T",
+      "PRS T",
+      "LDPred2",
+      "Lassosum"
+    ],
+    "interpretation": "mean absolute Pearson r between per-individual attention and predicted TG/HDL, computed separately for males and females",
+    "epistasis": {
+      "systems": "top 20 by importance",
+      "snp_filter": "chi-square on top vs bottom 10% by system attention",
+      "test": "Wald test on the interaction term, Benjamini-Hochberg adjusted p < 0.05",
+      "ld_guard": "SNP pairs within 1 Mb excluded"
+    },
+    "v2_headline_numbers": {
+      "systems": 20,
+      "snps": 1395,
+      "genes": 253,
+      "epistatic_interactions": 40,
+      "multi_mapped_snps_resolved": 252,
+      "named_epistasis": "APOA4-CETP"
+    },
+    "data_availability_urls": {
+      "cS2G": "https://alkesgroup.broadinstitute.org/cS2G",
+      "gtex_v7": "https://www.gtexportal.org/home/downloads/adult-gtex/qtl",
+      "go": "https://release.geneontology.org/2023-07-27/index.html"
+    }
+  }
 }

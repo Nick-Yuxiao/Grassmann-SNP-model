@@ -4,32 +4,75 @@
 **平台：** Linux x86_64，**无 GPU**（纯 CPU），Python 3.11.15，venv（非 conda）。
 **上游：** `idekerlab/G2PT` @ `fc13abd`，只读浅克隆，不纳入本仓库版本管理。
 
-> ⚠️ **本记录不能替代作者环境的一致性验证。** 这里装的是各依赖的当代版本，与作者环境（Python 3.8 / torch 2.4.1+cu124 / numpy 1.24 / pandas 2.0.3 / sgkit 0.7.0）差距很大。本记录只回答"代码在现代依赖下能不能跑起来"，**不回答"结果是否与作者一致"**。后者必须靠与 `samples/` 附带的参考输出比对，且应在贴近作者版本的环境里做。
+> ⚠️ **本记录不能替代作者环境的一致性验证。** 这里只回答"代码能不能跑起来、缺什么"，**不回答"结果是否与作者一致"**。后者必须靠与 `samples/` 附带的参考输出比对，且应在贴近作者版本的环境里做。
 
-## 尝试 1 —— 失败（xformers）
+## 依赖链：连撞四次未文档化的硬导入
 
-装了 `torch numpy pandas scikit-learn scipy tqdm networkx prettytable statsmodels matplotlib sgkit bed-reader` 后直接跑训练，立即失败：
+README 的安装说明只有 `conda env create -f environment.yml` 一条路（因 B5 大概率走不通）。自建最小环境时，按顺序撞到四个**模块级无条件导入**，每一个都会让训练脚本在 import 阶段直接崩：
+
+| # | 缺失模块 | 触发位置 | 是否在 README 正文出现 |
+|---|---------|---------|---------------------|
+| 1 | `xformers` | `src/model/hierarchical_transformer/hierarchical_transformer.py:4`（`LD_infuser/LDRoBERTa.py:6` 同）| 否，只在 `environment.yml` 的 pip 段 |
+| 2 | `mlflow` | `src/utils/trainer/snp2p_trainer.py:4` | 否 |
+| 3 | `obonet` | `src/utils/tree/tree.py:9` | 否 |
+| 4 | `transformers` | `src/utils/data/dataset/tokenizers.py:5` | 否 |
+
+AST 扫描 `src/` + 四个顶层脚本得到的**完整第三方导入面共 23 个**：
 
 ```
-File "src/model/hierarchical_transformer/hierarchical_transformer.py", line 4, in <module>
-    import xformers.ops as xops
-ModuleNotFoundError: No module named 'xformers'
+dash google_genai matplotlib mlflow networkx numpy obonet openai pandas plotly
+prettytable pygraphviz scipy seaborn sgkit sklearn statsmodels torch tqdm
+transformers xformers xgboost yaml
 ```
 
-**结论（→ 审计 B7）：** `xformers` 是训练路径的硬依赖，且 README 的安装说明里完全没有提到它——README 只给了 `conda env create -f environment.yml` 一条路，而这条路因 B5 大概率走不通。`xformers` 只出现在 `environment.yml` 的 pip 段（`xformers==0.0.28.post1`）。
+（`openai` / `google_genai` 属 LLM 解释模块，`dash` / `plotly` / `seaborn` / `pygraphviz` 属可视化，`xgboost` 属基线——训练主路径不需要，但复现全部图表需要。）
 
-连带后果：**xformers 每个版本硬绑定特定 torch 版本**，所以 torch 版本不是自由变量。首次安装拿到的 `torch 2.14.0+cu130` 必须让位给 xformers 指定的版本。
+## torch 与 xformers 的版本互锁（已验证）
 
-## 尝试 2 —— 进行中
+装 `xformers==0.0.28.post1`（作者 pip 段里的版本）时，pip **自动把 torch 从 2.14.0 降级到 2.4.1**，并装上 `triton==3.0.0`：
 
-改装作者 pip 段里的 `xformers==0.0.28.post1`（由它反向决定 torch 版本），再补 `mlflow`（`src/utils/trainer/snp2p_trainer.py:4` 的硬导入，同样不在 README 里），然后跑上游 `train_model.sh` 的等价命令（去掉 `--cuda 0`，本机无 GPU）。
+```
+Successfully installed ... torch-2.4.1 triton-3.0.0 xformers-0.0.28.post1
+>>> torch 2.4.1+cu121  xformers 0.0.28.post1
+```
 
-结果待回填。
+**结论：作者环境里 `xformers==0.0.28.post1` + `torch==2.4.1` 这一对是自洽的**（此前审计里对这一点的存疑可以撤销）。唯一差别是 CUDA 构建：PyPI 默认给 `+cu121`，作者记录的是 `+cu124`。
 
-## 给复现协议的结论（当前）
+**对复现协议的要求：torch 不是自由变量，必须与 xformers 作为一对绑定版本冻结。**
 
-1. **torch 与 xformers 必须作为一对绑定版本冻结**，不能各自独立选版本。
-2. 训练最小依赖集（README 未完整给出，此处为实测）：
-   `torch` + `xformers`（版本互锁）、`mlflow`、`numpy`、`pandas`、`scikit-learn`、`scipy`、`tqdm`、`sgkit`、`prettytable`、`networkx`；
-   可视化另需 `matplotlib` + `pygraphviz`。
-3. 复现分支应当自带一份锁定版本清单，并在 README 里写清 `xformers`/`mlflow` 这两个 README 漏掉的依赖。
+## 阻断点：训练脚本无条件要求 CUDA（→ 审计 B8）
+
+四个依赖补齐后，import 全部通过，脚本进入 `main()`，然后停在：
+
+```
+File "train_snp2p_model.py", line 239, in main
+    torch.cuda.set_device(args.local_rank)
+RuntimeError: Found no NVIDIA driver on your system.
+```
+
+关键细节：**同一文件里另外两处 CUDA 调用都做了保护**——`ddp_setup()` 内的 `train_snp2p_model.py:114-115` 是 `if torch.cuda.is_available():`，`:286` 是 `elif args.world_size == 1 and torch.cuda.is_available():`。只有 `:239` 这一处漏了守卫。
+
+所以这不是"设计上只支持 GPU"，而是**一处漏写的 `is_available()` 守卫**挡住了代码其余部分已经支持的 CPU 路径。另外 `--cuda` 这个 CLI 参数实际已经退化：它只触发一条 warning，真正的设备由 `ddp_setup()` + `set_device` 决定（`main()` 里非分布式分支的原始代码被整块注释掉了，脚本已重构为 torchrun-only）。
+
+**后果：连 293 个 SNP 的合成 demo 都需要一张 CUDA 卡**，除非打这一行补丁。已在只读克隆里做过探针式验证（**未提交到任何仓库**，原文件已备份）。
+
+## 给复现协议的结论
+
+1. **torch 与 xformers 作为一对绑定版本冻结**，不能各自独立选版本。
+2. 训练最小依赖集（README 未给出，此处为实测）：
+   `torch` + `xformers`（版本互锁）、`mlflow`、`obonet`、`transformers`、`numpy`、`pandas`、`scikit-learn`、`scipy`、`tqdm`、`sgkit`、`prettytable`、`networkx`；
+   完整复现图表另需 `matplotlib`、`seaborn`、`plotly`、`dash`、`pygraphviz`、`xgboost`。
+3. 复现分支应自带锁定版本清单，并在 README 补上这四个漏掉的依赖。
+4. **Stage A 需要 GPU**（或给 `:239` 打一行守卫）。这一点在排期时必须先确认硬件。
+
+## 附：参考 checkpoint 的可读性
+
+`samples/output_model.pt.*` 不是纯 `state_dict`，而是整体 pickle，内含 `argparse.Namespace`：
+
+```
+WeightsUnpickler error: Unsupported global: GLOBAL argparse.Namespace
+```
+
+两个含义：
+- **好的一面**：checkpoint 里记录了完整的训练参数命名空间。若作者日后放出 UKB 训练好的权重，超参可以直接从 checkpoint 读出，不必依赖论文正文。
+- **坏的一面**：加载它必须 `weights_only=False`，即执行 pickle 代码。复现协议里应写明这一条（来源可信仍应记录为一次显式的信任决定）。

@@ -13,7 +13,7 @@
 
 | 层 | 内容 | 判定 | 主要阻塞 |
 |----|------|------|----------|
-| **S1 冒烟层** | `samples/` 合成数据端到端跑通训练+预测+注意力导出 | **可行，零外部依赖** | 仅环境重建（B5） |
+| **S1 冒烟层** | `samples/` 合成数据端到端跑通训练+预测+注意力导出 | **已验证可跑**（CPU 上需一行补丁） | 环境重建（B5/B7）+ 一处漏写的 CUDA 守卫（B8） |
 | **S2 模拟层** | 上位效应（epistasis）模拟与检出评估 | **可行，且有固定随机种子** | 论文所用模拟参数未知（B6） |
 | **S3 主结果层** | UK Biobank 上 TG/HDL、LDL、T2D 的预测精度、跨人群外推、系统级注意力解释 | **当前不可行** | UKB 数据准入（B1）+ 训练无种子（B2）+ 本体非常量（B3） |
 
@@ -108,16 +108,39 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 
 论文的 UKB 实验用哪一组、以及 `--sys2env/--env2sys/--sys2gene/--gene2pheno/--sys2pheno/--mlm/--use_moe/--z-weight/--cov-effect` 这些开关的取值，**只能从 Methods 里读**。这是现在最需要 PDF 的一条。
 
-### B7 — 训练路径硬依赖 xformers 与 mlflow，且 README 没写 【实测踩到】[已核实]
+### B7 — 训练路径有四个未文档化的硬依赖，且 torch 版本被反向锁死 【实测踩到】[已核实]
 
-按 README 的说法，装环境只有 `conda env create -f environment.yml` 一条路；而 B5 已说明这条路大概率走不通。自建最小环境时会连撞两次硬导入：
+按 README，装环境只有 `conda env create -f environment.yml` 一条路，而这条路因 B5 大概率走不通。自建最小环境时按顺序连撞四个**模块级无条件导入**，每个都让脚本在 import 阶段直接崩：
 
-1. `src/model/hierarchical_transformer/hierarchical_transformer.py:4` —— `import xformers.ops as xops`，**模块级无条件导入**。即使走默认的稀疏注意力路径（`xops.memory_efficient_attention` 实际只在 `hierarchical_transformer.py:291` 的稠密路径被调用），模块也加载不起来。`src/model/LD_infuser/LDRoBERTa.py:6` 同样。
-2. `src/utils/trainer/snp2p_trainer.py:4` —— `import mlflow`，训练器必经之路。
+| # | 缺失模块 | 触发位置 |
+|---|---------|---------|
+| 1 | `xformers` | `hierarchical_transformer.py:4`（`LD_infuser/LDRoBERTa.py:6` 同）|
+| 2 | `mlflow` | `src/utils/trainer/snp2p_trainer.py:4` |
+| 3 | `obonet` | `src/utils/tree/tree.py:9` |
+| 4 | `transformers` | `src/utils/data/dataset/tokenizers.py:5` |
 
-第 1 条的连带后果比缺包本身严重：**xformers 的每个版本都硬绑定一个特定的 torch 版本**，所以"最小环境"里的 torch 版本不是我们能自由选的，而是被 xformers 反向锁死。作者环境是 `xformers==0.0.28.post1` + `torch==2.4.1+cu124`（这两者本身是否自洽也需要验证）。**复现协议里必须把 torch/xformers 当成一对绑定版本来冻结，而不是各自独立地"装个新版本"。**
+四个都只存在于 `environment.yml` 的 pip 段，README 正文一字未提。AST 扫描得到的完整第三方导入面是 **23 个模块**（清单见 `ENVIRONMENT_NOTES.zh-CN.md`）。
 
-实测记录见 `ENVIRONMENT_NOTES.zh-CN.md`。
+第 1 条的连带后果更重要：安装 `xformers==0.0.28.post1` 会**把 torch 自动降级到 2.4.1** 并装上 `triton==3.0.0`。这反过来**验证了作者环境的 `xformers 0.0.28.post1` + `torch 2.4.1` 是自洽的**（此前对这一点的存疑可以撤销），唯一差别是 CUDA 构建（PyPI 给 `+cu121`，作者记录 `+cu124`）。
+
+**复现协议必须把 torch 与 xformers 当成一对绑定版本冻结**，不能各自独立选版本。
+
+### B8 — 训练脚本无条件要求 CUDA，但这是一行漏写的守卫 【已定位，可一行修复】[已核实]
+
+四个依赖补齐后 import 全通，脚本进入 `main()`，停在：
+
+```
+File "train_snp2p_model.py", line 239, in main
+    torch.cuda.set_device(args.local_rank)
+RuntimeError: Found no NVIDIA driver on your system.
+```
+
+关键在于**同一文件的另外两处 CUDA 调用都有守卫**：`:114-115` 是 `if torch.cuda.is_available():`，`:286` 是 `elif args.world_size == 1 and torch.cuda.is_available():`。只有 `:239` 漏了。补上这一行守卫后，**合成链路在纯 CPU 上确实跑起来了**（实测：PLINK 数据正常载入，293 variants / 500 samples，epoch 1 train_loss=0.5498）。
+
+另外 `--cuda` 这个 CLI 参数已经退化——它只触发一条 warning，真正的设备由 `ddp_setup()` + `set_device` 决定；`main()` 里原来的非分布式分支被整块注释掉，脚本已重构为 torchrun-only。
+
+**后果：** 照原样，连 293 个 SNP 的合成 demo 都需要一张 CUDA 卡。排期前必须先确认硬件；复现分支应把这行守卫补上并记为一处**显式偏离**。
+
 
 ---
 
@@ -133,7 +156,8 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 
 | 复现目标 | 判定 | 前置条件 |
 |---------|------|---------|
-| 跑通官方代码，产出与作者参考输出一致的合成结果 | **可行** | 最小环境（1 天内） |
+| 跑通官方代码（训练链路启动、数据载入、loss 下降） | **已验证** | 见 `ENVIRONMENT_NOTES.zh-CN.md` |
+| 产出与作者参考输出**一致**的合成结果 | **未验证** | 需贴近作者版本的环境 + 与 `samples/` 参考输出比对 |
 | 复现上位效应检出类声明 | **大概率可行** | 论文 Methods 中的模拟参数 |
 | 复现 UKB 主结果的**数值** | **不可行** | 违反 B2，原理上不成立 |
 | 复现 UKB 主结果的**结论**（统计等价） | **取决于 B1** | UKB 准入 + 多种子协议 + 本体来源确认 |

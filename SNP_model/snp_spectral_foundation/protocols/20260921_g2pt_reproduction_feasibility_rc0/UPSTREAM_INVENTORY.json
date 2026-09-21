@@ -6,7 +6,11 @@
     "title": "A genotype-phenotype transformer to assess and explain polygenic risk",
     "doi": "10.1101/2024.10.23.619940",
     "preprint_server": "bioRxiv",
-    "versions_seen_in_search": ["v1 (2024-10-23, titled 'Mechanistic genotype-phenotype translation using hierarchical transformers')", "v2 (2025-04)", "v3 (2026-01-15)"],
+    "versions_seen_in_search": [
+      "v1 (2024-10-23, titled 'Mechanistic genotype-phenotype translation using hierarchical transformers')",
+      "v2 (2025-04)",
+      "v3 (2026-01-15)"
+    ],
     "full_text_read_in_this_session": false,
     "full_text_block_reason": "egress proxy blocks biorxiv.org, pmc.ncbi.nlm.nih.gov, zenodo.org"
   },
@@ -29,7 +33,12 @@
       "predict_attention_with_selected_phenotypes.py:261"
     ],
     "deterministic_algorithm_calls": 0,
-    "baselines_shipped": ["elasticnet", "xgboost", "dnn", "plink PRS via samples/run_plink_score.sh"],
+    "baselines_shipped": [
+      "elasticnet",
+      "xgboost",
+      "dnn",
+      "plink PRS via samples/run_plink_score.sh"
+    ],
     "reference_outputs_shipped": [
       "samples/output_model.pt.{0,5,10,15,20,best}",
       "samples/output_model.PHENOTYPE.head_0.csv",
@@ -37,30 +46,187 @@
       "samples/output_model.PHENOTYPE.head_0.sys_importance.csv",
       "samples/output_model.PHENOTYPE.head_0.gene_importance.csv"
     ],
-    "synthetic_sample_split": {"train": 1000, "val": 500, "test": 300, "n_snps": 293, "seed": 42}
+    "synthetic_sample_split": {
+      "train": 1000,
+      "val": 500,
+      "test": 300,
+      "n_snps": 293,
+      "seed": 42
+    },
+    "undocumented_hard_imports": [
+      {
+        "module": "xformers",
+        "site": "src/model/hierarchical_transformer/hierarchical_transformer.py:4"
+      },
+      {
+        "module": "mlflow",
+        "site": "src/utils/trainer/snp2p_trainer.py:4"
+      },
+      {
+        "module": "obonet",
+        "site": "src/utils/tree/tree.py:9"
+      },
+      {
+        "module": "transformers",
+        "site": "src/utils/data/dataset/tokenizers.py:5"
+      }
+    ],
+    "third_party_import_surface": [
+      "dash",
+      "google_genai",
+      "matplotlib",
+      "mlflow",
+      "networkx",
+      "numpy",
+      "obonet",
+      "openai",
+      "pandas",
+      "plotly",
+      "prettytable",
+      "pygraphviz",
+      "scipy",
+      "seaborn",
+      "sgkit",
+      "sklearn",
+      "statsmodels",
+      "torch",
+      "tqdm",
+      "transformers",
+      "xformers",
+      "xgboost",
+      "yaml"
+    ],
+    "torch_xformers_lock": {
+      "xformers": "0.0.28.post1",
+      "pins_torch": "2.4.1",
+      "also_installs": "triton==3.0.0",
+      "author_env_cuda_build": "+cu124",
+      "pypi_default_build": "+cu121",
+      "author_pairing_self_consistent": true
+    },
+    "cuda_required_unconditionally": {
+      "site": "train_snp2p_model.py:239",
+      "call": "torch.cuda.set_device(args.local_rank)",
+      "guarded_siblings": [
+        "train_snp2p_model.py:114-115",
+        "train_snp2p_model.py:286"
+      ],
+      "note": "one missing torch.cuda.is_available() guard; with it added the synthetic run starts on CPU",
+      "cpu_probe_result": "PLINK load OK (293 variants / 500 samples), epoch 1 train_loss=0.5498"
+    },
+    "reference_checkpoint_format": {
+      "not_a_plain_state_dict": true,
+      "contains": "argparse.Namespace",
+      "implication_good": "checkpoints record the full training arg namespace",
+      "implication_bad": "loading requires weights_only=False, i.e. executing pickle"
+    }
   },
   "hyperparameters": {
     "code_defaults": {
-      "hidden_dims": 256, "n_heads": 4, "dropout": 0.2, "prediction_head": 1,
-      "lr": 0.001, "wd": 0.001, "batch_size": 128, "epochs": 300,
-      "val_step": 20, "patience": 10, "z_weight": 1.0,
-      "use_sparse_attention": true, "sys2pheno": true,
-      "gene2pheno": false, "snp2pheno": false, "sys2env": false, "env2sys": false, "sys2gene": false
+      "hidden_dims": 256,
+      "n_heads": 4,
+      "dropout": 0.2,
+      "prediction_head": 1,
+      "lr": 0.001,
+      "wd": 0.001,
+      "batch_size": 128,
+      "epochs": 300,
+      "val_step": 20,
+      "patience": 10,
+      "z_weight": 1.0,
+      "use_sparse_attention": true,
+      "sys2pheno": true,
+      "gene2pheno": false,
+      "snp2pheno": false,
+      "sys2env": false,
+      "env2sys": false,
+      "sys2gene": false
     },
     "train_model_sh_demo": {
-      "hidden_dims": 64, "lr": 0.0001, "wd": 0.0001, "dropout": 0.2,
-      "batch_size": 128, "epochs": 21, "val_step": 5, "z_weight": 0,
-      "flags": ["sys2env", "env2sys", "sys2gene", "gene2pheno", "sys2pheno", "regression"]
+      "hidden_dims": 64,
+      "lr": 0.0001,
+      "wd": 0.0001,
+      "dropout": 0.2,
+      "batch_size": 128,
+      "epochs": 21,
+      "val_step": 5,
+      "z_weight": 0,
+      "flags": [
+        "sys2env",
+        "env2sys",
+        "sys2gene",
+        "gene2pheno",
+        "sys2pheno",
+        "regression"
+      ]
     },
     "paper_ukb_config": "UNKNOWN - requires Methods section of the PDF"
   },
   "blockers": [
-    {"id": "B1", "title": "UK Biobank data access", "blocks": "S3", "severity": "hard", "verified": "partial", "workaround": null},
-    {"id": "B2", "title": "training script sets no random seed", "blocks": "bit-exact reproduction of any training run", "severity": "hard", "verified": "yes", "workaround": "add --seed in repro fork; switch to multi-seed mean +/- 95% CI protocol"},
-    {"id": "B3", "title": "paper's collapsed ontology and snp2gene map not shipped", "blocks": "S3 comparability", "severity": "high", "verified": "yes", "workaround": "confirm from Methods which GWAS drove the collapse"},
-    {"id": "B4", "title": "missing GRCh37.87 GTF; unversioned go.obo download URL", "blocks": "ontology rebuild", "severity": "medium", "verified": "yes", "workaround": "use repo-shipped GO_BP_full.txt; pin Ensembl release 87"},
-    {"id": "B5", "title": "environment.yml is an author-machine conda export (nightly channel, py3.8 EOL, hardcoded prefix)", "blocks": "environment rebuild", "severity": "medium", "verified": "yes", "workaround": "build a pinned minimal env from the actual import surface"},
-    {"id": "B6", "title": "paper hyperparameters not fixed anywhere in the repo", "blocks": "S2 and S3 configuration", "severity": "high", "verified": "yes", "workaround": "read Methods from the PDF"}
+    {
+      "id": "B1",
+      "title": "UK Biobank data access",
+      "blocks": "S3",
+      "severity": "hard",
+      "verified": "partial",
+      "workaround": null
+    },
+    {
+      "id": "B2",
+      "title": "training script sets no random seed",
+      "blocks": "bit-exact reproduction of any training run",
+      "severity": "hard",
+      "verified": "yes",
+      "workaround": "add --seed in repro fork; switch to multi-seed mean +/- 95% CI protocol"
+    },
+    {
+      "id": "B3",
+      "title": "paper's collapsed ontology and snp2gene map not shipped",
+      "blocks": "S3 comparability",
+      "severity": "high",
+      "verified": "yes",
+      "workaround": "confirm from Methods which GWAS drove the collapse"
+    },
+    {
+      "id": "B4",
+      "title": "missing GRCh37.87 GTF; unversioned go.obo download URL",
+      "blocks": "ontology rebuild",
+      "severity": "medium",
+      "verified": "yes",
+      "workaround": "use repo-shipped GO_BP_full.txt; pin Ensembl release 87"
+    },
+    {
+      "id": "B5",
+      "title": "environment.yml is an author-machine conda export (nightly channel, py3.8 EOL, hardcoded prefix)",
+      "blocks": "environment rebuild",
+      "severity": "medium",
+      "verified": "yes",
+      "workaround": "build a pinned minimal env from the actual import surface"
+    },
+    {
+      "id": "B6",
+      "title": "paper hyperparameters not fixed anywhere in the repo",
+      "blocks": "S2 and S3 configuration",
+      "severity": "high",
+      "verified": "yes",
+      "workaround": "read Methods from the PDF"
+    },
+    {
+      "id": "B7",
+      "title": "four undocumented hard imports; xformers reverse-pins the torch version",
+      "blocks": "environment rebuild",
+      "severity": "medium",
+      "verified": "yes",
+      "workaround": "freeze torch+xformers as one bound pair; document the four deps"
+    },
+    {
+      "id": "B8",
+      "title": "train_snp2p_model.py:239 calls torch.cuda.set_device unguarded, so even the synthetic demo needs a CUDA GPU",
+      "blocks": "Stage A on CPU",
+      "severity": "medium",
+      "verified": "yes",
+      "workaround": "add the torch.cuda.is_available() guard that lines 114-115 and 286 already use; record as an explicit deviation"
+    }
   ],
   "external_resources": {
     "gwas_catalog_example_in_notebook": "GCST90257283 (public, EBI FTP)",
@@ -68,9 +234,22 @@
     "gtf_referenced_but_absent": "Homo_sapiens.GRCh37.87.gtf"
   },
   "stages": {
-    "A": {"name": "env + synthetic smoke", "external_approval_needed": false, "gate": "our outputs match samples/ reference outputs within tolerance"},
-    "B": {"name": "epistasis simulation reproduction", "external_approval_needed": false, "gate": "retrieval metrics inside the paper's stated range"},
-    "C": {"name": "UKB main results", "external_approval_needed": true, "gate": "paper point estimate falls inside our multi-seed CI"}
+    "A": {
+      "name": "env + synthetic smoke",
+      "external_approval_needed": false,
+      "gate": "our outputs match samples/ reference outputs within tolerance",
+      "status": "training loop verified to start and step on CPU with the B8 guard; output-vs-reference comparison NOT done"
+    },
+    "B": {
+      "name": "epistasis simulation reproduction",
+      "external_approval_needed": false,
+      "gate": "retrieval metrics inside the paper's stated range"
+    },
+    "C": {
+      "name": "UKB main results",
+      "external_approval_needed": true,
+      "gate": "paper point estimate falls inside our multi-seed CI"
+    }
   },
   "open_questions_for_user": [
     "paper PDF (v3 preferred) path in this repo",

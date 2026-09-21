@@ -277,13 +277,17 @@ return target_performance
 
 > 说明：你提到"之前的会话窗口已经问过一遍"——**那次对话的内容不在本会话里，我看不到**。上面这份清单是按论文重新推的，请直接在这份上回答。
 
-### 7.2 是否需要 v3
+### 7.2 v3 找不到 —— 不阻塞，按 v2 开工
 
-本次读的是 v2，只有 TG/HDL。**若复现目标包含 LDL、T2D 或跨人群外推，需要 v3 全文**（v3 的 Supplementary 也可能含网格搜索的具体取值）。
+结论：**v2 足够支撑 TG/HDL 这条主线的复现，不要为了等 v3 停工。** v3（2026-01-15，确实存在）相对 v2 主要是把性状范围从 TG/HDL 扩到 LDL、T2D 与跨人群外推；而我们 Stage A/B/C 的规格全部来自 v2 的 Methods，已经齐了。
 
-### 7.3 Supplementary
+若仍要取，直链见 `FETCH_LIST.zh-CN.md`。
 
-v2 的补充材料本会话取不到（出口拦截 bioRxiv/PMC）。网格点、nested CV 折数很可能在里面。
+### 7.3 真正该优先取的是 v2 的 Supplementary
+
+**它的优先级高于 v3 全文。** 现在唯一还卡着 B6 的是网格搜索的具体取值（lr、wd、batch size、dropout、epoch 网格范围、CV 折数），这类内容通常在补充材料里。而且检索显示 v2 Supplementary 还包含**消融实验**（完整 G2PT vs 去掉 system / 去掉 system+gene / 去掉层次连接 / 去掉 SNP→gene 映射 的 R² 对照）——这本身就是一组很好的复现靶子，比"把主结果数字对上"更容易验证实现是否正确。
+
+直链在 `FETCH_LIST.zh-CN.md`，本会话出口被拦，取不到。
 
 ## 附：与本仓库主线的关系
 

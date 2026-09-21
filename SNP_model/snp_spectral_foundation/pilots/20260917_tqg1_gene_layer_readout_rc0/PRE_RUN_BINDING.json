@@ -5,7 +5,7 @@
     "If expected_sha256 is non-null the runner enforces it and aborts on mismatch.",
     "sample_manifest_path defaults to the frozen stage2b rc1 manifest; it is reused, never regenerated."
   ],
-  "asset_dir": null,
+  "asset_dir": "/mnt/c/Users/Yuxiao Tan/OneDrive/桌面/Qinghua_bioinfo/Grassmann_model/snp_spectral_foundation/pilot_assets/geuvadis_tensorqtl_chr18",
   "asset_dir_examples": [
     "F:/geuvadis/geuvadis_tensorqtl_chr18",
     "/mnt/f/geuvadis/geuvadis_tensorqtl_chr18",

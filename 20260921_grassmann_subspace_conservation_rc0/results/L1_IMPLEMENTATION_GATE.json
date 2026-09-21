@@ -1,0 +1,140 @@
+{
+  "status": "IMPLEMENTATION_GATE_NOT_SCIENTIFIC_EVIDENCE",
+  "level": 1,
+  "generated_utc": "2026-09-21T03:26:48.898171+00:00",
+  "seed": 20260921,
+  "r_traits": 8,
+  "trials": 200,
+  "environment": {
+    "python": "3.11.15",
+    "numpy": "2.4.6",
+    "platform": "Linux-6.18.44-fc-v37-x86_64-with-glibc2.39"
+  },
+  "gl2_invariance": [
+    {
+      "cond_M": 1.0,
+      "max_subspace_distance": 8.917254870866685e-16,
+      "median_subspace_distance": 3.425725242642101e-16,
+      "invariant_to_1e-9": true
+    },
+    {
+      "cond_M": 2.0,
+      "max_subspace_distance": 1.0466465269456828e-15,
+      "median_subspace_distance": 3.7258513093053726e-16,
+      "invariant_to_1e-9": true
+    },
+    {
+      "cond_M": 10.0,
+      "max_subspace_distance": 2.199486617814741e-15,
+      "median_subspace_distance": 5.005421265620358e-16,
+      "invariant_to_1e-9": true
+    },
+    {
+      "cond_M": 100.0,
+      "max_subspace_distance": 2.4159636780158072e-14,
+      "median_subspace_distance": 2.9178838390489794e-15,
+      "invariant_to_1e-9": true
+    },
+    {
+      "cond_M": 10000.0,
+      "max_subspace_distance": 6.513427009880637e-12,
+      "median_subspace_distance": 3.2044014802321613e-13,
+      "invariant_to_1e-9": true
+    },
+    {
+      "cond_M": 1000000.0,
+      "max_subspace_distance": 2.550428216978792e-10,
+      "median_subspace_distance": 3.1046779352794044e-11,
+      "invariant_to_1e-9": true
+    }
+  ],
+  "o2_versus_gl2": {
+    "second_moment_under_O2_max_rel_dev": 8.850831235729659e-16,
+    "second_moment_under_GL2_median_rel_dev": 0.6064645277601192,
+    "verdict": "O2_ONLY_WORLD_IS_DEGENERATE",
+    "why_it_matters": "E E.T survives right-O(2) untouched and carries the spectrum the projector throws away. A rotation-only positive control therefore rewards the spectrum arm, not the Grassmann arm. Only GL(2) makes the column space the maximal invariant."
+  },
+  "identifiability": [
+    {
+      "sigma2_over_noise": 0.25,
+      "sigma1_over_sigma2": 32.0,
+      "mean_subspace_error": 0.6821911027377393,
+      "mean_random_plane_distance": 0.8575929419947559,
+      "fraction_of_random": 0.7954719183567055
+    },
+    {
+      "sigma2_over_noise": 0.5,
+      "sigma1_over_sigma2": 16.0,
+      "mean_subspace_error": 0.6708562776132717,
+      "mean_random_plane_distance": 0.8632847899890015,
+      "fraction_of_random": 0.7770972978938023
+    },
+    {
+      "sigma2_over_noise": 1.0,
+      "sigma1_over_sigma2": 8.0,
+      "mean_subspace_error": 0.6375159827530733,
+      "mean_random_plane_distance": 0.8641733446282476,
+      "fraction_of_random": 0.737717712211225
+    },
+    {
+      "sigma2_over_noise": 2.0,
+      "sigma1_over_sigma2": 4.0,
+      "mean_subspace_error": 0.5619550667253003,
+      "mean_random_plane_distance": 0.8661706600755456,
+      "fraction_of_random": 0.6487809996661487
+    },
+    {
+      "sigma2_over_noise": 4.0,
+      "sigma1_over_sigma2": 2.0,
+      "mean_subspace_error": 0.4118454686155579,
+      "mean_random_plane_distance": 0.8681338258383445,
+      "fraction_of_random": 0.47440320415788956
+    },
+    {
+      "sigma2_over_noise": 8.0,
+      "sigma1_over_sigma2": 1.0,
+      "mean_subspace_error": 0.2897958068792174,
+      "mean_random_plane_distance": 0.8609863711841353,
+      "fraction_of_random": 0.3365858236300004
+    }
+  ],
+  "gl2_alignment_identity": {
+    "max_abs_gap": 4.440892098500626e-16,
+    "identity_holds_to_1e-10": true,
+    "consequence": "min_M ||Qb - Qa M||_F equals the chordal subspace distance, so a per-pair GL(2) baseline fitted on the test pair's own target data is not a baseline -- it is the Grassmann arm with the adaptation cost hidden. Transports must be fitted on calibration pairs."
+  },
+  "rank_deficiency": [
+    {
+      "collinearity_eps": 0.1,
+      "all_finite": true,
+      "median_effective_rank": 2.0
+    },
+    {
+      "collinearity_eps": 0.001,
+      "all_finite": true,
+      "median_effective_rank": 2.0
+    },
+    {
+      "collinearity_eps": 1e-06,
+      "all_finite": true,
+      "median_effective_rank": 2.0
+    },
+    {
+      "collinearity_eps": 1e-09,
+      "all_finite": true,
+      "median_effective_rank": 2.0
+    },
+    {
+      "collinearity_eps": 0.0,
+      "all_finite": true,
+      "median_effective_rank": 1.0
+    }
+  ],
+  "checks": {
+    "projector_gl2_invariant_to_cond_1e4": true,
+    "o2_world_is_degenerate": true,
+    "alignment_identity_holds": true,
+    "no_nan_under_collinearity": true
+  },
+  "gate": "PASS"
+}

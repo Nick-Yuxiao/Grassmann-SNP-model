@@ -1,0 +1,433 @@
+{
+  "analysis_id": "tqg1-gene-layer-readout-chr18-rc0",
+  "pilot_id": "20260917_tqg1_gene_layer_readout_rc0",
+  "claim_class": "annotation_free_gene_unit_premise_test_not_burden_validation",
+  "status": "VALID_COMPLETE",
+  "evaluation_role": "task_gate",
+  "sealed_roles_opened": [],
+  "split": {
+    "dev_train": 120,
+    "dev_validation": 30,
+    "evaluation": 50,
+    "family_disjoint": true
+  },
+  "qc": {
+    "qc_variants": 215748,
+    "maf_min": 0.05,
+    "missingness_max": 0.1,
+    "scope": "dev_train_only"
+  },
+  "covariates": {
+    "genotype_pc_count": 10,
+    "pc_panel_snps": 20000,
+    "pc_explained_variance_ratio": [
+      0.1099532703524424,
+      0.01357716139535296,
+      0.011619101674970989,
+      0.01150394018490931,
+      0.011312708161360636,
+      0.011275155220080381,
+      0.010931952002854307,
+      0.010723561234914546,
+      0.010572114042604492,
+      0.010464008954662818
+    ],
+    "sex_coding": "female=1_male=0",
+    "population_columns": [
+      "FIN",
+      "GBR",
+      "TSI",
+      "YRI"
+    ]
+  },
+  "encoder": {
+    "shared_across_genes": true,
+    "config": {
+      "max_blocks": 512,
+      "snps_per_block": 32,
+      "d_model": 16,
+      "n_heads": 4,
+      "local_layers": 2,
+      "local_ff_dim": 64,
+      "spectral_rank": 8,
+      "spectral_oversample": 4,
+      "spectral_power_iterations": 1,
+      "grassmann_probes": 24,
+      "memory_dim": 128,
+      "global_slots": 64,
+      "global_layers": 4,
+      "num_traits": 256,
+      "trait_dim": 64,
+      "effect_dim": 64,
+      "output_dim": 1,
+      "dropout": 0.0,
+      "spectral_jitter": 1e-05,
+      "local_position_mode": "relative_continuous",
+      "use_local_block_embedding": false,
+      "continuous_position_scale_bp": 1000000.0
+    },
+    "pretrain_blocks": 512,
+    "pretrain_snps": 16384,
+    "epochs": 40,
+    "validation_metrics": {
+      "model_accuracy": 0.7208641767501831,
+      "marginal_accuracy": 0.6494028568267822,
+      "contextual_lift": 0.07146131992340088,
+      "n_masked": 98221,
+      "masked_cross_entropy": 0.6292117238044739
+    },
+    "checkpoint_sha256": "82b0ac5a7456ce6499ccff913128255b7a6756340763811ea2990a86a594feec",
+    "phenotype_seen_during_pretraining": false
+  },
+  "genes": {
+    "eligible": 301,
+    "analysed": 200,
+    "selection_rule": "all_eligible_then_deterministic_hash_cap",
+    "selection_uses_phenotype_signal": false,
+    "cis_snp_selection_rule": "position_ordered_uniform_thinning_within_cis_window",
+    "snps_per_gene": 256
+  },
+  "primary_contrast": "C_gene-B",
+  "primary": {
+    "n_genes": 200,
+    "n_individuals": 50,
+    "macro_r2": {
+      "A": 0.02626878629748511,
+      "B": 0.011898149457197287,
+      "C_gene": -0.019601114933072403,
+      "C_full": 0.0035591872155271405
+    },
+    "contrast": "C_gene-B",
+    "macro_delta_r2": -0.03149926439026969,
+    "paired_bootstrap_ci95": [
+      -0.05405973466094464,
+      -0.012397144071778462
+    ],
+    "pass": false,
+    "bootstrap_replicates": 5000,
+    "bootstrap_seed": 5263026,
+    "resampling_units": [
+      "evaluation_individual",
+      "gene"
+    ]
+  },
+  "primary_support": false,
+  "secondary": {
+    "C_full-B": {
+      "n_genes": 200,
+      "n_individuals": 50,
+      "macro_r2": {
+        "A": 0.02626878629748511,
+        "B": 0.011898149457197287,
+        "C_gene": -0.019601114933072403,
+        "C_full": 0.0035591872155271405
+      },
+      "contrast": "C_full-B",
+      "macro_delta_r2": -0.008338962241670148,
+      "paired_bootstrap_ci95": [
+        -0.019934306785123725,
+        0.005002356315092422
+      ],
+      "pass": false,
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 5263027,
+      "resampling_units": [
+        "evaluation_individual",
+        "gene"
+      ]
+    },
+    "C_gene-C_full": {
+      "n_genes": 200,
+      "n_individuals": 50,
+      "macro_r2": {
+        "A": 0.02626878629748511,
+        "B": 0.011898149457197287,
+        "C_gene": -0.019601114933072403,
+        "C_full": 0.0035591872155271405
+      },
+      "contrast": "C_gene-C_full",
+      "macro_delta_r2": -0.023160302148599543,
+      "paired_bootstrap_ci95": [
+        -0.045929460670575115,
+        -0.0052422507951808035
+      ],
+      "pass": false,
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 5263027,
+      "resampling_units": [
+        "evaluation_individual",
+        "gene"
+      ]
+    },
+    "B-A": {
+      "n_genes": 200,
+      "n_individuals": 50,
+      "macro_r2": {
+        "A": 0.02626878629748511,
+        "B": 0.011898149457197287,
+        "C_gene": -0.019601114933072403,
+        "C_full": 0.0035591872155271405
+      },
+      "contrast": "B-A",
+      "macro_delta_r2": -0.014370636840287821,
+      "paired_bootstrap_ci95": [
+        -0.0385746245903179,
+        0.012166713396596281
+      ],
+      "pass": false,
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 5263027,
+      "resampling_units": [
+        "evaluation_individual",
+        "gene"
+      ]
+    }
+  },
+  "gene_effect_rehearsal": {
+    "target_definition": "T_g = dev_validation held-out R2 of arm B for gene g",
+    "model": {
+      "observed_spearman": 0.5724818120453011,
+      "matched_null_mean": 0.5287664402610066,
+      "matched_null_sd": 0.018971762074892623,
+      "p_one_sided_greater": 0.003799240151969606,
+      "p_two_sided": 0.003799240151969606,
+      "permutation_replicates": 5000,
+      "permutation_seed": 5264026,
+      "n_strata": 183
+    },
+    "linear": {
+      "observed_spearman": 0.8926978174454361,
+      "matched_null_mean": 0.850121335033376,
+      "matched_null_sd": 0.017331782181618266,
+      "p_one_sided_greater": 0.0007998400319936012,
+      "p_two_sided": 0.0007998400319936012,
+      "permutation_replicates": 5000,
+      "permutation_seed": 5264027,
+      "n_strata": 183
+    },
+    "model_minus_linear": {
+      "observed_difference": -0.32021600540013495,
+      "bootstrap_ci95": [
+        -0.42069821656222134,
+        -0.2292446129162359
+      ],
+      "pass": false,
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 5263028
+    },
+    "spearman_model_vs_linear_score": 0.6039495987399685,
+    "is_burden_test": false
+  },
+  "pretrain_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.9886929392814636,
+      "validation_loss": 0.9554448127746582
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.9431363269686699,
+      "validation_loss": 0.9153640866279602
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.895370177924633,
+      "validation_loss": 0.8391274809837341
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.7899406999349594,
+      "validation_loss": 0.7361574172973633
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.7295940667390823,
+      "validation_loss": 0.7239773869514465
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.7099533826112747,
+      "validation_loss": 0.7000910043716431
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.6956001669168472,
+      "validation_loss": 0.6905682682991028
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.6881904006004333,
+      "validation_loss": 0.685123085975647
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.6841134950518608,
+      "validation_loss": 0.680213987827301
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.6796780824661255,
+      "validation_loss": 0.6763511300086975
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.6777104437351227,
+      "validation_loss": 0.6729803085327148
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.6717801615595818,
+      "validation_loss": 0.6693297028541565
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.6681311056017876,
+      "validation_loss": 0.6665942072868347
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.664176419377327,
+      "validation_loss": 0.6621490716934204
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.6618108749389648,
+      "validation_loss": 0.6594677567481995
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.6591562405228615,
+      "validation_loss": 0.6566831469535828
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.6554464027285576,
+      "validation_loss": 0.655588686466217
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.6527958884835243,
+      "validation_loss": 0.6529164910316467
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.6519059091806412,
+      "validation_loss": 0.6521188616752625
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.6499529033899307,
+      "validation_loss": 0.6509681344032288
+    },
+    {
+      "epoch": 21,
+      "train_loss": 0.6511441171169281,
+      "validation_loss": 0.6475012898445129
+    },
+    {
+      "epoch": 22,
+      "train_loss": 0.6486454606056213,
+      "validation_loss": 0.6461050510406494
+    },
+    {
+      "epoch": 23,
+      "train_loss": 0.6472385674715042,
+      "validation_loss": 0.6440396308898926
+    },
+    {
+      "epoch": 24,
+      "train_loss": 0.6430720835924149,
+      "validation_loss": 0.6420757174491882
+    },
+    {
+      "epoch": 25,
+      "train_loss": 0.6417021602392197,
+      "validation_loss": 0.6405044794082642
+    },
+    {
+      "epoch": 26,
+      "train_loss": 0.6400034725666046,
+      "validation_loss": 0.6404806971549988
+    },
+    {
+      "epoch": 27,
+      "train_loss": 0.6410065963864326,
+      "validation_loss": 0.6386902332305908
+    },
+    {
+      "epoch": 28,
+      "train_loss": 0.6381706446409225,
+      "validation_loss": 0.6371333599090576
+    },
+    {
+      "epoch": 29,
+      "train_loss": 0.6365027278661728,
+      "validation_loss": 0.6360586285591125
+    },
+    {
+      "epoch": 30,
+      "train_loss": 0.6368192285299301,
+      "validation_loss": 0.6356037259101868
+    },
+    {
+      "epoch": 31,
+      "train_loss": 0.634375125169754,
+      "validation_loss": 0.6350573301315308
+    },
+    {
+      "epoch": 32,
+      "train_loss": 0.6372951045632362,
+      "validation_loss": 0.6338986754417419
+    },
+    {
+      "epoch": 33,
+      "train_loss": 0.6343528404831886,
+      "validation_loss": 0.6352155208587646
+    },
+    {
+      "epoch": 34,
+      "train_loss": 0.6331120654940605,
+      "validation_loss": 0.6326497793197632
+    },
+    {
+      "epoch": 35,
+      "train_loss": 0.6321445927023888,
+      "validation_loss": 0.6314126253128052
+    },
+    {
+      "epoch": 36,
+      "train_loss": 0.6319596469402313,
+      "validation_loss": 0.6301698088645935
+    },
+    {
+      "epoch": 37,
+      "train_loss": 0.6315730959177017,
+      "validation_loss": 0.6296383142471313
+    },
+    {
+      "epoch": 38,
+      "train_loss": 0.628793828189373,
+      "validation_loss": 0.6299946904182434
+    },
+    {
+      "epoch": 39,
+      "train_loss": 0.6293655037879944,
+      "validation_loss": 0.628389298915863
+    },
+    {
+      "epoch": 40,
+      "train_loss": 0.6299155727028847,
+      "validation_loss": 0.6292117238044739
+    }
+  ],
+  "interpretation_limits": [
+    "not_a_burden_test",
+    "not_external_replication",
+    "not_clinical_prediction",
+    "not_genome_wide_validation",
+    "not_causal_evidence",
+    "annotation_free_routing_only",
+    "task_gate_individuals_were_opened_by_stage2b_rc1_and_are_not_virgin",
+    "supplied_expression_was_normalized_on_the_full_445_cohort"
+  ]
+}

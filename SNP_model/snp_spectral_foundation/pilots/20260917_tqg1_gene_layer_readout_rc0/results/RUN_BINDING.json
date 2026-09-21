@@ -1,0 +1,49 @@
+{
+  "assets": {
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pgen": {
+      "bytes": 24290193,
+      "sha256": "71b72570eb7326ae97084a7b2576cf759e269800001636c5dc51318943465173",
+      "hash_enforced": true
+    },
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.pvar": {
+      "bytes": 28327814,
+      "sha256": "98ce39cf8cb71f7d2080d1577315780aaf0d2d4748c9e6a8ccfd9cb642d89ba8",
+      "hash_enforced": true
+    },
+    "GEUVADIS.445_samples.GRCh38.20170504.maf01.filtered.nodup.chr18.psam": {
+      "bytes": 4459,
+      "sha256": "e8e757f42399bd7ee7065f365a4b3e7c5134170b71219ad5280331efb3bc14a4",
+      "hash_enforced": true
+    },
+    "GEUVADIS.445_samples.expression.bed.gz": {
+      "bytes": 27631128,
+      "sha256": "2e05f173907e4ba1e9fa4d5c5ad5389d2852f5aaf0eda72dc5c9d6865a80f562",
+      "hash_enforced": true
+    },
+    "integrated_call_samples_v3.20130502.ALL.panel": {
+      "bytes": 55156,
+      "sha256": "b4023dc6ee2d62ee89c8d4d347db4d348e65518d66d346574cdae7a4bbd76858",
+      "hash_enforced": true
+    },
+    "integrated_call_samples_v3.20250704.ALL.ped": {
+      "bytes": 209431,
+      "sha256": "02c5f7a2a706fe944bb46642f73f0cd99fb8cb22e35ae717589c3317efd50e57",
+      "hash_enforced": true
+    }
+  },
+  "asset_dir": "/mnt/c/Users/Yuxiao Tan/OneDrive/桌面/Qinghua_bioinfo/Grassmann_model/snp_spectral_foundation/pilot_assets/geuvadis_tensorqtl_chr18",
+  "sample_manifest_sha256": "7136c1c4c876b8588c9ce3948f126ecb2ef7ca71950140e97f689fb29875d2f6",
+  "config_sha256": "98a53e5a0908c7f903ca883168c419087c45ea1d16f0c1c2ced259aec7598278",
+  "protocol_sha256": "75619107f0c1ffc6ec142fb08574a5faee0c4863706c47132253d1ab67a472f7",
+  "core_sha256": "0a7be32534c9ce1ba3416a197abfb6751b80b4cc71755e2ebb1889d3362c6581",
+  "runner_sha256": "6e572f2d7c53d84db4f77e56b6d12172b6847a94079e86d601af01d5b9dd1634",
+  "runtime": {
+    "python": "3.10.20",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "numpy": "2.2.6",
+    "sklearn": "1.7.2",
+    "torch": "2.13.0+cpu",
+    "cuda": false,
+    "torch_threads": 4
+  }
+}

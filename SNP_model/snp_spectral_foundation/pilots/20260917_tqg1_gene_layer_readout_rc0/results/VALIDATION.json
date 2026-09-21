@@ -1,0 +1,166 @@
+{
+  "validator": "tqg1-rc0",
+  "n_checks": 23,
+  "n_failures": 2,
+  "status": "FAIL",
+  "checks": [
+    {
+      "check": "macro_r2[A] recomputed from GENE_TABLE",
+      "pass": true,
+      "detail": {
+        "reported": 0.02626878629748511,
+        "recomputed": 0.026268789999999997
+      }
+    },
+    {
+      "check": "macro_r2[B] recomputed from GENE_TABLE",
+      "pass": true,
+      "detail": {
+        "reported": 0.011898149457197287,
+        "recomputed": 0.011898179999999998
+      }
+    },
+    {
+      "check": "macro_r2[C_gene] recomputed from GENE_TABLE",
+      "pass": true,
+      "detail": {
+        "reported": -0.019601114933072403,
+        "recomputed": -0.019601115
+      }
+    },
+    {
+      "check": "macro_r2[C_full] recomputed from GENE_TABLE",
+      "pass": true,
+      "detail": {
+        "reported": 0.0035591872155271405,
+        "recomputed": 0.0035591799999999986
+      }
+    },
+    {
+      "check": "macro_delta_r2 equals C_gene minus B",
+      "pass": true,
+      "detail": {
+        "reported": -0.03149926439026969,
+        "recomputed": -0.031499295
+      }
+    },
+    {
+      "check": "bootstrap interval is ordered",
+      "pass": true,
+      "detail": [
+        -0.05405973466094464,
+        -0.012397144071778462
+      ]
+    },
+    {
+      "check": "pass rule matches the frozen rule",
+      "pass": true,
+      "detail": {
+        "delta": -0.031499295,
+        "ci_low": -0.05405973466094464,
+        "reported_pass": false
+      }
+    },
+    {
+      "check": "FINAL_STATUS agrees with RESULTS",
+      "pass": true,
+      "detail": "NOT-SUPPORTED"
+    },
+    {
+      "check": "rehearsal spearman[model] recomputed",
+      "pass": false,
+      "detail": {
+        "reported": 0.5724818120453011,
+        "recomputed": 0.5726164979951035
+      }
+    },
+    {
+      "check": "rehearsal spearman[linear] recomputed",
+      "pass": false,
+      "detail": {
+        "reported": 0.8926978174454361,
+        "recomputed": 0.8926674141904176
+      }
+    },
+    {
+      "check": "perturbation scores are non-negative",
+      "pass": true,
+      "detail": {
+        "min_model": 0.00019,
+        "min_linear": 0.000234
+      }
+    },
+    {
+      "check": "the run does not claim to be a burden test",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "gene count meets the frozen minimum",
+      "pass": true,
+      "detail": {
+        "rows": 200,
+        "minimum": 60
+      }
+    },
+    {
+      "check": "gene selection did not use phenotype signal",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "encoder is shared and carries no locus lookup",
+      "pass": true,
+      "detail": "relative_continuous"
+    },
+    {
+      "check": "encoder never saw phenotype",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "development and evaluation are family disjoint",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "sealed-role bookkeeping is consistent",
+      "pass": true,
+      "detail": {
+        "opened": [],
+        "still_sealed": [
+          "bridge_test"
+        ]
+      }
+    },
+    {
+      "check": "QC scope is train-only",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "interpretation limits are carried through",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "tqg1_core.py is unchanged since the run",
+      "pass": true,
+      "detail": {
+        "recorded": "0a7be32534c9ce1ba3416a197abfb6751b80b4cc71755e2ebb1889d3362c6581"
+      }
+    },
+    {
+      "check": "CONFIG_FROZEN.json is unchanged since the run",
+      "pass": true,
+      "detail": {
+        "recorded": "98a53e5a0908c7f903ca883168c419087c45ea1d16f0c1c2ced259aec7598278"
+      }
+    },
+    {
+      "check": "frozen encoder checkpoint matches its recorded hash",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

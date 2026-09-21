@@ -95,7 +95,7 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 3. Python 3.8 已于 2024-10 EOL；
 4. conda 段与 pip 段的 CUDA 版本不一致（conda 侧 `pytorch-cuda=12.1`，pip 侧 `torch==2.4.1+cu124` 与 `nvidia-*-cu12==12.4.*`）。
 
-实际依赖面其实很窄（按 import 频次实测）：`torch`(113) / `numpy`(29) / `pandas`(17) / `sklearn`(16) / `scipy`(11) / `tqdm` / `sgkit`(读 PLINK) / `networkx` / `prettytable` / `statsmodels` / `matplotlib`，可视化另需 `pygraphviz`，可选 `mlflow`。**建议自建一个锁定版本的最小环境，而不是复原 environment.yml。**
+实际依赖面其实很窄（按 import 实测）：`torch` / `numpy` / `pandas` / `sklearn` / `scipy` / `tqdm` / `sgkit`（读 PLINK） / `networkx` / `prettytable` / `statsmodels`，可视化另需 `pygraphviz` + `matplotlib`。**建议自建一个锁定版本的最小环境，而不是复原 environment.yml。** 但见 B7——这个"最小环境"并不自由。
 
 ### B6 — 论文超参未在代码中固化 【需要 PDF 才能解除】[已核实]
 
@@ -107,6 +107,17 @@ notebooks                    GO 构建、GO 坍缩、Sankey、本体高亮、上
 | 代码默认值（`ModelConfig`/`TrainerConfig`） | 256 | 4 | 1e-3 | 1e-3 | 0.2 | 128 | 300 | 10 |
 
 论文的 UKB 实验用哪一组、以及 `--sys2env/--env2sys/--sys2gene/--gene2pheno/--sys2pheno/--mlm/--use_moe/--z-weight/--cov-effect` 这些开关的取值，**只能从 Methods 里读**。这是现在最需要 PDF 的一条。
+
+### B7 — 训练路径硬依赖 xformers 与 mlflow，且 README 没写 【实测踩到】[已核实]
+
+按 README 的说法，装环境只有 `conda env create -f environment.yml` 一条路；而 B5 已说明这条路大概率走不通。自建最小环境时会连撞两次硬导入：
+
+1. `src/model/hierarchical_transformer/hierarchical_transformer.py:4` —— `import xformers.ops as xops`，**模块级无条件导入**。即使走默认的稀疏注意力路径（`xops.memory_efficient_attention` 实际只在 `hierarchical_transformer.py:291` 的稠密路径被调用），模块也加载不起来。`src/model/LD_infuser/LDRoBERTa.py:6` 同样。
+2. `src/utils/trainer/snp2p_trainer.py:4` —— `import mlflow`，训练器必经之路。
+
+第 1 条的连带后果比缺包本身严重：**xformers 的每个版本都硬绑定一个特定的 torch 版本**，所以"最小环境"里的 torch 版本不是我们能自由选的，而是被 xformers 反向锁死。作者环境是 `xformers==0.0.28.post1` + `torch==2.4.1+cu124`（这两者本身是否自洽也需要验证）。**复现协议里必须把 torch/xformers 当成一对绑定版本来冻结，而不是各自独立地"装个新版本"。**
+
+实测记录见 `ENVIRONMENT_NOTES.zh-CN.md`。
 
 ---
 

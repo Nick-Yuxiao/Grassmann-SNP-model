@@ -1,0 +1,70 @@
+asset audit passed for 6 files
+roles bound: dev_train=120 dev_validation=30 task_gate=50
+genotype loaded: (445, 367759)
+QC variants on dev_train: 215748 of 367759
+pretraining shared encoder on 16384 SNPs in 512 blocks
+/mnt/c/Users/Yuxiao Tan/OneDrive/Documents/GitHub/Grassmann-SNP-model/SNP_model/snp_spectral_foundation/src/snp_spectral_foundation/model.py:83: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(layer, cfg.local_layers)
+  epoch   1  train 0.9887  validation 0.9554
+  epoch   2  train 0.9431  validation 0.9154
+  epoch   3  train 0.8954  validation 0.8391
+  epoch   4  train 0.7899  validation 0.7362
+  epoch   5  train 0.7296  validation 0.7240
+  epoch   6  train 0.7100  validation 0.7001
+  epoch   7  train 0.6956  validation 0.6906
+  epoch   8  train 0.6882  validation 0.6851
+  epoch   9  train 0.6841  validation 0.6802
+  epoch  10  train 0.6797  validation 0.6764
+  epoch  11  train 0.6777  validation 0.6730
+  epoch  12  train 0.6718  validation 0.6693
+  epoch  13  train 0.6681  validation 0.6666
+  epoch  14  train 0.6642  validation 0.6621
+  epoch  15  train 0.6618  validation 0.6595
+  epoch  16  train 0.6592  validation 0.6567
+  epoch  17  train 0.6554  validation 0.6556
+  epoch  18  train 0.6528  validation 0.6529
+  epoch  19  train 0.6519  validation 0.6521
+  epoch  20  train 0.6500  validation 0.6510
+  epoch  21  train 0.6511  validation 0.6475
+  epoch  22  train 0.6486  validation 0.6461
+  epoch  23  train 0.6472  validation 0.6440
+  epoch  24  train 0.6431  validation 0.6421
+  epoch  25  train 0.6417  validation 0.6405
+  epoch  26  train 0.6400  validation 0.6405
+  epoch  27  train 0.6410  validation 0.6387
+  epoch  28  train 0.6382  validation 0.6371
+  epoch  29  train 0.6365  validation 0.6361
+  epoch  30  train 0.6368  validation 0.6356
+  epoch  31  train 0.6344  validation 0.6351
+  epoch  32  train 0.6373  validation 0.6339
+  epoch  33  train 0.6344  validation 0.6352
+  epoch  34  train 0.6331  validation 0.6326
+  epoch  35  train 0.6321  validation 0.6314
+  epoch  36  train 0.6320  validation 0.6302
+  epoch  37  train 0.6316  validation 0.6296
+  epoch  38  train 0.6288  validation 0.6300
+  epoch  39  train 0.6294  validation 0.6284
+  epoch  40  train 0.6299  validation 0.6292
+genes: 301 eligible, 200 analysed
+  gene 10/200 done
+  gene 20/200 done
+  gene 30/200 done
+  gene 40/200 done
+  gene 50/200 done
+  gene 60/200 done
+  gene 70/200 done
+  gene 80/200 done
+  gene 90/200 done
+  gene 100/200 done
+  gene 110/200 done
+  gene 120/200 done
+  gene 130/200 done
+  gene 140/200 done
+  gene 150/200 done
+  gene 160/200 done
+  gene 170/200 done
+  gene 180/200 done
+  gene 190/200 done
+  gene 200/200 done
+
+TQ-G1 complete. Primary: C_gene-B delta=-0.03150 CI95=[-0.05405973466094464, -0.012397144071778462] FAIL
